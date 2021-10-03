@@ -39,14 +39,14 @@ public class UserController {
 
         ResultObj result = new ResultObj();
         try {
-            StringUtils.nameCheckNull(name);
+            StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
             StringUtils.isEmail(email, "邮箱不合法！");
-            if (userService.nameIsUse(name)) {
+            if (userService.IsUse("name",name)) {
                 result.setMsg("用户名已经被使用！");
                 return result;
             }
-            if (userService.register(name, pwd1, pwd2, email)) {
+            if (userService.register(name, pwd1, email)) {
                 result.setCode(0);
                 result.setData(true);
                 result.setMsg("注册成功");
@@ -57,8 +57,6 @@ public class UserController {
             e.printStackTrace();
             result.setMsg("系统错误请联系管理员！");
         }
-
-
         return result;
     }
 
@@ -80,7 +78,25 @@ public class UserController {
 
     @PostMapping(value = "login.do")
     @ApiOperation(value = "用户登录", tags = "用户操作接口")
-    public void login() {
+    public ResultObj login(String s, String password) {
+        ResultObj result = new ResultObj();
+        try {
+            StringUtils.nameCheckNull(s);
+            StringUtils.pwdCheckNull(password);
+            if (StringUtils.isEmail(s)) {
+                userService.loginByEmail(s, password);
+            } else {
+                userService.loginByName(s, password);
+            }
+            result.setMsg("登录成功！");
+            result.setCode(0);
+        } catch (MyException e) {
+            result.setMsg(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMsg("系统错误请联系管理员！");
+        }
 
+        return result;
     }
 }

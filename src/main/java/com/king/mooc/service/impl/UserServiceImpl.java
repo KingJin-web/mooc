@@ -16,9 +16,8 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public boolean register(String name, String pwd1, String pwd2, String email) throws MyException {
-
-        User user = User.builder().name(name).password(pwd1).email(email).build();
+    public boolean register(String name, String password, String email) {
+        User user = User.builder().name(name).password(password).email(email).build();
         userMapper.insert(user);
         return true;
     }
@@ -26,7 +25,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean nameIsUse(String name) {
         QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.eq("name",name);
+        qw.eq("name", name);
         return userMapper.selectOne(qw) != null;
+    }
+
+    @Override
+    public boolean IsUse(String key, Object value) {
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq(key, value);
+        return userMapper.selectOne(qw) != null;
+    }
+
+    @Override
+    public User loginByName(String name, String password) {
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("name", name);
+        qw.eq("password", password);
+        return userMapper.selectOne(qw);
+    }
+
+    @Override
+    public User loginByEmail(String email, String password) {
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("email", email);
+        qw.eq("password", password);
+        return userMapper.selectOne(qw);
     }
 }

@@ -16,7 +16,7 @@ public class UserServiceImplTest {
     @Test
     public void register() {
         try {
-            userService.register("king","aaa","aaa","a@qq.com");
+            userService.register("king","aaa","a@qq.com");
         } catch (MyException e) {
             e.printStackTrace();
         }

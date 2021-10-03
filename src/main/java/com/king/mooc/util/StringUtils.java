@@ -32,6 +32,22 @@ public class StringUtils {
         }
     }
 
+    /**
+     * 用户名是否规范
+     * @param name
+     * @throws MyException
+     */
+    public static void nameIsOk(String name) throws MyException {
+        nameCheckNull(name);
+        if (isContainTwoByte(name)){
+            throw new MyException("用户名中不得含有中文字符!");
+        }
+        Pattern pattern = Pattern.compile("((?!_)(?!-)(?=[\\x21-\\x7e]+)[^A-Za-z0-9])");
+        if (pattern.matcher(name).find()){
+            throw new MyException("用户名中不得含有除下划线,中划线以外的特殊符号!");
+        }
+    }
+
     public static boolean checkNull(Object value) {
         if (value == null) {
             return false;
@@ -49,13 +65,15 @@ public class StringUtils {
     public static void pwdCheckNull(String s) throws MyException {
         checkNull(s, "请输入密码！");
     }
-    public static void pwdCheckNull(String s1,String s2) throws MyException {
+
+    public static void pwdCheckNull(String s1, String s2) throws MyException {
         checkNull(s1, "请输入密码！");
         checkNull(s2, "请输入密码！");
-        if (!s1.equals(s2)){
+        if (!s1.equals(s2)) {
             throw new MyException("两次输入不同请重新输入");
         }
     }
+
     public static void isEmail(String email, String msg) throws MyException {
         if (!isEmail(email))
             throw new MyException(msg);
@@ -93,7 +111,12 @@ public class StringUtils {
         }
 
     }
-
+    //检测字符串中是否有双字节字符包含中文,中文符号
+    public static boolean isContainTwoByte(String str) {
+        Pattern p = Pattern.compile("[^\\x00-\\xff]");
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
     /**
      * 判断Email合法性
      *
@@ -103,11 +126,7 @@ public class StringUtils {
     public static boolean isEmail(String email) throws MyException {
         checkNull(email, "请输入邮箱");
         String rule = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile(rule);
-        matcher = pattern.matcher(email);
-        return matcher.matches();
+        return Pattern.compile(rule).matcher(email).matches();
     }
 
 
