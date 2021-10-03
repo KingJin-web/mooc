@@ -16,4 +16,9 @@ public class StringUtilsTest {
         }
 
     }
+
+    @Test
+    public void a(){
+        System.out.println(StringUtils.checkNull(""));;
+    }
 }

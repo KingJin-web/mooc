@@ -81,7 +81,7 @@ public class UserController {
     public ResultObj login(String s, String password) {
         ResultObj result = new ResultObj();
         try {
-            StringUtils.nameCheckNull(s);
+            StringUtils.checkNull(s,"请输入用户名或者邮箱!");
             StringUtils.pwdCheckNull(password);
             if (StringUtils.isEmail(s)) {
                 userService.loginByEmail(s, password);

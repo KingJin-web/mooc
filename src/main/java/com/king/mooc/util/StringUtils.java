@@ -34,28 +34,35 @@ public class StringUtils {
 
     /**
      * 用户名是否规范
+     *
      * @param name
      * @throws MyException
      */
     public static void nameIsOk(String name) throws MyException {
         nameCheckNull(name);
-        if (isContainTwoByte(name)){
+        if (isContainTwoByte(name)) {
             throw new MyException("用户名中不得含有中文字符!");
         }
         Pattern pattern = Pattern.compile("((?!_)(?!-)(?=[\\x21-\\x7e]+)[^A-Za-z0-9])");
-        if (pattern.matcher(name).find()){
+        if (pattern.matcher(name).find()) {
             throw new MyException("用户名中不得含有除下划线,中划线以外的特殊符号!");
         }
     }
 
+    /**
+     * 判断值是否为空
+     *
+     * @param value
+     * @return 如果为空返回ture 不为空返回false
+     */
     public static boolean checkNull(Object value) {
         if (value == null) {
-            return false;
+            return true;
         }
         if (value instanceof String) {
-            return !((String) value).trim().isEmpty();
+            return ((String) value).trim().isEmpty();
         }
-        return true;
+        return false;
     }
 
     public static void nameCheckNull(String s) throws MyException {
@@ -111,12 +118,14 @@ public class StringUtils {
         }
 
     }
+
     //检测字符串中是否有双字节字符包含中文,中文符号
     public static boolean isContainTwoByte(String str) {
         Pattern p = Pattern.compile("[^\\x00-\\xff]");
         Matcher m = p.matcher(str);
         return m.find();
     }
+
     /**
      * 判断Email合法性
      *
