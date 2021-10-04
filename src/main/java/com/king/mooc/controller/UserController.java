@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,13 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: King
  * @create: 2021-10-03 08:08
  */
-@RestController("/user/")
+@RestController()
+@RequestMapping("/api/user")
 @Api(value = "用户操作接口", tags = "用户操作接口")
 public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "register.do")
+    @PostMapping(value = "/register.do")
     @ApiOperation(value = "注册用户", tags = "用户操作接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "用户名", dataType = "string", paramType = "query", example = "lihailin9073", required = true),
@@ -60,7 +62,7 @@ public class UserController {
         return result;
     }
 
-    @PostMapping(value = "nameIsUse.do")
+    @PostMapping(value = "/nameIsUse.do")
     @ApiOperation(value = "用户名是否被使用", tags = "用户操作接口")
     @ApiImplicitParam(name = "name", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
     public ResultObj nameIsUse(String name) {
@@ -76,7 +78,7 @@ public class UserController {
         return result;
     }
 
-    @PostMapping(value = "login.do")
+    @PostMapping(value = "/login.do")
     @ApiOperation(value = "用户登录", tags = "用户操作接口")
     public ResultObj login(String s, String password) {
         ResultObj result = new ResultObj();
