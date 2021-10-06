@@ -1,13 +1,11 @@
 package com.king.mooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.king.mooc.bean.User;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
-import com.king.mooc.util.MyException;
-import com.king.mooc.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,4 +49,15 @@ public class UserServiceImpl implements UserService {
         qw.eq("password", password);
         return userMapper.selectOne(qw);
     }
+
+    @Override
+    public int updateById(User user) {
+        return userMapper.updateById(user);
+    }
+
+    @Override
+    public int deleteById(User user) {
+        return 0;
+    }
+
 }

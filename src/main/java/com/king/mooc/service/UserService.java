@@ -50,5 +50,21 @@ public interface UserService {
      * @return
      */
     User loginByEmail(String email, String password);
+
+    /**
+     * 通过id修改用户
+     *
+     * @param user
+     * @return
+     */
+    int updateById(User user);
+
+    /**
+     * 通过id删除用户，逻辑删除
+     *
+     * @param user
+     * @return
+     */
+    int deleteById(User user);
 }
 

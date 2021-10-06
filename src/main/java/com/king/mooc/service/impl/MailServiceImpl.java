@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * @program: mooc
- * @description:
+ * @description: 邮件实现类
  * @author: King
  * @create: 2021-10-03 17:15
  */
@@ -48,17 +48,16 @@ public class MailServiceImpl implements MailService {
 
     @Async("myTaskExecutor")
     @Override
-    public CompletableFuture<Boolean> sendMail(MailVo mailVo) {
-        System.out.println(Thread.currentThread().getName() + "-----");
+    public void sendMail(MailVo mailVo) throws MyException {
+        System.out.println(Thread.currentThread().getName());
         try {
             checkMail(mailVo); //1.检测邮件
             sendMimeMail(mailVo); //2.发送邮件
-            return CompletableFuture.completedFuture(true);
         } catch (Exception e) {
             mailVo.setStatus("fail");
             mailVo.setError(e.getMessage());
             e.printStackTrace();
-            return CompletableFuture.completedFuture(false);
+            throw new MyException(e);//发送失败
         }
     }
 
@@ -107,9 +106,9 @@ public class MailServiceImpl implements MailService {
     }
 
     @Value("${spring.mail.password}")
-    private String STMP;
+    private String password;
     @Value("${spring.mail.username}")
-    private String guilt;
+    private String username;
 
     @Async("myTaskExecutor")
     public void sendMail(MailVo mailVo, boolean isDebug) throws MyException {
@@ -128,7 +127,7 @@ public class MailServiceImpl implements MailService {
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(guilt, STMP);
+                    return new PasswordAuthentication(username, password);
                 }
             });
             //开启debug模式
@@ -137,11 +136,11 @@ public class MailServiceImpl implements MailService {
             Transport transport = session.getTransport();
             //连接服务器
             //transport.connect("smtp.qq.com", "发件人邮箱", "邮箱 SMTP 信息");
-            transport.connect("smtp.qq.com", guilt, STMP);
+            transport.connect("smtp.qq.com", username, password);
             //创建邮件对象
             MimeMessage mimeMessage = new MimeMessage(session);
             //邮件发送人
-            mimeMessage.setFrom(new InternetAddress(guilt));
+            mimeMessage.setFrom(new InternetAddress(username));
             //邮件接收人
             mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailVo.getTo()));
             //邮件标题
@@ -167,8 +166,6 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public boolean adminSendEmail(MailVo mailVo) throws MyException {
-
-        System.out.println("===");
         try {
             // 使用JavaMail的MimeMessage，支持更加复杂的邮件格式和内容
             MimeMessage msg = javaMailSender.createMimeMessage();

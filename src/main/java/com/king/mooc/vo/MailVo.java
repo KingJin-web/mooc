@@ -36,6 +36,14 @@ public class MailVo {
     public MailVo() {
     }
 
+    /**
+     *
+     * @param from 发送者
+     * @param to 发送给
+     * @param subject 主题
+     * @param validate_code 验证码
+     * @param name 用户名
+     */
     public MailVo(String from, String to, String subject, String validate_code, String name) {
         this.from = from;
         this.to = to;

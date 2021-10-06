@@ -1,6 +1,7 @@
 package com.king.mooc.service.impl;
 
 import com.king.mooc.service.MailService;
+import com.king.mooc.util.MyException;
 import com.king.mooc.vo.MailVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,27 +18,24 @@ public class MailServiceImplTest {
     @Autowired
     MailService mailService;
     @Test
-    public void sendMail() {
+    public void sendMail() throws MyException {
         MailVo mailVo = new MailVo();
         mailVo.setTo("1261337209@qq.com");
         mailVo.setFrom("3098629064@qq.com");
         mailVo.setSubject("主题");
         mailVo.setText("test email");
-        System.out.println(mailService.sendMail(mailVo));
+        mailService.sendMail(mailVo);
     }
 
     @Test
-    public void sendMail1() {
+    public void sendMail1() throws MyException {
         MailVo mailVo = new MailVo("1261337209@qq.com","注册验证码","123456","king");
 
-        System.out.println(mailService.sendMail(mailVo));
+        mailService.sendMail(mailVo);
     }
-    @Autowired
-    MailVo mailVo ;
 
     @Test
     public void aa(){
 
-        System.out.println(mailVo);
     }
 }

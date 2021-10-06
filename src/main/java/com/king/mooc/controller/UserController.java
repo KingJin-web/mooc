@@ -1,18 +1,23 @@
 package com.king.mooc.controller;
 
+import com.king.mooc.bean.User;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.MyException;
+import com.king.mooc.util.RedisObjUtil;
+import com.king.mooc.util.RedisStringUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.ResultObj;
+import com.king.mooc.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @program: mooc
@@ -26,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisObjUtil redisObjUtil;
 
     @PostMapping(value = "/register.do")
     @ApiOperation(value = "注册用户", tags = "用户操作接口")
@@ -44,7 +52,7 @@ public class UserController {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
             StringUtils.isEmail(email, "邮箱不合法！");
-            if (userService.IsUse("name",name)) {
+            if (userService.IsUse("name", name)) {
                 result.setMsg("用户名已经被使用！");
                 return result;
             }
@@ -59,6 +67,55 @@ public class UserController {
             e.printStackTrace();
             result.setMsg("系统错误请联系管理员！");
         }
+        return result;
+    }
+
+    @PostMapping(value = "/login.do")
+    @ApiOperation(value = "用户登录", tags = "用户操作接口")
+    public ResultObj login(HttpServletRequest req, String s, String password, String validate_code) {
+        ResultObj result = new ResultObj();
+        try {
+            StringUtils.checkNull(s, "请输入用户名或者邮箱!");
+            StringUtils.pwdCheckNull(password);
+            StringUtils.checkNull(validate_code, "请输入验证码！");
+            UserVo userVo = redisObjUtil.getEntity(req.getSession().getId(), UserVo.class);
+            System.out.println(userVo);
+            boolean isLogin = false;
+            if (userVo.getValidateCode().equals(validate_code)) {
+                if (StringUtils.isEmail(s)) {
+                    User user = userService.loginByEmail(s, password);
+                    if (!StringUtils.checkNull(user)) {
+                        userVo.setUser(user);
+                        isLogin = true;
+                    }
+                } else {
+                    User user = userService.loginByName(s, password);
+                    if (!StringUtils.checkNull(user)) {
+                        userVo.setUser(user);
+                        isLogin = true;
+                    }
+                }
+                if (isLogin) {
+                    redisObjUtil.setEntity(req.getSession().getId(), 30, userVo);
+                    result.setMsg("登录成功！");
+                    result.setCode(0);
+                    result.setData(userVo);
+
+                } else {
+                    result.setMsg("登录失败用户名或密码错误！");
+                }
+
+            } else {
+                result.setMsg("验证码错误！");
+            }
+
+        } catch (MyException e) {
+            result.setMsg(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMsg("系统错误请联系管理员！");
+        }
+
         return result;
     }
 
@@ -78,27 +135,4 @@ public class UserController {
         return result;
     }
 
-    @PostMapping(value = "/login.do")
-    @ApiOperation(value = "用户登录", tags = "用户操作接口")
-    public ResultObj login(String s, String password) {
-        ResultObj result = new ResultObj();
-        try {
-            StringUtils.checkNull(s,"请输入用户名或者邮箱!");
-            StringUtils.pwdCheckNull(password);
-            if (StringUtils.isEmail(s)) {
-                userService.loginByEmail(s, password);
-            } else {
-                userService.loginByName(s, password);
-            }
-            result.setMsg("登录成功！");
-            result.setCode(0);
-        } catch (MyException e) {
-            result.setMsg(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setMsg("系统错误请联系管理员！");
-        }
-
-        return result;
-    }
 }

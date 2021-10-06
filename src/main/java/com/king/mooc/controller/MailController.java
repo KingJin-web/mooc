@@ -40,7 +40,8 @@ public class MailController {
         try {
             StringUtils.isEmail(email, "请输入合法格式邮件地址！");
             StringUtils.nameCheckNull(name);
-            MailVo mailVo = new MailVo("3098629064@qq.com", email, "注册验证码", validate_code, name);
+            MailVo mailVo = new MailVo("3098629064@qq.com",
+                    email, "注册验证码", validate_code, name);
             mailService.sendMail(mailVo, false);
             resultObj.setCode(0);
             resultObj.setMsg("发送成功！");
@@ -50,6 +51,7 @@ public class MailController {
         }
         return resultObj;
     }
+
 
 
 }
