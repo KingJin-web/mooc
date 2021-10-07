@@ -9,11 +9,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @program: mooc
- * @description:
+ * @description: 序列化帮助类
  * @author: King
  * @create: 2021-10-06 20:52
  */
 public class SerializeUtil {
+
+    public static <T> T objParse(Class<T> returnClass, Object value) {
+        try {
+            if (value.getClass().equals(returnClass)) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.convertValue(value, returnClass);
+            }
+        } catch (Exception ignored) {
+
+        }
+        return null;
+    }
     public static byte[] serialize(Object object) {
         ObjectOutputStream oos = null;
         ByteArrayOutputStream baos = null;
@@ -43,18 +55,7 @@ public class SerializeUtil {
             e.printStackTrace();
             return null;
         }
-
     }
 
-    public static <T> T objParse(Class<T> returnClass, Object value) {
-        try {
-            if (value.getClass().equals(returnClass)) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.convertValue(value, returnClass);
-            }
-        } catch (Exception ignored) {
 
-        }
-        return null;
-    }
 }

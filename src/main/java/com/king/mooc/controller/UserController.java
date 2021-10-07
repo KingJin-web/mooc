@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @program: mooc
@@ -74,14 +76,16 @@ public class UserController {
     @ApiOperation(value = "用户登录", tags = "用户操作接口")
     public ResultObj login(HttpServletRequest req, String s, String password, String validate_code) {
         ResultObj result = new ResultObj();
+      HttpSession session =  req.getSession();
         try {
+            System.out.println(s);
             StringUtils.checkNull(s, "请输入用户名或者邮箱!");
             StringUtils.pwdCheckNull(password);
             StringUtils.checkNull(validate_code, "请输入验证码！");
-            UserVo userVo = redisObjUtil.getEntity(req.getSession().getId(), UserVo.class);
+            UserVo userVo = redisObjUtil.getEntity(session.getId(),UserVo.class);
             System.out.println(userVo);
             boolean isLogin = false;
-            if (userVo.getValidateCode().equals(validate_code)) {
+            if (userVo.getValidateCode().equalsIgnoreCase(validate_code)) {
                 if (StringUtils.isEmail(s)) {
                     User user = userService.loginByEmail(s, password);
                     if (!StringUtils.checkNull(user)) {
@@ -132,6 +136,30 @@ public class UserController {
             result.setMsg("用户名可以使用使用！");
         }
 
+        return result;
+    }
+
+
+
+    @PostMapping(value = "/getUser.do")
+    @ApiOperation(value = "获取登录用户信息", tags = "用户操作接口")
+    public ResultObj getUser(HttpServletRequest req, HttpServletResponse resp) {
+        ResultObj result = new ResultObj();
+        try {
+            HttpSession session = req.getSession();
+            UserVo userVo =  redisObjUtil.getEntity(session.getId(),UserVo.class);
+            if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())){
+                result.setCode(1);
+                result.setMsg("请先登录！");
+            }else {
+                result.setCode(0);
+                result.setData(userVo);
+            }
+        }catch (Exception e){
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
         return result;
     }
 
