@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @program: mooc
@@ -74,11 +75,12 @@ public class UserController {
     @ApiOperation(value = "用户登录", tags = "用户操作接口")
     public ResultObj login(HttpServletRequest req, String s, String password, String validate_code) {
         ResultObj result = new ResultObj();
+      HttpSession session =  req.getSession();
         try {
             StringUtils.checkNull(s, "请输入用户名或者邮箱!");
             StringUtils.pwdCheckNull(password);
             StringUtils.checkNull(validate_code, "请输入验证码！");
-            UserVo userVo = redisObjUtil.getEntity(req.getSession().getId(), UserVo.class);
+            UserVo userVo = redisObjUtil.getEntity(session.getId(),UserVo.class);
             System.out.println(userVo);
             boolean isLogin = false;
             if (userVo.getValidateCode().equals(validate_code)) {

@@ -27,23 +27,43 @@ public class RedisObjUtil {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    /**
+     * 存实体类
+     * @param key key
+     * @param o 实体类对象
+     */
     public void setEntity(String key, Object o) {
         redisTemplate.opsForValue().set(key, o);
     }
 
-
+    /**
+     * 存实体类
+     * @param key key
+     * @param o 实体类对象
+     * @param time 数据存储时间 单位分钟
+     */
     public void setEntity(String key, long time, Object o) {
         redisTemplate.opsForValue().set(key, o, time, TimeUnit.MINUTES);
     }
 
+    /**
+     * 获取 UserVo 对象
+     * @param key
+     * @return UserVo
+     */
     public UserVo getUserVo(String key) {
         return (UserVo) redisTemplate.opsForValue().get(key);
-
     }
 
+    /**
+     * 获取实体类对象
+     * @param key
+     * @param entity
+     * @param <T>
+     * @return
+     */
     public <T> T getEntity(String key, Class<T> entity) {
-        UserVo userVo = (UserVo) redisTemplate.opsForValue().get(key);
-        System.out.println(userVo);
+        System.out.println( redisTemplate.opsForValue().get(key));
         return SerializeUtil.objParse(entity, redisTemplate.opsForValue().get(key));
     }
 
