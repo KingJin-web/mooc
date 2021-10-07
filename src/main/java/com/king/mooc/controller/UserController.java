@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,8 +55,12 @@ public class UserController {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
             StringUtils.isEmail(email, "邮箱不合法！");
-            if (userService.IsUse("name", name)) {
+            if (userService.isUse("name", name)) {
                 result.setMsg("用户名已经被使用！");
+                return result;
+            }
+            if (userService.isUse("email",email)){
+                result.setMsg("此邮箱已经被注册！");
                 return result;
             }
             if (userService.register(name, pwd1, email)) {
@@ -141,7 +146,7 @@ public class UserController {
 
 
 
-    @PostMapping(value = "/getUser.do")
+    @GetMapping(value = "/getUser.do")
     @ApiOperation(value = "获取登录用户信息", tags = "用户操作接口")
     public ResultObj getUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();

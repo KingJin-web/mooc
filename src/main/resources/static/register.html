@@ -7,22 +7,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="res/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="res/css/admin.css" media="all">
-    <link rel="stylesheet" href="res/css/login.css" media="all">
-    <script type="text/javascript" src="res/vue.js"></script>
-    <script type="text/javascript" src="js/Popup.js"></script>
-    <script type="text/javascript" src="res/axios.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="lib/css/admin.css" media="all">
+    <link rel="stylesheet" href="lib/css/login.css" media="all">
+    <script type="text/javascript" src="lib/vue.js"></script>
+    <script type="text/javascript" src="lib/Popup.js"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/axios.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <link href="lib/css/index.css" rel="stylesheet">
 </head>
 <body>
 
 
 <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
-    <div class="layadmin-user-login-main">
-		<div class="layadmin-user-login-box layadmin-user-login-header">
-		    <h2>刻课公开课</h2>
-		    <p></p>
-		</div>
+    <ul class="slideshow">
+        <li>
+            <span>Summer</span>
+        </li>
+        <li>
+            <span>Fall</span>
+        </li>
+        <li>
+            <span>Winter</span>
+        </li>
+        <li>
+            <span>Spring</span>
+        </li>
+
+    </ul>
+    <div class="layadmin-user-login-main" id="main">
+
+        <div class="layadmin-user-login-box layadmin-user-login-header">
+            <div class="alert alert-primary" role="alert">
+                <h2>kk网课 注册</h2>
+            </div>
+            <div class="alert alert-light" role="alert">
+                <div style="text-align:center ; margin: 0 auto;">
+                    一款网络课程在线学习平台
+                </div>
+            </div>
+
+        </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username"

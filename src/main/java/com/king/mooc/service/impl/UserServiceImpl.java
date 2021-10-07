@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean IsUse(String key, Object value) {
+    public boolean isUse(String key, Object value) {
         QueryWrapper<User> qw = new QueryWrapper<>();
         qw.eq(key, value);
         return userMapper.selectOne(qw) != null;

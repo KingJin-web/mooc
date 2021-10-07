@@ -1,18 +1,8 @@
 // document.write("<script type='text/javascript' src='dist/mDialogMin.js'></script>");
 // document.write('<link type="text/css" href="dist/dialog.css" rel="stylesheet">')
-document.write('<link rel="stylesheet" href="../layui/css/layui.css"  media="all">');
-var new_element=document.createElement("script");
-new_element.setAttribute("type","text/javascript");
-new_element.setAttribute("src","../layui/layui.js");
-document.body.appendChild(new_element);
-var layer ;
-/** demo.js **/
-layui.define(['layer'], function(exports){ //此处 mod1 为你的任意扩展模块
-    layer = layui.layer                                                 //do something
-    exports('demo', {
-        msg: 'Hello Demo'
-    });
-});
+// document.write('<link rel="stylesheet" href="../layui/css/layui.css"  media="all">');
+//
+
 
 function changeShare_() {
     layer.open({
@@ -167,67 +157,7 @@ function returnLogin() {
 }
 
 
-function changePwd() {
-    layer.open({
-        type: 1,
-        title: "修改密码",
-        closeBtn: 1,
-        shadeClose: true,
-        isOutAnim: true,
-        area: '400px',
-        shade: 0.7,
-        id: 'LAY_layuipro',//设定一个id，防止重复弹出,
-        resize: false,
-        btnAlign: 'c',
-        moveType: 1,//拖拽模式，0或者1
 
-        content: '<div style="padding:50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;"><div class="layui-form"><div class="layui-form-item">' +
-            '<div class="layui-form-label">旧密码</div>' +
-            '<div class="layui-input-inline">' +
-            '<input id="old-pass" style="color: #0C0C0C" class="layui-input" type="password" placeholder="旧密码">' +
-            '</div></div><div class="layui-form-item">' +
-            '<div class="layui-form-label">新密码</div>' +
-            '<div class="layui-input-inline">' +
-            '<input style="color: #0C0C0C" id="new-pass" class="layui-input" type="password" placeholder="新密码">' +
-            '</div></div>' +
-            '<div class="layui-form-item"> ' +
-            '<div style="float: left;display:block;padding: 9px 12px;width: auto;font-weight: 400;text-align:right;">确认密码</div>' +
-            '<div class="layui-input-inline"><input style="color: #0C0C0C" class="layui-input" id="sure-pass" type="password" placeholder="确认密码">' +
-            '</div></div></div></div> ' +
-            '<div class="btn-cont"><button class="pass cancel-btn">取消</button>' +
-            '<button class="pass ok-btn">确认</button> </div> </div>',
-
-        success: function (layero, index) {
-            var btn = layero.find('.btn-cont');
-            var oldPass = layero.find('#old-pass');
-            var newPass = layero.find('#new-pass');
-            var surePass = layero.find('#sure-pass');
-
-            //取消按钮事件
-            btn.find('.cancel-btn').click(function () {
-                layer.close(index);
-            });
-
-            //确认按钮点击事件
-            btn.find('.ok-btn').click(function () {
-
-                //获取输入框内容方式一
-                console.log("oldPass=" + $(oldPass).val());
-                console.log("newPass=" + $(newPass).val());
-                console.log("surePass=" + $(surePass).val());
-
-                //获取输入框内容方式二
-                $(layero).find("input").each(function (i, v) {
-                    console.log("index=" + i + "====" + "value=" + $(v).val());
-                });
-
-                layer.close(index);
-            })
-        }
-    });
-
-
-}
 
 
 function alertAdv4() {

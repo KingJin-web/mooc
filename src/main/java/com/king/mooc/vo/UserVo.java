@@ -24,6 +24,8 @@ public class UserVo implements Serializable {
     private Boolean isVip = false;
     private String validateCode;
 
+    public UserVo() {
+    }
 
     public void setUser(User user) {
         System.out.println(user);
@@ -35,4 +37,7 @@ public class UserVo implements Serializable {
         this.isVip = user.getVipTime().isBefore(LocalDateTime.now());
     }
 
+    public UserVo(String validateCode) {
+        this.validateCode = validateCode;
+    }
 }

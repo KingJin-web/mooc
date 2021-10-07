@@ -31,7 +31,7 @@ public interface UserService {
      * @param value 值
      * @return 被使用返回 ture 没有使用返回 false
      */
-    boolean IsUse(String key, Object value);
+    boolean isUse(String key, Object value);
 
     /**
      * 通过用户名登录

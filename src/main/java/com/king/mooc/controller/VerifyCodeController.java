@@ -33,9 +33,6 @@ public class VerifyCodeController {
     @GetMapping(value = "/login.png")
     public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        UserVo userVo = new UserVo();
-        userVo.setValidateCode(VerifyCodeGen.outputImage(resp));
-        redisObjUtil.setEntity(session.getId(), 30, userVo);
-        System.out.println(userVo);
+        redisObjUtil.setEntity(session.getId(), 30, new UserVo(VerifyCodeGen.outputImage(resp)));
     }
 }

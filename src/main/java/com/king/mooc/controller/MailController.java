@@ -2,9 +2,11 @@ package com.king.mooc.controller;
 
 import com.king.mooc.service.MailService;
 import com.king.mooc.util.MyException;
+import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.MailVo;
 import com.king.mooc.vo.ResultObj;
+import com.king.mooc.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @program: mooc
@@ -26,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
     @Autowired
     MailService mailService;
+    @Autowired
+    RedisObjUtil redisObjUtil;
 
     @PostMapping(value = "/register.do")
     @ApiOperation(value = "发送注册验证码", tags = "邮件操作接口")
@@ -35,8 +42,11 @@ public class MailController {
             @ApiImplicitParam(name = "validate_code", value = "注册验证码", dataType = "string", paramType = "query", example = "3679", required = true)
 
     })
-    public ResultObj register(String name, String email, String validate_code) {
+    public ResultObj register(HttpServletRequest req, String name, String email) {
         ResultObj resultObj = new ResultObj();
+        HttpSession session = req.getSession();
+        String validate_code = StringUtils.getInt(6);
+        redisObjUtil.setEntity(session.getId(), 30, new UserVo(validate_code));
         try {
             StringUtils.isEmail(email, "请输入合法格式邮件地址！");
             StringUtils.nameCheckNull(name);
@@ -51,7 +61,6 @@ public class MailController {
         }
         return resultObj;
     }
-
 
 
 }
