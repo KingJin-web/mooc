@@ -47,6 +47,14 @@ public class RedisObjUtil {
     }
 
     /**
+     * 更新过期时间
+     * @param key
+     * @return
+     */
+    public Boolean expire(String key){
+       return redisTemplate.expire(key,30,TimeUnit.MINUTES);
+    }
+    /**
      * 获取 UserVo 对象
      * @param key
      * @return UserVo
@@ -70,12 +78,8 @@ public class RedisObjUtil {
     public void insert() {
         //1、通过redisTemplate设置值
         redisTemplate.boundHashOps("HashKey1").put("SmallKey", "HashVaue");
-
-//2、通过BoundValueOperations设置值
         BoundHashOperations hashKey = redisTemplate.boundHashOps("HashKey2");
         hashKey.put("SmallKey", "HashVaue");
-
-//3、通过ValueOperations设置值
         HashOperations hashOps = redisTemplate.opsForHash();
         hashOps.put("HashKey3", "SmallKey", "HashVaue");
 

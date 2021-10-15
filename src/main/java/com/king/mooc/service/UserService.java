@@ -22,7 +22,7 @@ public interface UserService {
      * @param name
      * @return 被使用返回 ture 没有使用返回 false
      */
-    boolean nameIsUse(String name);
+    boolean nameIsUse(String name) throws MyException;
 
     /**
      * 指定字段是否被使用
@@ -66,5 +66,14 @@ public interface UserService {
      * @return
      */
     int deleteById(User user);
+
+    User queryById(Long id);
+
+    /**
+     * 成为分享者
+     * @param user
+     * @return
+     */
+    User ToBeShare(User user);
 }
 

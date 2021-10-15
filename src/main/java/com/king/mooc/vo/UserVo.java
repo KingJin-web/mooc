@@ -4,6 +4,7 @@ import com.king.mooc.bean.User;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -20,6 +21,10 @@ public class UserVo implements Serializable {
     private String headImg;
     private String email;
     private Long phone;
+    //是否可以分享课程,0不可以1可以
+    private Boolean isShare;
+    //用户账户余额
+    private BigDecimal balance;
     //是否为会员
     private Boolean isVip = false;
     private String validateCode;
@@ -34,7 +39,9 @@ public class UserVo implements Serializable {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.headImg = user.getHeadImg();
-        this.isVip = user.getVipTime().isBefore(LocalDateTime.now());
+        this.balance = user.getBalance();
+        this.isShare = user.getIsShare() == 1;
+        this.isVip = user.getVipTime().isAfter(LocalDateTime.now());
     }
 
     public UserVo(String validateCode) {

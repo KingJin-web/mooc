@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -25,6 +26,11 @@ public class User {
     private String headImg;
     private String email;
     private Long phone;
+    //用户是否可以上传视频课程
+    //是否可以分享课程,0不可以1可以
+    private Integer isShare;
+    //用户账户余额
+    private BigDecimal balance;
     //版本号，乐观锁
     @Version
     private Integer version;

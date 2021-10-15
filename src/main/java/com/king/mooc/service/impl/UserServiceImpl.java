@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.king.mooc.bean.User;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
+import com.king.mooc.util.MyException;
+import com.king.mooc.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean nameIsUse(String name) {
+    public boolean nameIsUse(String name) throws MyException {
         QueryWrapper<User> qw = new QueryWrapper<>();
         qw.eq("name", name);
-        return userMapper.selectOne(qw) != null;
+        if (!StringUtils.checkNull(userMapper.selectOne(qw))) {
+            throw new MyException("用户名已经被使用");
+        }
+        return true;
     }
 
     @Override
@@ -58,6 +63,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteById(User user) {
         return 0;
+    }
+
+    @Override
+    public User queryById(Long id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public User ToBeShare(User user) {
+        return null;
     }
 
 }

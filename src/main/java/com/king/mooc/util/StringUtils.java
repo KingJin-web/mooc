@@ -197,12 +197,11 @@ public class StringUtils {
 
     /**
      * 判断是否为合法电话号码
-     *
+     * 号码为空返回false
      * @param phone
      * @return
      */
     public static boolean isPhoneLegal(Long phone) {
-
         if (checkNull(phone)) {
             return false;
         }

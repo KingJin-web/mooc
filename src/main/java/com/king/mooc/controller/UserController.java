@@ -59,7 +59,7 @@ public class UserController {
                 result.setMsg("用户名已经被使用！");
                 return result;
             }
-            if (userService.isUse("email",email)){
+            if (userService.isUse("email", email)) {
                 result.setMsg("此邮箱已经被注册！");
                 return result;
             }
@@ -79,15 +79,21 @@ public class UserController {
 
     @PostMapping(value = "/login.do")
     @ApiOperation(value = "用户登录", tags = "用户操作接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "s", value = "用户名,或邮箱", dataType = "string", paramType = "query", example = "king", required = true),
+            @ApiImplicitParam(name = "password", value = "登录密码", dataType = "string", paramType = "query", example = "aaaa", required = true),
+            @ApiImplicitParam(name = "validate_code", value = "登录验证码", dataType = "string", paramType = "query", example = "3679", required = true)
+
+    })
     public ResultObj login(HttpServletRequest req, String s, String password, String validate_code) {
         ResultObj result = new ResultObj();
-      HttpSession session =  req.getSession();
+        HttpSession session = req.getSession();
         try {
             System.out.println(s);
             StringUtils.checkNull(s, "请输入用户名或者邮箱!");
             StringUtils.pwdCheckNull(password);
             StringUtils.checkNull(validate_code, "请输入验证码！");
-            UserVo userVo = redisObjUtil.getEntity(session.getId(),UserVo.class);
+            UserVo userVo = redisObjUtil.getEntity(session.getId(), UserVo.class);
             System.out.println(userVo);
             boolean isLogin = false;
             if (userVo.getValidateCode().equalsIgnoreCase(validate_code)) {
@@ -133,7 +139,7 @@ public class UserController {
     @ApiImplicitParam(name = "name", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
     public ResultObj nameIsUse(String name) {
         ResultObj result = new ResultObj();
-        if (userService.nameIsUse(name)) {
+        if (userService.isUse("name", name)) {
             result.setMsg("用户名已经被使用！");
             return result;
         } else {
@@ -144,7 +150,21 @@ public class UserController {
         return result;
     }
 
+    @PostMapping(value = "/emailIsUse.do")
+    @ApiOperation(value = "邮箱是否已经被注册", tags = "用户操作接口")
+    @ApiImplicitParam(name = "name", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
+    public ResultObj emailIsUse(String email) {
+        ResultObj result = new ResultObj();
+        if (userService.isUse("email", email)) {
+            result.setMsg("用户名已经被使用！");
+            return result;
+        } else {
+            result.setCode(0);
+            result.setMsg("用户名可以使用使用！");
+        }
 
+        return result;
+    }
 
     @GetMapping(value = "/getUser.do")
     @ApiOperation(value = "获取登录用户信息", tags = "用户操作接口")
@@ -152,15 +172,16 @@ public class UserController {
         ResultObj result = new ResultObj();
         try {
             HttpSession session = req.getSession();
-            UserVo userVo =  redisObjUtil.getEntity(session.getId(),UserVo.class);
-            if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())){
+            UserVo userVo = redisObjUtil.getEntity(session.getId(), UserVo.class);
+            if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())) {
                 result.setCode(1);
                 result.setMsg("请先登录！");
-            }else {
+            } else {
                 result.setCode(0);
                 result.setData(userVo);
             }
-        }catch (Exception e){
+            redisObjUtil.expire(session.getId());
+        } catch (Exception e) {
             result.setCode(1);
             result.setMsg("系统错误！");
             e.printStackTrace();
@@ -168,4 +189,56 @@ public class UserController {
         return result;
     }
 
+    @PostMapping(value = "/updateUser.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email, String validate_code) {
+        ResultObj result = new ResultObj();
+        try {
+            HttpSession session = req.getSession();
+            User user = userService.queryById(redisObjUtil.getEntity(session.getId(), UserVo.class).getId());
+
+            if (StringUtils.isPhoneLegal(phone) || phone.equals(phone)) {
+                user.setPhone(phone);
+            }
+
+            // 修改邮件
+            StringUtils.isEmail(email, "邮箱不合法！");
+            if (!user.getEmail().equals(email)) {
+                if (!userService.isUse("email", email)) {
+
+                } else {
+
+                }
+            }
+            //不为空 新旧名字不相等 新名字没有被使用
+            if (!StringUtils.checkNull(user.getName()) && !user.getName().equals(name) && !userService.nameIsUse(name)) {
+                user.setName(name);
+            }
+
+
+        } catch (MyException e) {
+            result.setMsg(e.getMessage());
+            result.setCode(1);
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @GetMapping(value = "/getAllUser.do")
+    @ApiOperation(value = "获取全部用户信息", tags = "用户操作接口")
+    public ResultObj getAllUser(HttpServletRequest req, HttpServletResponse resp) {
+        ResultObj result = new ResultObj();
+        try {
+
+
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

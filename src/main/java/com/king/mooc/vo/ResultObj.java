@@ -1,5 +1,7 @@
 package com.king.mooc.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,14 +11,14 @@ import lombok.Data;
  * @create: 2021-10-03 12:06
  */
 @Data
+@ApiModel(value = "返回响应类")
 public class ResultObj {
-    //解析接口状态 0是 true
+    @ApiModelProperty(value = "解析接口状态")
     private Integer code = 1;
-    //解析提示文本
+    @ApiModelProperty(value = "解析提示文本")
     private String msg;
-    //解析数据长度
+    @ApiModelProperty(value = "解析数据长度")
     private Integer count;
-    //解析数据列表
+    @ApiModelProperty(value = "解析数据列表")
     private Object data;
-
 }
