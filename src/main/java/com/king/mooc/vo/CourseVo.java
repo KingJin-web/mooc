@@ -1,6 +1,7 @@
 package com.king.mooc.vo;
 
 import com.king.mooc.bean.Course;
+import io.swagger.annotations.ApiModel;
 
 /**
  * @program: mooc
@@ -8,6 +9,9 @@ import com.king.mooc.bean.Course;
  * @author: King
  * @create: 2021/10/12 18:01
  */
+
+
+@ApiModel(value = "课程响应类")
 public class CourseVo extends Course {
 
 }
