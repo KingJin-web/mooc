@@ -10,6 +10,8 @@ import com.king.mooc.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -73,6 +75,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User ToBeShare(User user) {
         return null;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userMapper.selectList(null);
     }
 
 }

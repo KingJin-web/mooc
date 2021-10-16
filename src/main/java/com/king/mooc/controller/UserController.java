@@ -197,9 +197,9 @@ public class UserController {
             HttpSession session = req.getSession();
             User user = userService.queryById(redisObjUtil.getEntity(session.getId(), UserVo.class).getId());
 
-            if (StringUtils.isPhoneLegal(phone) || phone.equals(phone)) {
-                user.setPhone(phone);
-            }
+            //修改电话
+            StringUtils.isPhoneLegal(phone);
+            user.setPhone(phone);
 
             // 修改邮件
             StringUtils.isEmail(email, "邮箱不合法！");
@@ -232,7 +232,7 @@ public class UserController {
     public ResultObj getAllUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
-
+            userService.getAll();
 
         } catch (Exception e) {
             result.setCode(1);

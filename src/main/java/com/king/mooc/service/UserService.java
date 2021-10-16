@@ -4,6 +4,8 @@ package com.king.mooc.service;
 import com.king.mooc.bean.User;
 import com.king.mooc.util.MyException;
 
+import java.util.List;
+
 public interface UserService {
     /**
      * 注册用户
@@ -75,5 +77,7 @@ public interface UserService {
      * @return
      */
     User ToBeShare(User user);
+
+    List<User> getAll();
 }
 
