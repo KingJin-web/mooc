@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -71,6 +67,7 @@ public class RedisObjUtil {
      * @return
      */
     public <T> T getEntity(String key, Class<T> entity) {
+        System.out.println(redisTemplate.opsForValue().get(key));
         return SerializeUtil.objParse(entity, redisTemplate.opsForValue().get(key));
     }
 

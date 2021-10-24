@@ -2,10 +2,7 @@ package com.king.mooc.controller;
 
 import com.king.mooc.bean.User;
 import com.king.mooc.service.UserService;
-import com.king.mooc.util.MyException;
-import com.king.mooc.util.RedisObjUtil;
-import com.king.mooc.util.RedisStringUtil;
-import com.king.mooc.util.StringUtils;
+import com.king.mooc.util.*;
 import com.king.mooc.vo.ResultObj;
 import com.king.mooc.vo.UserVo;
 import io.swagger.annotations.Api;
@@ -13,14 +10,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @program: mooc
@@ -94,7 +91,7 @@ public class UserController {
             StringUtils.pwdCheckNull(password);
             StringUtils.checkNull(validate_code, "请输入验证码！");
             UserVo userVo = redisObjUtil.getEntity(session.getId(), UserVo.class);
-            System.out.println(userVo);
+            System.out.println("注册" + userVo);
             boolean isLogin = false;
             if (userVo.getValidateCode().equalsIgnoreCase(validate_code)) {
                 if (StringUtils.isEmail(s)) {
@@ -111,11 +108,11 @@ public class UserController {
                     }
                 }
                 if (isLogin) {
+                    System.out.println(userVo);
                     redisObjUtil.setEntity(req.getSession().getId(), 30, userVo);
                     result.setMsg("登录成功！");
                     result.setCode(0);
                     result.setData(userVo);
-
                 } else {
                     result.setMsg("登录失败用户名或密码错误！");
                 }
@@ -172,7 +169,7 @@ public class UserController {
         ResultObj result = new ResultObj();
         try {
             HttpSession session = req.getSession();
-            UserVo userVo = redisObjUtil.getEntity(session.getId(), UserVo.class);
+            UserVo userVo = new UserVo(redisObjUtil.getUserVo(session.getId()));
             if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())) {
                 result.setCode(1);
                 result.setMsg("请先登录！");
@@ -191,23 +188,25 @@ public class UserController {
 
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
-    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email, String validate_code) {
+    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email, @RequestParam("file") MultipartFile file) {
         ResultObj result = new ResultObj();
         try {
             HttpSession session = req.getSession();
-            User user = userService.queryById(redisObjUtil.getEntity(session.getId(), UserVo.class).getId());
+            User user = userService.queryById(redisObjUtil.getUserVo(session.getId()).getId());
 
             //修改电话
             StringUtils.isPhoneLegal(phone);
             user.setPhone(phone);
 
             // 修改邮件
-            StringUtils.isEmail(email, "邮箱不合法！");
-            if (!user.getEmail().equals(email)) {
-                if (!userService.isUse("email", email)) {
-
-                } else {
-
+            if (!StringUtils.checkNull(email)) {
+                StringUtils.isEmail(email, "邮箱不合法！");
+                if (!user.getEmail().equals(email)) {
+                    if (!userService.isUse("email", email)) {
+                        user.setEmail(email);
+                    } else {
+                        throw new MyException("邮箱已经被使用");
+                    }
                 }
             }
             //不为空 新旧名字不相等 新名字没有被使用
@@ -215,6 +214,9 @@ public class UserController {
                 user.setName(name);
             }
 
+            System.out.println(file.getOriginalFilename());
+            file.transferTo(Paths.get(Utils.imgPath + file.getOriginalFilename()));
+            userService.updateById(user);
 
         } catch (MyException e) {
             result.setMsg(e.getMessage());
@@ -232,8 +234,45 @@ public class UserController {
     public ResultObj getAllUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
-            userService.getAll();
+            List<User> list = userService.getAll();
 
+            result.setCode(0);
+            result.setCount(list.size());
+            result.setData(list);
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @GetMapping(value = "/refreshUser.do")
+    @ApiOperation(value = "刷新当前登录的用户信息", tags = "用户操作接口")
+    public ResultObj refreshUser(HttpServletRequest req, HttpServletResponse resp) {
+        ResultObj result = new ResultObj();
+        try {
+            HttpSession session = req.getSession();
+            UserVo userVo = new UserVo(userService.queryById(redisObjUtil.getEntity(session.getId(), UserVo.class).getId()));
+            redisObjUtil.setEntity(req.getSession().getId(), 30, userVo);
+            result.setCode(0);
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    @GetMapping(value = "/logout.do")
+    @ApiOperation(value = "退出登录", tags = "用户操作接口")
+    public ResultObj logout(HttpServletRequest req, HttpServletResponse resp) {
+        ResultObj result = new ResultObj();
+        try {
+            redisObjUtil.delete(req.getSession().getId());
+            result.setCode(0);
+            result.setMsg("成功退出登录！");
         } catch (Exception e) {
             result.setCode(1);
             result.setMsg("系统错误！");

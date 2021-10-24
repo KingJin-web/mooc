@@ -21,8 +21,8 @@ public class SerializeUtil {
                 ObjectMapper objectMapper = new ObjectMapper();
                 return objectMapper.convertValue(value, returnClass);
             }
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

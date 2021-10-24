@@ -23,13 +23,19 @@ public class VerifyCodeGen {
     private static final int xx = 25;
     private static final int fontHeight = 42;
     private static final int codeY = 42;
+//    private static final char[] codeSequence = {
+//            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+//            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+//            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+//            's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+//            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
     private static final char[] codeSequence = {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',  'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'R',
             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',  'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
     /**
      * 生成一个map集合
      * code为生成的验证码

@@ -19,5 +19,5 @@ public interface CourseMapper extends BaseMapper<Course> {
     int updatePrice(long id, double price, double vipPrice, double activityPrice);
 
     @Update("UPDATE course SET price = #{price},vip_price = #{vipPrice},activity_price = #{activityPrice} WHERE flag = 0 AND id = #{id}  and uid = #{uid} ")
-    int updatePrice(long id, long uid, double price, double vipPrice, double activityPrice);
+    int updatePrice1(long id, long uid, double price, double vipPrice, double activityPrice);
 }
