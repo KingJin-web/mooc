@@ -15,11 +15,7 @@ import java.util.List;
  */
 @Data
 public class CourseLessonVo {
-    private Long id;
+
     private String name;
-    //创建时间
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    private Long lessonId;
     private List<CoursesVideoVo> coursesVideos;
 }
