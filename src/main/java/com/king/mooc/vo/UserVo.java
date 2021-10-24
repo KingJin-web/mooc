@@ -1,6 +1,8 @@
 package com.king.mooc.vo;
 
 import com.king.mooc.bean.User;
+import com.king.mooc.util.StringUtils;
+import com.king.mooc.util.TimeUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,6 +10,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @program: mooc
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "用户响应类")
-public class UserVo{
+public class UserVo {
     //用户id
     @ApiModelProperty(value = "id")
     private Long id;
@@ -37,12 +40,34 @@ public class UserVo{
     private Boolean isVip = false;
     @ApiModelProperty(value = "验证码")
     private String validateCode;
+    @ApiModelProperty(value = "会员剩余时间")
+    private String vipTime;
+
+    @ApiModelProperty("会员到期时间")
+    private LocalDateTime vipEndTime;
 
     public UserVo() {
+        System.out.println("无参构造方法");
+    }
+
+    public UserVo(UserVo user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.headImg = user.getHeadImg();
+        this.balance = user.getBalance();
+        this.isShare = user.getIsShare();
+        if (user.vipEndTime != null){
+            this.isVip = user.vipEndTime.isAfter(LocalDateTime.now());
+            this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.vipEndTime));
+        }
+    }
+    public UserVo(User user) {
+        setUser(user);
     }
 
     public void setUser(User user) {
-        System.out.println(user);
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
@@ -51,6 +76,11 @@ public class UserVo{
         this.balance = user.getBalance();
         this.isShare = user.getIsShare() == 1;
         this.isVip = user.getVipTime().isAfter(LocalDateTime.now());
+        this.vipEndTime = user.getVipTime();
+        if (isVip) {
+            this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getVipTime()));
+        }
+
     }
 
     public UserVo(String validateCode) {

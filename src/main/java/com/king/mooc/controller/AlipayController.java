@@ -41,18 +41,23 @@ import java.util.Map;
 @RequestMapping("/api/alipay")
 @Api(value = "支付宝沙箱支付接口", tags = "支付宝沙箱支付接口")
 public class AlipayController {
+
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "课程操作接口")
     @ApiImplicitParam(name = "money", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
-    public void playVip(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("开始处理OrderServlet的服务");
-        String title = "音乐网会员充值";
-        String total = request.getParameter("money");
-        String message = "会员充值";
+    public void playVip(HttpServletRequest request, HttpServletResponse response, double money) throws ServletException, IOException {
+
         AlipayConfig ac = new AlipayConfig();
         //生成订单号
+        //商户订单号，商户网站订单系统中唯一订单号，必填
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String orderSn = simpleDateFormat.format(Calendar.getInstance().getTime());
+        String out_trade_no = simpleDateFormat.format(Calendar.getInstance().getTime());
+        //付款金额，必填
+        String total_amount = String.valueOf(money);
+        //订单名称，必填
+        String subject = "会员充值";
+        //商品描述，可空
+        String body = "会员充值";
         //向支付宝发送请求
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(ac.getGatewayUrl(), ac.getApp_id(),
@@ -63,14 +68,7 @@ public class AlipayController {
 
         alipayRequest.setNotifyUrl(ac.getNotify_url());
         alipayRequest.setReturnUrl(ac.getReturn_url());
-        //商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = orderSn;
-        //付款金额，必填
-        String total_amount = total;
-        //订单名称，必填
-        String subject = title;
-        //商品描述，可空
-        String body = message;
+
 
         alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\","
                 + "\"total_amount\":\"" + total_amount + "\","
@@ -141,7 +139,8 @@ public class AlipayController {
 
     /**
      * 异步结果通知回调方法
-     * @param vo 支付宝异步通知返回的结果
+     *
+     * @param vo      支付宝异步通知返回的结果
      * @param request request
      * @return 是否验签通过
      * @throws UnsupportedEncodingException
@@ -151,13 +150,13 @@ public class AlipayController {
     public String notify(AlipayVo vo, HttpServletRequest request) throws UnsupportedEncodingException, AlipayApiException {
         // 验证签名
         boolean signVerified = checkV1(request);
-        if(signVerified){
+        if (signVerified) {
             // 签名验证通过
             System.out.println("签名验证成功！");
             // 处理支付结果
             // 只要收到了支付宝给我们异步的通知，告诉我们订单支付成功，返回success，支付宝就不会再通知
             return handlePayResult(vo);
-        }else{
+        } else {
             // 只要回复的不是success，就会一直通知
             System.out.println("签名验证失败！");
             return "error";
@@ -177,6 +176,7 @@ public class AlipayController {
 
     /**
      * 处理支付宝支付结果
+     *
      * @param vo 支付信息
      * @return
      */
@@ -186,8 +186,10 @@ public class AlipayController {
         System.out.println(vo);
         return "success";
     }
+
     /**
      * 校验签名
+     *
      * @param request request
      * @return 是否验证通过
      * @throws AlipayApiException 支付异常
@@ -214,6 +216,7 @@ public class AlipayController {
         // 调用SDK验证签名
         return AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipay_public_key(), alipayConfig.getCharset(), alipayConfig.getSign_type());
     }
+
     @RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
     public String returnUrl(HttpServletRequest request, HttpServletResponse response)
             throws IOException, AlipayApiException {

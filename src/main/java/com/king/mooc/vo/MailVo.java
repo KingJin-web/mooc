@@ -18,10 +18,7 @@ import java.util.Date;
 @Data
 public class MailVo {
     private String id;//邮件id
-
-
     private String from = "3098629064@qq.com";//邮件发送人
-
     private String to;//邮件接收人
     private String subject;//邮件主题
     private String text;//邮件内容
