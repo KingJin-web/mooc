@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class CoursesVideoVo {
     @ApiModelProperty(value = "视频小节名")
     private String name;
-    @ApiModelProperty(value = "章节名")
+    @ApiModelProperty(value = "视频地址")
     private String url;
     @ApiModelProperty(value = "章节名")
     private int learn_times;
