@@ -2,6 +2,8 @@ package com.king.mooc.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,8 +16,11 @@ import java.util.List;
  * @create: 2021/10/20 15:15
  */
 @Data
+@ApiModel(value = "课程章节响应类")
 public class CourseLessonVo {
 
+    @ApiModelProperty(value = "章节名")
     private String name;
+    @ApiModelProperty(value = "章节下面的小节列表")
     private List<CoursesVideoVo> coursesVideos;
 }
