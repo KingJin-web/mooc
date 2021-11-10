@@ -1,5 +1,7 @@
 package com.king.mooc.vo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -31,19 +33,22 @@ public class CourseVo {
     private BigDecimal activityPrice;
     private String owner;
     private Integer sales;
-    //是否已经删除
-    private Integer flag;
-    //创建时间
-    private LocalDateTime createTime;
-    //上次修改时间
-    private LocalDateTime updateTime;
-    //版本号，乐观锁
-    @Version
-    private Integer version;
+    private List<CourseLessonVo> data;
 
-    private String file;
-
-    private List<CourseLessonVo> courseLessonVos;
+    public Course getCourse(){
+        Course course = new Course();
+        course.setId(this.id);
+        course.setName(this.name);
+        course.setSummary(this.summary);
+        course.setCoverImage(this.coverImage);
+        course.setPrice(this.price);
+        course.setVipPrice(this.vipPrice);
+        course.setActivityPrice(this.activityPrice);
+        course.setOwner(this.owner);
+        course.setSales(this.sales);
+        course.setData(JSONObject.toJSONString(data));
+        return course;
+    }
 
 }
 

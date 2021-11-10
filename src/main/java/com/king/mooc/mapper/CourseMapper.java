@@ -15,6 +15,15 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface CourseMapper extends BaseMapper<Course> {
 
+
+    /**
+     * 通过id修改课程价格
+     * @param id id
+     * @param price 原价
+     * @param vipPrice 会员价
+     * @param activityPrice 活动价
+     * @return 修改的条数
+     */
     @Update("UPDATE course SET price = #{price},vip_price = #{vipPrice},activity_price = #{activityPrice} WHERE flag = 0 AND (id = #{id} )")
     int updatePrice(long id, double price, double vipPrice, double activityPrice);
 

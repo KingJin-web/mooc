@@ -47,5 +47,8 @@ public class AlipayVo {
     /** 签名类型 */
     private String sign_type;
     /** 商家的id */
-    private String seller_id;
+    private  String seller_id;
+
+  
+
 }
