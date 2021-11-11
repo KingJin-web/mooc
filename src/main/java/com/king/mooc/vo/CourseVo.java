@@ -35,20 +35,24 @@ public class CourseVo {
     private Integer sales;
     private List<CourseLessonVo> data;
 
-    public Course getCourse(){
-        Course course = new Course();
-        course.setId(this.id);
-        course.setName(this.name);
-        course.setSummary(this.summary);
-        course.setCoverImage(this.coverImage);
-        course.setPrice(this.price);
-        course.setVipPrice(this.vipPrice);
-        course.setActivityPrice(this.activityPrice);
-        course.setOwner(this.owner);
-        course.setSales(this.sales);
-        course.setData(JSONObject.toJSONString(data));
-        return course;
-    }
+//    public Course getCourse(){
+//        Course course = new Course();
+//        course.setId(this.id);
+//        course.setName(this.name);
+//        course.setSummary(this.summary);
+//        course.setCoverImage(this.coverImage);
+//        course.setPrice(this.price);
+//        course.setVipPrice(this.vipPrice);
+//        course.setActivityPrice(this.activityPrice);
+//        course.setOwner(this.owner);
+//        course.setSales(this.sales);
+//        course.setData(JSONObject.toJSONString(data));
+//        return course;
+//    }
 
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }
 

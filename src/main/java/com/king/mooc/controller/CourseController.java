@@ -1,11 +1,14 @@
 package com.king.mooc.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.king.mooc.bean.Course;
 import com.king.mooc.bean.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.util.MyException;
 import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
+import com.king.mooc.vo.CourseVo;
 import com.king.mooc.vo.ResultObj;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,8 +72,13 @@ public class CourseController {
     public ResultObj findLikeName(String name) {
         ResultObj resultObj = new ResultObj();
         try {
-            resultObj.setData(courseService.queryByLikeName(name));
+            List<Course> list1 = courseService.queryByLikeName(name);
+            List<CourseVo> list2 = new ArrayList<>(list1.size());
+
+            System.out.println(JSONObject.toJSONString(list2));
+            resultObj.setData(JSONObject.toJSONString(list2));
             resultObj.setCode(0);
+            resultObj.setCount(list1.size());
             return resultObj;
         } catch (Exception e) {
             e.printStackTrace();

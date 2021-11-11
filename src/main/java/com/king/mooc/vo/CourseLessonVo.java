@@ -1,5 +1,6 @@
 package com.king.mooc.vo;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
@@ -23,4 +24,12 @@ public class CourseLessonVo {
     private String name;
     @ApiModelProperty(value = "章节下面的小节列表")
     private List<CoursesVideoVo> coursesVideos;
+
+    @Override
+    public String toString() {
+        return "CourseLessonVo{" +
+                "name='" + name + '\'' +
+                ", coursesVideos=" + coursesVideos +
+                '}';
+    }
 }
