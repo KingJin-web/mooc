@@ -1,7 +1,7 @@
 package com.king.mooc.service;
 
 
-import com.king.mooc.bean.User;
+import com.king.mooc.entity.User;
 import com.king.mooc.util.MyException;
 
 import java.util.List;

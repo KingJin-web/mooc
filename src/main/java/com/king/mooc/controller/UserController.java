@@ -1,6 +1,6 @@
 package com.king.mooc.controller;
 
-import com.king.mooc.bean.User;
+import com.king.mooc.entity.User;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.*;
 import com.king.mooc.vo.ResultObj;

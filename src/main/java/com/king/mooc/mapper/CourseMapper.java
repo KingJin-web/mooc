@@ -1,7 +1,7 @@
 package com.king.mooc.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.king.mooc.bean.Course;
+import com.king.mooc.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 

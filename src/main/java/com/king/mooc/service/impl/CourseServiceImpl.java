@@ -1,11 +1,9 @@
 package com.king.mooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.king.mooc.bean.Course;
+import com.king.mooc.entity.Course;
 import com.king.mooc.mapper.CourseMapper;
 import com.king.mooc.service.CourseService;
-import com.king.mooc.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

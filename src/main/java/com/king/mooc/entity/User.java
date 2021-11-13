@@ -1,4 +1,4 @@
-package com.king.mooc.bean;
+package com.king.mooc.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Builder;

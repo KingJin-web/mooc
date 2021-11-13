@@ -1,6 +1,6 @@
 package com.king.mooc.util;
 
-import com.king.mooc.bean.User;
+import com.king.mooc.entity.User;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

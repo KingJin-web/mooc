@@ -1,6 +1,6 @@
 package com.king.mooc.service;
 
-import com.king.mooc.bean.Course;
+import com.king.mooc.entity.Course;
 
 import java.util.List;
 

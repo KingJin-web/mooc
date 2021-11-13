@@ -1,13 +1,11 @@
 package com.king.mooc.vo;
 
-import com.king.mooc.bean.User;
-import com.king.mooc.util.StringUtils;
+import com.king.mooc.entity.User;
 import com.king.mooc.util.TimeUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

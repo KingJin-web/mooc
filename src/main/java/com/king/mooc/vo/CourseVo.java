@@ -1,16 +1,10 @@
 package com.king.mooc.vo;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.king.mooc.bean.Course;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -33,7 +27,7 @@ public class CourseVo {
     private BigDecimal activityPrice;
     private String owner;
     private Integer sales;
-    private List<CourseLessonVo> data;
+
 
 //    public Course getCourse(){
 //        Course course = new Course();

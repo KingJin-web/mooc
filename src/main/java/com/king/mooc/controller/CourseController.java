@@ -1,11 +1,9 @@
 package com.king.mooc.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.king.mooc.bean.Course;
-import com.king.mooc.bean.User;
+import com.king.mooc.entity.Course;
+import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
-import com.king.mooc.util.MyException;
 import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.CourseVo;

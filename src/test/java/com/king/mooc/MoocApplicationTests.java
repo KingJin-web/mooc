@@ -36,4 +36,9 @@ public class MoocApplicationTests {
         System.out.println(userVo);
     }
 
+    @Test
+    public void insert(){
+
+    }
+
 }

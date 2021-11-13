@@ -1,7 +1,7 @@
 package com.king.mooc.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.king.mooc.bean.User;
+import com.king.mooc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
