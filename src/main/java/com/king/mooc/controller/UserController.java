@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -169,11 +170,13 @@ public class UserController {
         ResultObj result = new ResultObj();
         try {
             HttpSession session = req.getSession();
-            UserVo userVo = new UserVo(redisObjUtil.getUserVo(session.getId()));
+            UserVo userVo = redisObjUtil.getUserVo(session.getId());
             if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())) {
                 result.setCode(1);
                 result.setMsg("请先登录！");
+                resp.sendRedirect("/login.html");
             } else {
+                userVo = new UserVo(userVo);
                 result.setCode(0);
                 result.setData(userVo);
             }

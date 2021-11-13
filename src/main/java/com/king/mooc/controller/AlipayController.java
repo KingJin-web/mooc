@@ -43,7 +43,7 @@ import java.util.Map;
 public class AlipayController {
 
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
-    @ApiOperation(value = "会员充值", tags = "课程操作接口")
+    @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")
     @ApiImplicitParam(name = "money", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
     public void playVip(HttpServletRequest request, HttpServletResponse response, double money) throws ServletException, IOException {
 
@@ -89,7 +89,7 @@ public class AlipayController {
     }
 
     @RequestMapping(value = "/play", method = RequestMethod.GET)
-    @ApiOperation(value = "支付", tags = "课程操作接口")
+    @ApiOperation(value = "支付", tags = "支付宝沙箱支付接口")
     @ApiImplicitParam(name = "id", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("开始处理OrderServlet的服务");

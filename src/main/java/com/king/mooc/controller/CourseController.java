@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
+import com.king.mooc.service.CourseVideoService;
 import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.CourseVo;
@@ -38,6 +39,9 @@ public class CourseController {
     @Autowired
     RedisObjUtil redisObjUtil;
 
+    @Autowired
+    CourseVideoService courseVideoService;
+
     @PostMapping(value = "/delete.do")
     @ApiOperation(value = "通过课程id删除课程", tags = "课程操作接口")
     @ApiImplicitParam(name = "id", value = "课程id", dataType = "long", paramType = "query", example = "1", required = true)
@@ -70,13 +74,8 @@ public class CourseController {
     public ResultObj findLikeName(String name) {
         ResultObj resultObj = new ResultObj();
         try {
-            List<Course> list1 = courseService.queryByLikeName(name);
-            List<CourseVo> list2 = new ArrayList<>(list1.size());
-
-            System.out.println(JSONObject.toJSONString(list2));
-            resultObj.setData(JSONObject.toJSONString(list2));
+            resultObj.setData(courseService.queryByLikeName(name));
             resultObj.setCode(0);
-            resultObj.setCount(list1.size());
             return resultObj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +84,7 @@ public class CourseController {
             return resultObj;
         }
     }
+
 
     @PostMapping(value = "/addCourse.do")
     @ApiOperation(value = "添加课程", tags = "课程操作接口")
@@ -107,4 +107,24 @@ public class CourseController {
             return resultObj;
         }
     }
+
+
+    @PostMapping(value = "/getVideoList.do")
+    @ApiOperation(value = "通过课程id查询视频列表", tags = "课程操作接口")
+    @ApiImplicitParam(name = "cid", value = "课程id", dataType = "long", paramType = "query", example = "1446666198576553999", required = true)
+    public ResultObj getVideoList(Long cid) {
+        ResultObj resultObj = new ResultObj();
+        try {
+            resultObj.setData(courseVideoService.queryByCid(cid));
+            resultObj.setCode(0);
+            return resultObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultObj.setMsg("系统错误！");
+            resultObj.setCode(1);
+            return resultObj;
+        }
+    }
+
+
 }

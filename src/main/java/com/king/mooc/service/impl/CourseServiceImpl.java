@@ -46,5 +46,10 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.delete(qw);
     }
 
+    @Override
+    public Course queryById(Long id) {
+        return courseMapper.selectById(id);
+    }
+
 
 }

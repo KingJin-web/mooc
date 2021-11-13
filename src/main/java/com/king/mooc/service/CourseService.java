@@ -10,6 +10,7 @@ public interface CourseService {
 
     /**
      * 通过课程名模糊查找课程
+     *
      * @param name 课程名
      * @return
      */
@@ -28,9 +29,18 @@ public interface CourseService {
 
     /**
      * 通过id删除课程
+     *
      * @param id
      * @return
      */
-    int deleteCourse(long id,long tid);
+    int deleteCourse(long id, long tid);
+
+    /**
+     * 通过id查询课程
+     *
+     * @param id
+     * @return
+     */
+    Course queryById(Long id);
 
 }

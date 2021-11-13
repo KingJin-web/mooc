@@ -43,6 +43,8 @@ public class UserVo {
 
     @ApiModelProperty("会员到期时间")
     private LocalDateTime vipEndTime;
+    @ApiModelProperty("提示词")
+    private String msg;
 
     public UserVo() {
         System.out.println("无参构造方法");
@@ -58,7 +60,13 @@ public class UserVo {
         this.isShare = user.getIsShare();
         if (user.vipEndTime != null){
             this.isVip = user.vipEndTime.isAfter(LocalDateTime.now());
-            this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.vipEndTime));
+            if (this.isVip){
+                this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.vipEndTime));
+            }else {
+                this.vipTime = null;
+                this.msg= "您的会员已经到期！";
+            }
+
         }
     }
     public UserVo(User user) {

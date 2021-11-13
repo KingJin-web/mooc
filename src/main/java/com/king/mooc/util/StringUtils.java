@@ -1,6 +1,9 @@
 package com.king.mooc.util;
 
+import com.king.mooc.entity.CourseVideo;
+
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -14,6 +17,16 @@ import java.util.regex.Pattern;
  */
 public class StringUtils {
     private StringUtils() {
+    }
+
+    public static double getDouble(String s) {
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
     public static String getInt(int ln) {
@@ -198,6 +211,7 @@ public class StringUtils {
     /**
      * 判断是否为合法电话号码
      * 号码为空返回false
+     *
      * @param phone
      * @return
      */
@@ -256,5 +270,32 @@ public class StringUtils {
             e.printStackTrace();
         }
         return t;
+    }
+
+    /**
+     * 正则提取
+     *
+     * @param pattern
+     * @param text
+     * @return
+     */
+    public static String getString(Pattern pattern, String text) {
+        Matcher m = pattern.matcher(text);
+        String str = "";
+        if (m.find()) {
+            str = m.group(1);
+        }
+        return str;
+    }
+
+    /**
+     * 正则清空匹配的字符
+     *
+     * @param pattern
+     * @param text
+     * @return
+     */
+    public static String deleteString(String pattern, String text) {
+        return text.replaceAll(pattern, "");
     }
 }

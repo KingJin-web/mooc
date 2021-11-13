@@ -1,9 +1,13 @@
 package com.king.mooc.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +19,11 @@ import java.util.List;
  */
 @Data
 @TableName(value = "coursevideo")
-public class CourseVideo {
+public class CourseVideo extends Model<CourseVideo> {
+    private static final long serialVersionUID = -7585862229833387698L;
+
     @ApiModelProperty(value = "课程视频id")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)//指定自增策略
     private Long id;
     @ApiModelProperty(value = "课程id")
     private Long cid;
@@ -30,4 +37,13 @@ public class CourseVideo {
     private Double videoNumber;
     @ApiModelProperty(value = "视频时长")
     private Double learnTimes;
+
+    public void println() {
+        System.out.println(this);
+    }
+
+    @Override
+    public Serializable pkVal() {
+        return id;
+    }
 }
