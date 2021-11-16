@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +22,11 @@ public class ReflectionUtilTest {
         String tableName = "user";
         StringBuffer stringBuffer = new StringBuffer ();
         List<Field> fields = getFields (User.class);
-        stringBuffer.append ("CREATE TABLE `"+tableName+"` (");
+        stringBuffer.append("CREATE TABLE `").append(tableName).append("` (");
         for (Field field : fields) {
 
             if (!Modifier.isStatic (field.getModifiers ()) && !"currentUser".equals (field.getName ())){
-                stringBuffer.append ("\n").append (getName(field.getName ())+" ");
+                stringBuffer.append("\n").append(getName(field.getName())).append(" ");
                 stringBuffer.append (getMysqlColunmType (field.getType ()));
                 stringBuffer.append (" NULL DEFAULT NULL ,");
             }
@@ -45,15 +46,12 @@ public class ReflectionUtilTest {
      * @return
      */
     public  static List<Field> getFields(Class<?> cls){
-        List<Field> fields = new ArrayList<> ();
         if (cls == Object.class){
             return  new ArrayList<> ();
         }
-        fields.addAll (getFields (cls.getSuperclass ()));
+        List<Field> fields = new ArrayList<>(getFields(cls.getSuperclass()));
         Field[] declaredFields = cls.getDeclaredFields ();
-        for (Field declaredField : declaredFields) {
-            fields.add (declaredField);
-        }
+        fields.addAll(Arrays.asList(declaredFields));
         return  fields;
     }
 

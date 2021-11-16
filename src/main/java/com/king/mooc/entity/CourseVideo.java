@@ -37,6 +37,8 @@ public class CourseVideo extends Model<CourseVideo> {
     private Double videoNumber;
     @ApiModelProperty(value = "视频时长")
     private Double learnTimes;
+    @ApiModelProperty(value = "播放量")
+    private int playAmount;
 
     public void println() {
         System.out.println(this);

@@ -28,4 +28,9 @@ public class CourseVideoServiceImpl implements CourseVideoService {
         return courseVideoMapper.selectList(qw);
 
     }
+
+    @Override
+    public int addPlayAmount( Long id) {
+        return courseVideoMapper.addPlayAmount(id);
+    }
 }

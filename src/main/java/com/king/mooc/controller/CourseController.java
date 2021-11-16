@@ -126,5 +126,22 @@ public class CourseController {
         }
     }
 
+    @PostMapping(value = "/addPlayAmount.do")
+    @ApiOperation(value = "通过点击增加播放量", tags = "课程操作接口")
+    @ApiImplicitParam(name = "id", value = "视频id", dataType = "long", paramType = "query", example = "1460688748815171586", required = true)
+    public ResultObj addPlayAmount(Long id) {
+        ResultObj resultObj = new ResultObj();
+        try {
+            if (courseVideoService.addPlayAmount(id) > 0) {
+                resultObj.setMsg("已经将视频id:" + id + "播放量加一");
+            }
+            resultObj.setCode(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultObj.setMsg("系统错误！");
+            resultObj.setCode(1);
+        }
+        return resultObj;
+    }
 
 }

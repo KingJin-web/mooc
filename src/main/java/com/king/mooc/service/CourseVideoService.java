@@ -11,4 +11,6 @@ public interface CourseVideoService {
      * @return
      */
     public List<CourseVideo> queryByCid(Long cid);
+
+    int addPlayAmount(Long id);
 }

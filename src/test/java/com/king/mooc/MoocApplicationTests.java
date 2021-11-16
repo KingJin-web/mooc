@@ -52,7 +52,7 @@ public class MoocApplicationTests {
 
     @Test
     public void insert() {
-        String filePath = "C:\\Users\\King\\Downloads\\12.csv";
+        String filePath = "C:\\Users\\King\\Downloads\\11.csv";
 
         try {
             // 创建CSV读对象
@@ -60,17 +60,18 @@ public class MoocApplicationTests {
 
             // 读表头
             csvReader.readHeaders();
+            double i = 0;
             while (csvReader.readRecord()) {
 //                // 读一整行
 //                System.out.println(csvReader.getRawRecord());
                 // 读这行的某一列
                 System.out.println(csvReader.get("标题"));
                 Pattern pattern = Pattern.compile("((\\d*)(\\.\\d*)?|0)");
+
                 CourseVideo courseVideo = new CourseVideo();
-                courseVideo.setCid(1446666198576553123L);
-                courseVideo.setVideoNumber(
-                        StringUtils.getDouble(StringUtils.getString(pattern, csvReader.get(0))));
-                courseVideo.setName(StringUtils.deleteString("((\\d*)(\\.\\d*)?|0)", csvReader.get(0)));
+                courseVideo.setCid(1446666198576553999L);
+                courseVideo.setVideoNumber(i++);
+                courseVideo.setName(csvReader.get(0));
                 courseVideo.setPath("www.baidu.com");
                 courseVideo.insert();
                 System.out.println(courseVideo);
