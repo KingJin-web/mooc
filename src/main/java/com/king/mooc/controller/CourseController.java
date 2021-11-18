@@ -111,7 +111,7 @@ public class CourseController {
 
     @PostMapping(value = "/getVideoList.do")
     @ApiOperation(value = "通过课程id查询视频列表", tags = "课程操作接口")
-    @ApiImplicitParam(name = "cid", value = "课程id", dataType = "long", paramType = "query", example = "1446666198576553999", required = true)
+    @ApiImplicitParam(name = "cid", value = "课程id", dataType = "long", paramType = "query", example = "1446666198576553123", required = true)
     public ResultObj getVideoList(Long cid) {
         ResultObj resultObj = new ResultObj();
         try {
@@ -128,7 +128,7 @@ public class CourseController {
 
     @PostMapping(value = "/addPlayAmount.do")
     @ApiOperation(value = "通过点击增加播放量", tags = "课程操作接口")
-    @ApiImplicitParam(name = "id", value = "视频id", dataType = "long", paramType = "query", example = "1460688748815171586", required = true)
+    @ApiImplicitParam(name = "id", value = "视频id", dataType = "long", paramType = "query", example = "1460685767151534082", required = true)
     public ResultObj addPlayAmount(Long id) {
         ResultObj resultObj = new ResultObj();
         try {
@@ -143,5 +143,6 @@ public class CourseController {
         }
         return resultObj;
     }
+
 
 }
