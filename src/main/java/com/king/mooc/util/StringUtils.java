@@ -19,6 +19,12 @@ public class StringUtils {
     private StringUtils() {
     }
 
+    /**
+     * 将string转double转失败返回0
+     *
+     * @param s
+     * @return
+     */
     public static double getDouble(String s) {
         try {
             return Double.parseDouble(s);

@@ -9,7 +9,8 @@ package com.king.mooc.util;
 public class TimeUtils {
     /**
      * 将秒时间转化为--天--小时--分钟--秒
-     * @param mss
+     *
+     * @param mss 秒数
      * @return 3天10小时12分钟0秒
      */
     public static String formatDateTime(long mss) {
@@ -31,4 +32,6 @@ public class TimeUtils {
 
         return data.toString();
     }
+
+
 }

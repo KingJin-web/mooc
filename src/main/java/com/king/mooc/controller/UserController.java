@@ -218,7 +218,7 @@ public class UserController {
             }
 
             System.out.println(file.getOriginalFilename());
-            file.transferTo(Paths.get(Utils.imgPath + file.getOriginalFilename()));
+            file.transferTo(Paths.get(FileUtil.imgPath + file.getOriginalFilename()));
             userService.updateById(user);
 
         } catch (MyException e) {
