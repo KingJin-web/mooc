@@ -48,4 +48,6 @@ public class CourseVideo extends Model<CourseVideo> {
     public Serializable pkVal() {
         return id;
     }
+
+
 }
