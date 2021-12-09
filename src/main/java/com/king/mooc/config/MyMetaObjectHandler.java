@@ -24,7 +24,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "vipTime", LocalDateTime.class, LocalDateTime.now().plusDays(3));
 
-        // 起始版本 3.3.3(推荐)
     }
 
     @Override

@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @program: mooc
- * @description:
+ * @description: Knife配置类
  * @author: King
  * @create: 2021-10-03 11:01
  */

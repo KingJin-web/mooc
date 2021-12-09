@@ -37,7 +37,7 @@ import java.util.Map;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //
-    private static final String KEY = "liuyanzhao.com";
+    private static final String KEY = "";
 
     @Autowired
     private UserServiceImpl userService;//实现了UserDetailsService类
