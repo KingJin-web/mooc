@@ -36,7 +36,7 @@ public class Course {
     private LocalDateTime updateTime;
     //版本号，乐观锁
     @Version
-    private Integer version;
+    private Integer version;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
 
 

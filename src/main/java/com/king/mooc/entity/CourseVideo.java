@@ -25,18 +25,25 @@ public class CourseVideo extends Model<CourseVideo> {
     @ApiModelProperty(value = "课程视频id")
     @TableId(value = "id", type = IdType.ASSIGN_ID)//指定自增策略
     private Long id;
+
     @ApiModelProperty(value = "课程id")
     private Long cid;
+
     @ApiModelProperty(value = "课程视频名")
     private String name;
+
     @ApiModelProperty(value = "课程视频id地址")
     private String path;
+
     @ApiModelProperty(value = "是否可以试看")
     private Integer isTry;
+
     @ApiModelProperty(value = "视频编号")
     private Double videoNumber;
+
     @ApiModelProperty(value = "视频时长")
     private Double learnTimes;
+
     @ApiModelProperty(value = "播放量")
     private int playAmount;
 
