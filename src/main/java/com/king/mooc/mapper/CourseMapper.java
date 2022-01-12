@@ -7,8 +7,7 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * @program: com.king.mooc.mapper
- * @description: 告诉大家我是干啥的
- * https://github.com/KingJin-web/leetcode.git
+ * @description:
  * @author: King
  * @create: 2021/10/12 9:34
  */
@@ -29,4 +28,6 @@ public interface CourseMapper extends BaseMapper<Course> {
 
     @Update("UPDATE course SET price = #{price},vip_price = #{vipPrice},activity_price = #{activityPrice} WHERE flag = 0 AND id = #{id}  and uid = #{uid} ")
     int updatePrice1(long id, long uid, double price, double vipPrice, double activityPrice);
+
+
 }

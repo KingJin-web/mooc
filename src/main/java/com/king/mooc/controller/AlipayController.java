@@ -43,7 +43,7 @@ import java.util.Map;
 @Api(value = "支付宝沙箱支付接口", tags = "支付宝沙箱支付接口")
 public class AlipayController {
 
-    
+
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")
     @ApiImplicitParam(name = "money", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
