@@ -3,8 +3,6 @@ package com.king.mooc.util;
 
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class StringUtilsTest {
 
     @Test

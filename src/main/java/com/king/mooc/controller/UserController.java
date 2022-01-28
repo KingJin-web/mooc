@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -200,6 +200,7 @@ public class UserController {
             //修改电话
             StringUtils.isPhoneLegal(phone);
             user.setPhone(phone);
+            Assert.isNull("","");
 
             // 修改邮件
             if (!StringUtils.checkNull(email)) {

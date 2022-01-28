@@ -5,7 +5,6 @@ import com.csvreader.CsvReader;
 import com.king.mooc.entity.CourseVideo;
 import com.king.mooc.mapper.CourseVideoMapper;
 import com.king.mooc.util.RedisObjUtil;
-import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.UserVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 

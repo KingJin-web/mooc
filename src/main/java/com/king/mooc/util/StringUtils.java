@@ -1,9 +1,10 @@
 package com.king.mooc.util;
 
-import com.king.mooc.entity.CourseVideo;
+
+
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -15,7 +16,8 @@ import java.util.regex.Pattern;
  * @author: King
  * @create: 2021-10-02 19:59
  */
-public class StringUtils {
+public class StringUtils extends org.springframework.util.StringUtils {
+
     private StringUtils() {
     }
 

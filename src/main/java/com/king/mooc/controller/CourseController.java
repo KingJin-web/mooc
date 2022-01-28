@@ -1,13 +1,10 @@
 package com.king.mooc.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.CourseVideoService;
 import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
-import com.king.mooc.vo.CourseVo;
 import com.king.mooc.vo.ResultObj;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @program: mooc

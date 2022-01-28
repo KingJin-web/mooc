@@ -94,8 +94,8 @@ public class AlipayController {
     @ApiOperation(value = "支付", tags = "支付宝沙箱支付接口")
     @ApiImplicitParam(name = "id", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("开始处理OrderServlet的服务");
-        String title = "音乐网会员充值";
+        System.out.println("开始处理会员充值服务的服务");
+        String title = "会员充值";
         String total = request.getParameter("money");
         String message = "会员充值";
         AlipayConfig ac = new AlipayConfig();
