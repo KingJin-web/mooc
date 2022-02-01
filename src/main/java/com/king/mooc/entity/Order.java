@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -15,6 +16,19 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "order")
 public class Order {
+
+
+
+    public Order() {
+    }
+
+    public Order(Long uid, Long cid, BigDecimal price, Integer status) {
+        this.uid = uid;
+        this.cid = cid;
+        this.price = price;
+        this.status = status;
+    }
+
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
@@ -23,6 +37,9 @@ public class Order {
 
     @ApiModelProperty(value = "购买的课程id")
     private Long cid;
+
+    @ApiModelProperty(value = "实际付款价格")
+    private BigDecimal price;
 
     @ApiModelProperty(value = "支付状态")
     private Integer status;

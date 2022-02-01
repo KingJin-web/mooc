@@ -37,6 +37,11 @@ public class StringUtils extends org.springframework.util.StringUtils {
 
     }
 
+    /**
+     * 获得指定长度的随机整形数据
+     * @param ln
+     * @return
+     */
     public static String getInt(int ln) {
         Random random = new Random();
         char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
