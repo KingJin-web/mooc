@@ -3,6 +3,7 @@ package com.king.mooc.entity.enums;
 import com.baomidou.mybatisplus.annotation.IEnum;
 
 //订单状态枚举
+//https://baomidou.com/pages/8390a4/
 public enum State implements IEnum<Integer> {
 
     START("开始", 1),
@@ -28,6 +29,14 @@ public enum State implements IEnum<Integer> {
     @Override
     public Integer getValue() {
         return this.status;
+    }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "status=" + status +
+                ", text='" + text + '\'' +
+                "} " + super.toString();
     }
 }
 

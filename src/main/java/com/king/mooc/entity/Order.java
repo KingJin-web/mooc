@@ -1,6 +1,7 @@
 package com.king.mooc.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.king.mooc.entity.enums.State;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,11 +23,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long uid, Long cid, BigDecimal price, Integer status) {
+    public Order(Long uid, Long cid, BigDecimal price, State state) {
         this.uid = uid;
         this.cid = cid;
         this.price = price;
-        this.status = status;
+        this.state = state;
     }
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
@@ -42,7 +43,7 @@ public class Order {
     private BigDecimal price;
 
     @ApiModelProperty(value = "支付状态")
-    private Integer status;
+    private State state;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

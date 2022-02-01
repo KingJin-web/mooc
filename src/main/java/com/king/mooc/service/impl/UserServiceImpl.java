@@ -9,6 +9,7 @@ import com.king.mooc.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(String name, String password, String email) {
-        User user = User.builder().name(name).password(password).email(email).build();
+        User user = User.builder().name(name).password(password).email(email).balance(new BigDecimal(0)).build();
         userMapper.insert(user);
         return true;
     }
