@@ -1,6 +1,6 @@
 package com.king.mooc.service.impl;
 
-import com.king.mooc.entity.Order;
+import com.king.mooc.entity.Orders;
 import com.king.mooc.entity.enums.State;
 import com.king.mooc.mapper.OrderMapper;
 import com.king.mooc.service.OrderService;
@@ -23,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int creatOrder(Long uid, Long cid, BigDecimal price) {
-        Order order = new Order(uid, cid, price, State.START);
+        Orders order = new Orders(uid, cid, price, State.START);
         return orderMapper.insert(order);
 
     }

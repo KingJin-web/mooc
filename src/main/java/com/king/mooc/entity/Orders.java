@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
  * @create: 2021-12-31 01:36
  */
 @Data
-@TableName(value = "order")
-public class Order {
+@TableName(value = "orders")
+public class Orders {
 
 
 
-    public Order() {
+    public Orders() {
     }
 
-    public Order(Long uid, Long cid, BigDecimal price, State state) {
+    public Orders(Long uid, Long cid, BigDecimal price, State state) {
         this.uid = uid;
         this.cid = cid;
         this.price = price;
