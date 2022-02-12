@@ -138,13 +138,16 @@
                 let param = new URLSearchParams()
                 param.append('s', this.name)
                 param.append('password', this.password)
-                param.append('validate_code', this.validateCode)
+                param.append('validate_code', this.validateCode);
+                console.log(this.validateCode)
                 axios({
                     method: 'post',
                     url: url,
                     data: param
                 }).then(function (res) {
+
                     if (res.data.code === 0) {
+                        console.log("axios" + this.validateCode)
                         alertLayer(res.data.msg,"/api/user/getUser.do")
                     } else {
                         alertMy(res.data.msg)
