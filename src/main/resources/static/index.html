@@ -20,9 +20,19 @@
     <link href="lib/css/index.css" rel="stylesheet">
 </head>
 <body>
+
 <div id="main">index</div>
 </body>
 <script type="text/javascript">
+    // 百度统计
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
     const app = new Vue({
         el: "#main",
         data: {
