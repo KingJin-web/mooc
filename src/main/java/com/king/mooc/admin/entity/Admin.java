@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @TableName(value = "admin")
-public class admin {
+public class Admin {
     @TableId(value = "id", type = IdType.ASSIGN_ID)//指定自增策略
     private Long id;
     private String name;

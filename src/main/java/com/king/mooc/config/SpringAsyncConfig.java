@@ -35,6 +35,8 @@ public class SpringAsyncConfig {
         executor.setWaitForTasksToCompleteOnShutdown(true);
         //执行初始化
         executor.initialize();
+
+
         return executor;
     }
 }
