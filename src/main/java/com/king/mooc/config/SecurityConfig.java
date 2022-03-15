@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // url 拦截
         http.authorizeRequests()
                 .antMatchers("/login.html").permitAll() //login.html 不需要被认证
-                .antMatchers("/loginfail.html").permitAll() //loginfail.html 不需要被认证
+                .antMatchers("/register.html").permitAll() //register.html 不需要被认证
                 .antMatchers("/lib/**", "/layui/**", "/images/**", "/index.html","/**").permitAll()
                 .antMatchers("/doc.html","/api/**","/webjars/**","/v2/api-docs-ext?group=default").permitAll()
                 .anyRequest().authenticated();//所有的请求都必须被认证。必须登录 后才能访问。
