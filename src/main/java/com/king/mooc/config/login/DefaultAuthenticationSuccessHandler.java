@@ -47,7 +47,7 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
         logger.info(userLogMapper.save(log).toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResultObj.ok("登录成功！")));
-        response.setStatus(401);
+
 
 
     }

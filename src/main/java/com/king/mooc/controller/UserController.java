@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,91 +45,42 @@ public class UserController {
             @ApiImplicitParam(name = "validate_code", value = "注册验证码", dataType = "string", paramType = "query", example = "3679", required = true)
 
     })
-    public ResultObj register(String name, String pwd1, String pwd2, String email, String validate_code) {
-
+    public ResultObj register(String name, String pwd1, String pwd2, String emailOrPhone,
+                              String validate_code, HttpServletRequest request) {
         ResultObj result = new ResultObj();
         try {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
-            StringUtils.isEmail(email, "邮箱不合法！");
+            StringUtils.checkNull(emailOrPhone);
+
             if (userService.isUse("name", name)) {
-                result.setMsg("用户名已经被使用！");
-                return result;
+                return ResultObj.error("用户名已经被使用！");
             }
-            if (userService.isUse("email", email)) {
-                result.setMsg("此邮箱已经被注册！");
-                return result;
+            if (redisObjUtil.getUserVo(request.getSession().getId()).getValidateCode().equalsIgnoreCase(validate_code))
+                if (StringUtils.emailOrPhone(emailOrPhone)) {
+                    if (userService.isUse("email", emailOrPhone))
+                        return ResultObj.error("此邮箱已经被注册！");
+                    if (userService.registerByEmail(name, pwd1, emailOrPhone))
+                        return ResultObj.ok("注册成功！");
+                } else {
+                    if (userService.isUse("phone", emailOrPhone))
+                        return ResultObj.error("此电话已经被注册！");
+                    if (userService.registerByPhone(name, pwd1, emailOrPhone))
+                        return ResultObj.ok("注册成功！");
+                }
+            else {
+                return ResultObj.error("验证码错误！");
             }
-            if (userService.register(name, pwd1, email)) {
-                result.setCode(0);
-                result.setData(true);
-                result.setMsg("注册成功");
-            }
+
         } catch (MyException e) {
-            result.setMsg(e.getMessage());
+            return ResultObj.error(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            result.setMsg("系统错误请联系管理员！");
+            return ResultObj.error("系统错误请联系管理员！");
         }
         return result;
     }
 
-    @PostMapping(value = "/login.do")
-    @ApiOperation(value = "用户登录", tags = "用户操作接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "s", value = "用户名,或邮箱", dataType = "string", paramType = "query", example = "king", required = true),
-            @ApiImplicitParam(name = "password", value = "登录密码", dataType = "string", paramType = "query", example = "aaaa", required = true),
-            @ApiImplicitParam(name = "validate_code", value = "登录验证码", dataType = "string", paramType = "query", example = "3679", required = true)
-
-    })
-    public ResultObj login(HttpServletRequest req, String s, String password, String validate_code) {
-        ResultObj result = new ResultObj();
-        HttpSession session = req.getSession();
-        try {
-            System.out.println(s);
-            StringUtils.checkNull(s, "请输入用户名或者邮箱!");
-            StringUtils.pwdCheckNull(password);
-            StringUtils.checkNull(validate_code, "请输入验证码！");
-            UserVo userVo = redisObjUtil.getEntity(session.getId(), UserVo.class);
-            System.out.println("注册" + userVo);
-            boolean isLogin = false;
-            if (userVo.getValidateCode().equalsIgnoreCase(validate_code)) {
-                if (StringUtils.isEmail(s)) {
-                    User user = userService.loginByEmail(s, password);
-                    if (!StringUtils.checkNull(user)) {
-                        userVo.setUser(user);
-                        isLogin = true;
-                    }
-                } else {
-                    User user = userService.loginByName(s, password);
-                    if (!StringUtils.checkNull(user)) {
-                        userVo.setUser(user);
-                        isLogin = true;
-                    }
-                }
-                if (isLogin) {
-                    System.out.println(userVo);
-                    redisObjUtil.setEntity(req.getSession().getId(), 30, userVo);
-                    result.setMsg("登录成功！");
-                    result.setCode(0);
-                    result.setData(userVo);
-                } else {
-                    result.setMsg("登录失败用户名或密码错误！");
-                }
-
-            } else {
-                result.setMsg("验证码错误！");
-            }
-
-        } catch (MyException e) {
-            result.setMsg(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setMsg("系统错误请联系管理员！");
-        }
-
-        return result;
-    }
 
     @PostMapping(value = "/nameIsUse.do")
     @ApiOperation(value = "用户名是否被使用", tags = "用户操作接口")
@@ -200,7 +150,6 @@ public class UserController {
             //修改电话
             StringUtils.isPhoneLegal(phone);
             user.setPhone(phone);
-            Assert.isNull("","");
 
             // 修改邮件
             if (!StringUtils.checkNull(email)) {

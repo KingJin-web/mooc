@@ -22,8 +22,7 @@
 </head>
 <body>
 
-
-<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;padding: 1px 0;">
     <ul class="slideshow">
         <li>
             <span>Summer</span>
@@ -78,7 +77,7 @@
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
                             <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid"
-                                    id="LAY-user-getsmscode" @click="v_code">获取验证码
+                                    id="LAY-user-getsmscode" @click="sendCode()">获取验证码
                             </button>
                         </div>
                     </div>
@@ -141,11 +140,11 @@
         },
         methods: {
             //发送验证码
-            v_code: function () {
-                let url = "/api/mail/register.do";
+            sendCode: function () {
+                let url = "/api/verify/sendRegisterCode.do";
                 let param = new URLSearchParams()
-                param.append('name', this.name)
-                param.append('email', this.email)
+                param.append('username', this.name)
+                param.append('emailOrPhone', this.email)
                 axios({
                     method: 'post',
                     url: url,
@@ -162,10 +161,10 @@
                 });
             },
             register: function () {
-                if (!$("input[type='checkbox']").is(':checked')) {
-                    alertMy("请阅读并同意用户协议");
-                    return;
-                }
+                // if (!$("input[type='checkbox']").is(':checked')) {
+                //     alertMy("请阅读并同意用户协议");
+                //     return;
+                // }
                 if (this.pwd1 !== this.pwd2) {
                     alertMy("密码不一致");
                     return;
@@ -175,14 +174,14 @@
                 param.append('name', this.name)
                 param.append('pwd1', this.pwd1)
                 param.append('pwd2', this.pwd2)
-                param.append('email', this.email)
+                param.append('emailOrPhone', this.email)
                 param.append('validate_code', this.vcode)
                 axios({
                     method: 'post',
                     url: url,
                     data: param
                 }).then(function (res) {
-                    if (res.data.code === 0) {
+                    if (res.data.code === 1) {
                         alertLayer(res.data.msg,"/api/user/getUser.do")
                     } else {
                         alertMy(res.data.msg)

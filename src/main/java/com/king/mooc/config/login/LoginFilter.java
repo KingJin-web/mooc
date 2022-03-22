@@ -1,5 +1,8 @@
 package com.king.mooc.config.login;
 
+import com.alibaba.fastjson.JSON;
+import com.king.mooc.util.RedisObjUtil;
+import com.king.mooc.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class LoginFilter extends OncePerRequestFilter {
     @Autowired
     private DefaultAuthenticationFailureHandler authenticationFailureHandler;
 
+    @Autowired
+    RedisObjUtil redisObjUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -45,18 +51,22 @@ public class LoginFilter extends OncePerRequestFilter {
     }
 
     public void validate(HttpServletRequest request, HttpServletResponse response) throws ValidateCodeException {
+        logger.info(request.toString());
+        logger.info(JSON.toJSONString(request.getParameterMap()));
         //请求中传来的验证码
         String code = request.getParameter("login_code");
         //session 存储的验证码
-        String session_Code = (String) request.getSession().getAttribute("login_code");
-        logger.info("用户输入验证码：{}========session中存的验证码：{}", code, session_Code);
+        UserVo userVo = redisObjUtil.getEntity(request.getSession().getId(), UserVo.class);
+
+        String redis_Code = userVo.getValidateCode();
+        logger.info("用户输入验证码：{}========redis中存的验证码：{}", code, redis_Code);
         if (StringUtils.isEmpty(code)) {
             throw new ValidateCodeException("验证码不能为空！");
         }
-        if (StringUtils.isEmpty(session_Code)) {
+        if (StringUtils.isEmpty(redis_Code)) {
             throw new ValidateCodeException("验证码已经失效！");
         }
-        if (!session_Code.equalsIgnoreCase(code)) {
+        if (!redis_Code.equalsIgnoreCase(code)) {
             throw new ValidateCodeException("验证码输入错误！");
         }
 
@@ -67,9 +77,7 @@ public class LoginFilter extends OncePerRequestFilter {
      * 验证码错误异常，继承spring security的认证异常
      */
     public static class ValidateCodeException extends AuthenticationException {
-        /**
-         * @Fields serialVersionUID : TODO
-         */
+
         private static final long serialVersionUID = 1L;
 
         public ValidateCodeException(String msg) {

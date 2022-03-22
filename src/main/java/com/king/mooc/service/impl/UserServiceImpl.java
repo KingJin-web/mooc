@@ -2,11 +2,17 @@ package com.king.mooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.king.mooc.entity.User;
+import com.king.mooc.entity.enums.Role;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.MyException;
 import com.king.mooc.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,11 +23,49 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
-    public boolean register(String name, String password, String email) {
+    public boolean registerByEmail(String name, String password, String email) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        password = encoder.encode(password);
         User user = User.builder().name(name).password(password).email(email).balance(new BigDecimal(0)).build();
         userMapper.insert(user);
         return true;
+    }
+
+    @Override
+    public boolean registerByPhone(String name, String password, String phone) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        password = encoder.encode(password);
+        User user = User.builder().name(name).password(password).phone(Long.parseLong(phone)).balance(new BigDecimal(0)).build();
+        userMapper.insert(user);
+        return true;
+    }
+
+
+    /**
+     * 判断用户名是否被使用
+     *
+     * @param name
+     * @return
+     */
+    public boolean isUserName(String name) {
+        return userMapper.selectCountByName(name) >= 1;
+    }
+
+    /**
+     * 注册 密码为加密后的
+     *
+     * @param name
+     * @param pwd
+     * @return
+     */
+    public int registerByEncode(String name, String pwd, String phone, Role role) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        pwd = encoder.encode(pwd);
+        return userMapper.insert(User.builder().name(name).phone(Long.parseLong(phone)).password(pwd).role(role).build());
+
     }
 
     @Override
@@ -80,6 +124,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userMapper.selectList(null);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = userMapper.findOneByName(name);
+        if (user == null) {
+            throw new UsernameNotFoundException("此用户不存在");
+        }
+        logger.info("{}登录了", user);
+        return user;
     }
 
 }

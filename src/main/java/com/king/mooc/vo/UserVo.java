@@ -4,11 +4,14 @@ import com.king.mooc.entity.User;
 import com.king.mooc.util.TimeUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * @program: mooc
@@ -17,6 +20,8 @@ import java.time.temporal.ChronoUnit;
  * @create: 2021-10-06 15:08
  */
 @Data
+@Builder
+@AllArgsConstructor
 @ApiModel(value = "用户响应类")
 public class UserVo {
     //用户id
@@ -40,7 +45,10 @@ public class UserVo {
     private String validateCode;
     @ApiModelProperty(value = "会员剩余时间")
     private String vipTime;
-
+//    @ApiModelProperty(value = "短信验证码")
+//    private String smsCode;
+    //验证码发送时间
+    private Date code_date;
     @ApiModelProperty("会员到期时间")
     private LocalDateTime vipEndTime;
     @ApiModelProperty("提示词")

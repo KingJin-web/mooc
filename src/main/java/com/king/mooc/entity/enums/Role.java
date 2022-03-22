@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 
 public enum Role implements IEnum<Integer> {
-    //这里为啥要加 ROLE_ ?
+
     ADMIN(1, "ROLE_ADMIN"),
     USER(2, "ROLE_USER"),
     TEMP(3, "ROLE_TEMP");

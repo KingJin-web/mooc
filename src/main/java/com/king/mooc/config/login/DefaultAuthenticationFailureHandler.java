@@ -42,7 +42,7 @@ public class DefaultAuthenticationFailureHandler extends SimpleUrlAuthentication
         } else if (e instanceof CredentialsExpiredException) {
             resultObj = ResultObj.error("账户已过期，登录失败！");
         } else {
-            resultObj = ResultObj.error("登录失败！");
+            resultObj = ResultObj.error(e.getMessage());
         }
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(resultObj));
