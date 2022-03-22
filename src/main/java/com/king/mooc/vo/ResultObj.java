@@ -21,4 +21,39 @@ public class ResultObj {
     private Integer count;
     @ApiModelProperty(value = "解析数据列表")
     private Object data;
+
+    public ResultObj() {
+
+    }
+
+    public static ResultObj error() {
+        return error(0, "操作失败");
+    }
+
+    public static ResultObj error(String msg) {
+        return error(0, msg);
+    }
+
+    public static ResultObj error(int code, String msg) {
+        ResultObj r = new ResultObj();
+        r.code = code;
+        r.msg = msg;
+        return r;
+    }
+
+    public static ResultObj ok(ResultObj resultObj) {
+        return resultObj;
+    }
+
+    public static ResultObj ok() {
+        return ok("成功！");
+    }
+
+    public static ResultObj ok(String msg) {
+        ResultObj r = new ResultObj();
+        r.code = 1;
+        r.msg = msg;
+        return r;
+    }
+
 }

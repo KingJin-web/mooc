@@ -3,22 +3,21 @@ package com.king.mooc.entity.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 
-//订单状态枚举
-//https://baomidou.com/pages/8390a4/
-public enum State implements IEnum<Integer> {
-
-    START("开始", 1),
-    ERROR("订单错误", -1),
-    END("订单结束", 2);
+public enum Role implements IEnum<Integer> {
+    //这里为啥要加 ROLE_ ?
+    ADMIN(1, "ROLE_ADMIN"),
+    USER(2, "ROLE_USER"),
+    TEMP(3, "ROLE_TEMP");
 
     @EnumValue
     private final Integer status;
     private final String text;
 
-    State(String text, Integer status) {
+    Role(Integer status, String text) {
         this.status = status;
         this.text = text;
     }
+
 
     public Integer getStatus() {
         return status;
@@ -32,13 +31,4 @@ public enum State implements IEnum<Integer> {
     public Integer getValue() {
         return this.status;
     }
-
-    @Override
-    public String toString() {
-        return "State{" +
-                "status=" + status +
-                ", text='" + text + '\'' +
-                "} " + super.toString();
-    }
 }
-

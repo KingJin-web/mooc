@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
@@ -78,6 +79,14 @@ public class MoocApplicationTests {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void main(String[] args) {
+        BigDecimal b1 = BigDecimal.valueOf(123.1243);
+        BigDecimal b2 = BigDecimal.valueOf(123.1243);
+        b1 = b1.add(b2);
+        System.out.println(b1);
 
     }
 
