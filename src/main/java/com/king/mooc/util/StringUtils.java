@@ -1,7 +1,6 @@
 package com.king.mooc.util;
 
 
-
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
@@ -37,8 +36,19 @@ public class StringUtils extends org.springframework.util.StringUtils {
 
     }
 
+    public static boolean emailOrPhone(String s) throws MyException {
+        if (isEmail(s)) {
+            return true;
+        } else if (isPhoneLegal(s)) {
+            return false;
+        } else {
+            throw new MyException("请输入正确的邮箱或者电话号码");
+        }
+    }
+
     /**
      * 获得指定长度的随机整形数据
+     *
      * @param ln
      * @return
      */

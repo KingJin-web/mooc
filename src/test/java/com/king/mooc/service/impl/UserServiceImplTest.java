@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 public class UserServiceImplTest {
 
@@ -16,7 +14,7 @@ public class UserServiceImplTest {
     @Test
     public void register() {
         try {
-            userService.register("king","aaa","a@qq.com");
+            userService.registerByEmail("king","aaa","a@qq.com");
         } catch (MyException e) {
             e.printStackTrace();
         }

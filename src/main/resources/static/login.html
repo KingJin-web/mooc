@@ -22,21 +22,31 @@
     <link href="lib/css/index.css" rel="stylesheet">
 </head>
 <style>
-    a{color:#00F}
+    a {
+        color: #00F
+    }
 
-    a:hover{color:#f00}/* 鼠标经过悬停字体颜色 */
+    a:hover {
+        color: #f00
+    }
+
+    /* 鼠标经过悬停字体颜色 */
 
     /* css 注释说明：以上代码为设置HTML中超链接统一字体颜色 */
 
-    .div a{color:#090}
+    .div a {
+        color: #090
+    }
 
-    .div a{color:#090}
+    .div a {
+        color: #090
+    }
 
     /* css注释说明：以上代码为设置HTML中.div对象内超链接字体颜色*/
 </style>
 <body>
 
-<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="padding: 1px 0;">
     <ul class="slideshow">
         <li>
             <span>Summer</span>
@@ -136,23 +146,22 @@
             login: function () {
                 let url = "/api/user/login.do";
                 let param = new URLSearchParams()
-                param.append('s', this.name)
+                param.append('username', this.name)
                 param.append('password', this.password)
-                param.append('validate_code', this.validateCode);
+                param.append('login_code', this.validateCode);
                 console.log(this.validateCode)
                 axios({
                     method: 'post',
                     url: url,
                     data: param
                 }).then(function (res) {
-
-                    if (res.data.code === 0) {
-                        console.log("axios" + this.validateCode)
-                        alertLayer(res.data.msg,"/api/user/getUser.do")
+                    console.log(res)
+                    if (res.data.code === 1) {
+                        alertLayer(res.data.msg,"index.html")
                     } else {
                         alertMy(res.data.msg)
                     }
-                    console.log(res);
+
                 }).catch(function (error) {
                     console.log(error);
                 });

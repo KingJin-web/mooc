@@ -2,11 +2,13 @@ package com.king.mooc.service;
 
 
 import com.king.mooc.entity.User;
+import com.king.mooc.entity.enums.Role;
 import com.king.mooc.util.MyException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     /**
      * 注册用户
      *
@@ -16,8 +18,9 @@ public interface UserService {
      * @return
      * @throws MyException
      */
-    boolean register(String name, String password, String email) throws MyException;
+    boolean registerByEmail(String name, String password, String email) throws MyException;
 
+    boolean registerByPhone(String name, String password, String email) throws MyException;
     /**
      * 用户名是否被使用
      *
@@ -25,6 +28,10 @@ public interface UserService {
      * @return 被使用返回 ture 没有使用返回 false
      */
     boolean nameIsUse(String name) throws MyException;
+
+    boolean isUserName(String name);
+
+    int registerByEncode(String name, String pwd, String phone, Role role);
 
     /**
      * 指定字段是否被使用
@@ -73,6 +80,7 @@ public interface UserService {
 
     /**
      * 成为分享者
+     *
      * @param user
      * @return
      */

@@ -56,6 +56,27 @@ public class User implements Serializable, UserDetails {
     //用户权限
     private Role role;
 
+    public User() {
+
+    }
+
+    public User(Long id, String name, String password, String headImg, String email, Long phone, Integer isShare, BigDecimal balance, Integer version, LocalDateTime vipTime, Integer flag, LocalDateTime createTime, LocalDateTime updateTime, Role role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.headImg = headImg;
+        this.email = email;
+        this.phone = phone;
+        this.isShare = isShare;
+        this.balance = balance;
+        this.version = version;
+        this.vipTime = vipTime;
+        this.flag = flag;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //角色列表
