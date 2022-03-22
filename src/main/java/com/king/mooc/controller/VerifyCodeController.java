@@ -44,9 +44,16 @@ public class VerifyCodeController {
 
     @ApiOperation(value = "获取登录图形验证码", tags = "图形验证码接口")
     @GetMapping(value = "/login.png")
-    public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession();
-        redisObjUtil.setEntity(session.getId(), 30, new UserVo(VerifyCodeGen.outputImage(resp)));
+    public void login(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            HttpSession session = req.getSession();
+            String code = VerifyCodeGen.outputImage(resp);
+            redisObjUtil.setEntity(session.getId(), 30, UserVo.builder().validateCode(code).build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(e.getMessage());
+        }
+
     }
 
     @Autowired

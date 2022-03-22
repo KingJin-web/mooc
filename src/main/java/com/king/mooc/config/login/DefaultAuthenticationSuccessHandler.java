@@ -3,8 +3,11 @@ package com.king.mooc.config.login;
 import com.alibaba.fastjson.JSON;
 import com.king.mooc.entity.User;
 import com.king.mooc.entity.UserLog;
+import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.mapper.mongodb.UserLogMapper;
+import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.vo.ResultObj;
+import com.king.mooc.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +35,11 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    UserLogMapper userLogMapper;
-
+    private UserLogMapper userLogMapper;
+    @Autowired
+    private RedisObjUtil redisObjUtil;
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -45,14 +51,17 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
 
         logger.info("----login in succcess----");
         logger.info(userLogMapper.save(log).toString());
+        user = userMapper.findOneByName(user.getName());
+        UserVo userVo = new UserVo().setUser(user);
+        System.out.println(userVo);
+        redisObjUtil.setEntity(request.getSession().getId(),60,userVo);
+        UserVo userVo1 = new UserVo(user);
+        logger.info(userVo1.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResultObj.ok("登录成功！")));
 
 
-
     }
-
-
 
 
     public static String getIpAddress(HttpServletRequest request) {

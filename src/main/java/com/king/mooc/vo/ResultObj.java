@@ -45,6 +45,13 @@ public class ResultObj {
         return resultObj;
     }
 
+    public static ResultObj ok(Object o) {
+        ResultObj r = new ResultObj();
+        r.code = 1;
+        r.data = o;
+        return r;
+    }
+
     public static ResultObj ok() {
         return ok("成功！");
     }

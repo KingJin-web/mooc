@@ -45,17 +45,16 @@ public class UserVo {
     private String validateCode;
     @ApiModelProperty(value = "会员剩余时间")
     private String vipTime;
-//    @ApiModelProperty(value = "短信验证码")
-//    private String smsCode;
-    //验证码发送时间
+    @ApiModelProperty("验证码发送时间")
     private Date code_date;
     @ApiModelProperty("会员到期时间")
     private LocalDateTime vipEndTime;
     @ApiModelProperty("提示词")
     private String msg;
 
+
     public UserVo() {
-        System.out.println("无参构造方法");
+        System.out.println("UserVo无参构造方法");
     }
 
     public UserVo(UserVo user) {
@@ -66,22 +65,23 @@ public class UserVo {
         this.headImg = user.getHeadImg();
         this.balance = user.getBalance();
         this.isShare = user.getIsShare();
-        if (user.vipEndTime != null){
+        if (user.vipEndTime != null) {
             this.isVip = user.vipEndTime.isAfter(LocalDateTime.now());
-            if (this.isVip){
+            if (this.isVip) {
                 this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.vipEndTime));
-            }else {
+            } else {
                 this.vipTime = null;
-                this.msg= "您的会员已经到期！";
+                this.msg = "您的会员已经到期！";
             }
 
         }
     }
+
     public UserVo(User user) {
         setUser(user);
     }
 
-    public void setUser(User user) {
+    public UserVo setUser(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
@@ -94,7 +94,7 @@ public class UserVo {
         if (isVip) {
             this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getVipTime()));
         }
-
+        return this;
     }
 
     public UserVo(String validateCode) {
