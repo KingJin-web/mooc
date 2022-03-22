@@ -28,8 +28,7 @@ public class DefaultAuthenticationFailureHandler extends SimpleUrlAuthentication
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        AuthenticationException e) throws IOException,
-            ServletException {
+                                        AuthenticationException e) throws IOException {
         logger.info("login in failure : " + e.getMessage());
         ResultObj resultObj = new ResultObj();
         if (e instanceof LockedException) {
