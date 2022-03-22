@@ -4,6 +4,7 @@ package com.king.mooc.service;
 import com.king.mooc.entity.User;
 import com.king.mooc.entity.enums.Role;
 import com.king.mooc.util.MyException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public interface UserService extends UserDetailsService {
     boolean registerByEmail(String name, String password, String email) throws MyException;
 
     boolean registerByPhone(String name, String password, String email) throws MyException;
+
     /**
      * 用户名是否被使用
      *
@@ -87,5 +89,11 @@ public interface UserService extends UserDetailsService {
     User ToBeShare(User user);
 
     List<User> getAll();
+
+    public User queryByName(String name);
+
+    User getLoginUser();
+
+    void setLoginUser(UserDetails userDetails);
 }
 

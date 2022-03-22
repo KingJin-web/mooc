@@ -42,6 +42,12 @@ public class RedisObjUtil {
         redisTemplate.opsForValue().set(key, o, time, TimeUnit.MINUTES);
     }
 
+    public void setUserVo(String key, long time, UserVo o) {
+        redisTemplate.opsForValue().set(key, o, time, TimeUnit.MINUTES);
+    }
+    public void setUserVo(String key, UserVo o) {
+        redisTemplate.opsForValue().set(key, o, 30, TimeUnit.MINUTES);
+    }
     /**
      * 更新过期时间
      * @param key

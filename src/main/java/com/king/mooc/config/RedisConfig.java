@@ -25,6 +25,7 @@ public class  RedisConfig {
         //打开autotype功能,需要强转的类一次添加其后
         ParserConfig.getGlobalInstance()
                 .addAccept("com.king.mooc.vo.UserVo");
+
     }
 
     @Bean

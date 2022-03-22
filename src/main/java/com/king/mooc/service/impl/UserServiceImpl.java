@@ -10,6 +10,8 @@ import com.king.mooc.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -107,6 +109,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User queryByName(String name) {
+        return userMapper.findOneByName(name);
+    }
+
+    @Override
     public int deleteById(User user) {
         return 0;
     }
@@ -134,6 +141,20 @@ public class UserServiceImpl implements UserService {
         }
         logger.info("{}登录了", user);
         return user;
+    }
+
+    public User getLoginUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    /**
+     * 设置当前登录用户，保存 或 更新登录信息
+     *
+     * @param userDetails
+     */
+    public void setLoginUser(UserDetails userDetails) {
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities()));
     }
 
 }

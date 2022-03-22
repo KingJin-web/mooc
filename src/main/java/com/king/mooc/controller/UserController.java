@@ -1,6 +1,7 @@
 package com.king.mooc.controller;
 
 import com.king.mooc.entity.User;
+import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.*;
 import com.king.mooc.vo.ResultObj;
@@ -9,7 +10,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +35,10 @@ import java.util.List;
 @Api(value = "用户操作接口", tags = "用户操作接口")
 public class UserController {
     @Autowired
-    UserService userService;
-
+    private UserService userService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    RedisObjUtil redisObjUtil;
+    private RedisObjUtil redisObjUtil;
 
     @PostMapping(value = "/register.do")
     @ApiOperation(value = "注册用户", tags = "用户操作接口")
@@ -47,7 +52,6 @@ public class UserController {
     })
     public ResultObj register(String name, String pwd1, String pwd2, String emailOrPhone,
                               String validate_code, HttpServletRequest request) {
-        ResultObj result = new ResultObj();
         try {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
@@ -78,7 +82,7 @@ public class UserController {
             e.printStackTrace();
             return ResultObj.error("系统错误请联系管理员！");
         }
-        return result;
+        return ResultObj.error("登录失败！");
     }
 
 
@@ -119,18 +123,16 @@ public class UserController {
     public ResultObj getUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
-            HttpSession session = req.getSession();
-            UserVo userVo = redisObjUtil.getUserVo(session.getId());
-            if (StringUtils.checkNull(userVo) || StringUtils.checkNull(userVo.getId())) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (StringUtils.checkNull(user) || StringUtils.checkNull(user.getId())) {
                 result.setCode(1);
                 result.setMsg("请先登录！");
-                resp.sendRedirect("/login.html");
+                resp.sendRedirect("/login");
             } else {
-                userVo = new UserVo(userVo);
+                UserVo userVo = new UserVo(user);
                 result.setCode(0);
                 result.setData(userVo);
             }
-            redisObjUtil.expire(session.getId());
         } catch (Exception e) {
             result.setCode(1);
             result.setMsg("系统错误！");
@@ -139,9 +141,37 @@ public class UserController {
         return result;
     }
 
+    @GetMapping(value = "/getLoginUser.do")
+    @ApiOperation(value = "获取登录用户信息2", tags = "用户操作接口")
+    public ResultObj getLoginUser(HttpServletRequest req, HttpServletResponse resp) {
+        return ResultObj.ok(userService.getLoginUser());
+    }
+
+    @GetMapping(value = "/refreshUser.do")
+    @ApiOperation(value = "刷新当前登录的用户信息", tags = "用户操作接口")
+    public ResultObj refreshUser(HttpServletRequest req, HttpServletResponse resp) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ResultObj result = new ResultObj();
+        try {
+            user = userService.queryByName(user.getName());
+            userService.setLoginUser(user);
+            logger.info(user.toString());
+//            redisObjUtil.setEntity(userVo.getId().toString(), 30, userVo);
+            result.setCode(0);
+            result.setData( new UserVo(user));
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMsg("系统错误！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
-    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email, @RequestParam("file") MultipartFile file) {
+    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email,
+                                @RequestParam("file") MultipartFile file) {
         ResultObj result = new ResultObj();
         try {
             HttpSession session = req.getSession();
@@ -192,23 +222,6 @@ public class UserController {
             result.setCode(0);
             result.setCount(list.size());
             result.setData(list);
-        } catch (Exception e) {
-            result.setCode(1);
-            result.setMsg("系统错误！");
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @GetMapping(value = "/refreshUser.do")
-    @ApiOperation(value = "刷新当前登录的用户信息", tags = "用户操作接口")
-    public ResultObj refreshUser(HttpServletRequest req, HttpServletResponse resp) {
-        ResultObj result = new ResultObj();
-        try {
-            HttpSession session = req.getSession();
-            UserVo userVo = new UserVo(userService.queryById(redisObjUtil.getEntity(session.getId(), UserVo.class).getId()));
-            redisObjUtil.setEntity(req.getSession().getId(), 30, userVo);
-            result.setCode(0);
         } catch (Exception e) {
             result.setCode(1);
             result.setMsg("系统错误！");

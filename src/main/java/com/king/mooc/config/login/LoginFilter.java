@@ -56,8 +56,11 @@ public class LoginFilter extends OncePerRequestFilter {
         //请求中传来的验证码
         String code = request.getParameter("login_code");
         //session 存储的验证码
-        UserVo userVo = redisObjUtil.getEntity(request.getSession().getId(), UserVo.class);
-
+        UserVo userVo = redisObjUtil.getUserVo(request.getSession().getId());
+        if (userVo == null){
+            throw new ValidateCodeException("为空！");
+        }
+        System.out.println(userVo);
         String redis_Code = userVo.getValidateCode();
         logger.info("用户输入验证码：{}========redis中存的验证码：{}", code, redis_Code);
         if (StringUtils.isEmpty(code)) {
