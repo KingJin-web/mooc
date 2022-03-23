@@ -1,6 +1,7 @@
 package com.king.mooc.util;
 
 
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
@@ -19,7 +20,9 @@ public class StringUtils extends org.springframework.util.StringUtils {
 
     private StringUtils() {
     }
-
+    public static boolean isEmpty(@Nullable Object str) {
+        return (str == null || "".equals(str));
+    }
     /**
      * 将string转double转失败返回0
      *
@@ -42,7 +45,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
         } else if (isPhoneLegal(s)) {
             return false;
         } else {
-            throw new MyException("请输入正确的邮箱或者电话号码");
+            throw new MyException("请输入正确的邮箱或者电话号码！");
         }
     }
 

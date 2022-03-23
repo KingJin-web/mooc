@@ -69,41 +69,38 @@ public class VerifyCodeController {
     @PostMapping("/sendRegisterCode.do")
     public ResultObj sendRegisterCode(String emailOrPhone, String username, HttpServletRequest request) {
         try {
-            StringUtils.checkNull(emailOrPhone);
+            StringUtils.checkNull(emailOrPhone, "请输入邮箱或者电话号码");
             HttpSession session = request.getSession();
-            UserVo userVo = redisObjUtil.getUserVo(session.getId());
-            Date lastDate = new Date(new Date().getTime() - 1000 * 120);
-            if (userVo != null) {
-                lastDate = userVo.getCode_date();
-            }
-
-            String code = StringUtils.getInt(6);
-            logger.info("验证码: " + code + "username: " + username + " " + emailOrPhone);
+            Date lastDate = (Date) session.getAttribute("code_date");
             if (lastDate != null && (new Date().getTime() - lastDate.getTime()) < (1000 * 120)) {
                 return ResultObj.error("别点了，等" + (120 - ((new Date().getTime() - lastDate.getTime()) / 1000)) + "秒后再点");
             } else {
-                //存验证码到session 存当前时间到session
-                redisObjUtil.setEntity(session.getId(), 30, UserVo.builder().validateCode(code).code_date(new Date()).build());
-
+                String code = StringUtils.getInt(6);
+                session.setAttribute("code", code);//存验证码到session
+                StringUtils.nameCheckNull(username);
                 if (StringUtils.emailOrPhone(emailOrPhone)) {
                     if (userService.isUse("email", emailOrPhone)) {
                         return ResultObj.error("此邮箱已经被注册！");
                     }
-                    StringUtils.nameCheckNull(username);
-                    MailVo mailVo = new MailVo("3098629064@qq.com",
-                            emailOrPhone, "注册验证码", code, username);
+                    MailVo mailVo = new MailVo("3098629064@qq.com", emailOrPhone, "注册验证码", code, username);
                     mailService.sendMail(mailVo, false);
+                    session.setAttribute("code_date", new Date());//存当前时间到session
                     return ResultObj.ok("发送成功");
                 } else {
-                    if (userService.isUse("phone", emailOrPhone))
+                    if (userService.isUse("phone", emailOrPhone)) {
                         return ResultObj.error("此电话已经被注册！");
+                    }
+                    session.setAttribute("code_date", new Date());//存当前时间到session
                     return ResultObj.ok(txSmsService.sendSmsCode(emailOrPhone, code));
                 }
-
             }
+
 
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return ResultObj.error("系统错误请联系管理员！");
         }
     }
 }
