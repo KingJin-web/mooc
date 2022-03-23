@@ -60,11 +60,10 @@
                        v-model="name">
             </div>
             <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-email"
+                <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone-fine"
                        for="LAY-user-login-cellemail"></label>
-                <input type="text" name="cellemail" id="LAY-user-login-cellemail" lay-verify="email" placeholder="邮箱"
-                       class="layui-input"
-                       v-model="email">
+                <input id="cv-account" id="LAY-user-login-cellemail"  v-model="email" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+
             </div>
             <div class="layui-form-item">
                 <div class="layui-row">

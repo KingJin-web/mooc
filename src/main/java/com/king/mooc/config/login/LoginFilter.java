@@ -2,13 +2,13 @@ package com.king.mooc.config.login;
 
 import com.alibaba.fastjson.JSON;
 import com.king.mooc.util.RedisObjUtil;
+import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -57,7 +57,7 @@ public class LoginFilter extends OncePerRequestFilter {
         String code = request.getParameter("login_code");
         //session 存储的验证码
         UserVo userVo = redisObjUtil.getUserVo(request.getSession().getId());
-        if (userVo == null){
+        if (userVo == null) {
             throw new ValidateCodeException("为空！");
         }
         System.out.println(userVo);

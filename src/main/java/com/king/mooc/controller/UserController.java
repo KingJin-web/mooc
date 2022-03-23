@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -55,12 +56,16 @@ public class UserController {
         try {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
-            StringUtils.checkNull(emailOrPhone);
-
+            StringUtils.checkNull(emailOrPhone,"请输入邮箱或者电话号码");
+            HttpSession session = request.getSession();
             if (userService.isUse("name", name)) {
                 return ResultObj.error("用户名已经被使用！");
             }
-            if (redisObjUtil.getUserVo(request.getSession().getId()).getValidateCode().equalsIgnoreCase(validate_code))
+            String code = (String) session.getAttribute("code");
+            if (StringUtils.checkNull(code)){
+                return ResultObj.error("请先获取验证码！");
+            }
+            if (code.equalsIgnoreCase(validate_code))
                 if (StringUtils.emailOrPhone(emailOrPhone)) {
                     if (userService.isUse("email", emailOrPhone))
                         return ResultObj.error("此邮箱已经被注册！");
@@ -118,8 +123,10 @@ public class UserController {
         return result;
     }
 
+
     @GetMapping(value = "/getUser.do")
     @ApiOperation(value = "获取登录用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj getUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
@@ -143,12 +150,14 @@ public class UserController {
 
     @GetMapping(value = "/getLoginUser.do")
     @ApiOperation(value = "获取登录用户信息2", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj getLoginUser(HttpServletRequest req, HttpServletResponse resp) {
         return ResultObj.ok(userService.getLoginUser());
     }
 
     @GetMapping(value = "/refreshUser.do")
     @ApiOperation(value = "刷新当前登录的用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj refreshUser(HttpServletRequest req, HttpServletResponse resp) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ResultObj result = new ResultObj();
@@ -170,6 +179,7 @@ public class UserController {
 
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email,
                                 @RequestParam("file") MultipartFile file) {
         ResultObj result = new ResultObj();
@@ -214,11 +224,11 @@ public class UserController {
 
     @GetMapping(value = "/getAllUser.do")
     @ApiOperation(value = "获取全部用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResultObj getAllUser(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
             List<User> list = userService.getAll();
-
             result.setCode(0);
             result.setCount(list.size());
             result.setData(list);
@@ -233,6 +243,7 @@ public class UserController {
 
     @GetMapping(value = "/logout.do")
     @ApiOperation(value = "退出登录", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj logout(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {

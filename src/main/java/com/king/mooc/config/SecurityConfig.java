@@ -94,10 +94,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/cart.html","/place_order.html",
-                        "/user_center_info.html","user_center_order.html","user_center_site.html").hasAnyRole("USER","ADMIN") //添加/user/** 下的所有请求只能由user角色才能访问
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN") //添加/user/** 下的所有请求只能由user角色才能访问
                 .antMatchers("/admin/**").hasRole("ADMIN"); //添加/admin/** 下的所有请求只能由admin角色才能访问
 //                .anyRequest().authenticated(); // 没有定义的请求，所有的角色都可以访问（temp也可以）。
+
+        //以下这句就可以控制单个用户只能创建一个session，也就只能在服务器登录一次
+        http.sessionManagement().maximumSessions(1).expiredUrl("/login");
         // 指定指定要的登录页面
         http.formLogin().loginPage("/login").loginProcessingUrl("/api/user/login.do")
                 .successHandler(defaultAuthenticationSuccessHandler)
