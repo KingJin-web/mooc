@@ -20,9 +20,35 @@ public class StringUtils extends org.springframework.util.StringUtils {
 
     private StringUtils() {
     }
-    public static boolean isEmpty(@Nullable Object str) {
+
+    /**
+     * 用户电话号码的打码隐藏加星号加*
+     *
+     * @return 处理完成的身份证
+     */
+    public static String phoneMask(String phone) {
+        if (isEmpty(phone) || isHKPhoneLegal(phone) || phone.equals("null")) {
+            return " ";
+        } else if (isChinaPhoneLegal(phone)) {
+            StringBuilder stringBuilder = new StringBuilder(phone);
+            return stringBuilder.replace(3, 7, "****").toString();
+        }
+
+        return phone;
+    }
+
+    public static String mailMask(String str) {
+        if (checkNull(str)) {
+            return " ";
+        }
+        return str.replaceAll(str.substring(4, str.lastIndexOf("@")), "*****");
+
+    }
+
+    public static boolean isEmpty(@Nullable String str) {
         return (str == null || "".equals(str));
     }
+
     /**
      * 将string转double转失败返回0
      *

@@ -17,7 +17,6 @@ public class RedisObjUtilTest {
     public void setEntity(){
         UserVo userVo = new UserVo();
         userVo.setEmail("123456789@qq.com");
-        userVo.setPhone(12345678941L);
         userVo.setId(1L);
         userVo.setName("test");
         userVo.setHeadImg("F:\\Downloads\\1.jpg");

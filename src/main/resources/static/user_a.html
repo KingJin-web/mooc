@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN-Hans">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="csrf-token" content="1/tkjQ1Md800crK63Hp5mu5ZWcZ8Zc8/5GmQObN4JFIsgbT+kTIPew==">
+  <title>用户中心 - 云课堂</title>
+  <link rel="shortcut icon"
+        href="https://course-1255691183.file.myqcloud.com/static/favicon.ico?v=1647162472">
+  <link rel="preload" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.woff2" as="font" type="font/woff2"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
+  <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="lib/css/home.css">
+  <script type="text/javascript" src="lib/vue.js"></script>
+  <script type="text/javascript" src="lib/axios.js"></script>
+<!--  <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>-->
+  <script type="text/javascript" src="layui/layui.js"></script>
+</head>
+<body class="main">
+<div id="userpage">
+  <div id="header">
+    <div class="logo">
+      <img src="https://course-1255691183.file.myqcloud.com/static/logo.png"/></div>
+
+    <div class="top-nav">
+      <ul class="layui-nav">
+        <li class="layui-nav-item">
+          <a href="/" class="nav-1" target="_self">首页</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="/course/list" class="nav-2" target="_self">课程</a>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="user">
+      <ul class="layui-nav">
+        <li class="layui-nav-item">
+          <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span
+                  id="notify-dot"></span></a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:">酷瓜云课堂</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/user/user.html">我的主页</a></dd>
+            <dd><a href="/user/user.html">用户中心</a></dd>
+            <dd><a href="/logout">退出登录</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="main" class="layui-main">
+
+
+    <div class="layout-main clearfix">
+      <div class="my-sidebar">
+
+        <div class="my-profile-card wrap">
+          <div class="avatar">
+            <img class="my-avatar"
+                 src="https://course-1255691183.file.myqcloud.com/img/avatar/20210214084718217596.jpeg"
+                 alt="酷瓜云课堂">
+          </div>
+          <div class="name"> {{user.name}}
+            <a class="layui-badge layui-bg-orange" title="到期时间：2022-11-24"
+               href="">会员</a>
+          </div>
+        </div>
+
+        <div class="layui-card">
+
+          <div class="layui-card">
+            <div class="layui-card-header">个人设置</div>
+            <div class="layui-card-body">
+              <ul class="my-menu">
+                <li><a href="/user/user.html">个人信息</a></li>
+                <li><a href="/user/account">帐号安全</a></li>
+                <li><a href="/user/subscribe">关注订阅</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="layui-card-header">课程中心</div>
+          <div class="layui-card-body">
+            <ul class="my-menu">
+              <li><a href="/uc/courses">我的课程</a></li>
+              <li><a href="/uc/reviews">我的评价</a></li>
+              <li><a href="/uc/consults">我的咨询</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="layui-card">
+          <div class="layui-card-header">内容中心</div>
+          <div class="layui-card-body">
+            <ul class="my-menu">
+              <li><a href="/uc/articles">我的文章</a></li>
+              <li><a href="/uc/questions">我的提问</a></li>
+              <li><a href="/uc/answers">我的回答</a></li>
+              <li><a href="/uc/favorites">我的收藏</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="layui-card">
+          <div class="layui-card-header">订单中心</div>
+          <div class="layui-card-body">
+            <ul class="my-menu">
+              <li><a href="/uc/orders">我的订单</a></li>
+              <li><a href="/uc/refunds">我的退款</a></li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="my-content">
+        <div class="wrap">
+          <div class="my-nav">
+            <span class="title">个人信息</span>
+          </div>
+          <form class="layui-form profile-form">
+            <div class="layui-form-item">
+              <label class="layui-form-label">头像</label>
+              <div class="layui-input-inline" style="width: 110px;">
+                <img id="img-avatar" class="my-avatar"
+                     :src="user.headImg">
+                <input type="hidden" name="avatar"
+                       value="https://course-1255691183.file.myqcloud.com/img/avatar/20210214084718217596.jpeg">
+              </div>
+              <div class="layui-input-inline" style="padding-top:35px;">
+                <button id="change-avatar" class="layui-btn layui-btn-sm" type="button">更换</button>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">昵称</label>
+              <div class="layui-input-block">
+                <input class="layui-input" type="text" name="name" value="酷瓜云课堂" lay-verify="required">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">性别</label>
+              <div class="layui-input-block">
+                <input type="radio" name="gender" value="1" title="男" checked>
+                <input type="radio" name="gender" value="2" title="女">
+                <input type="radio" name="gender" value="3" title="保密">
+              </div>
+            </div>
+            <div class="layui-form-item" id="area-picker" style="margin-bottom: 25px;">
+              <div class="layui-form-label">所在地</div>
+
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">简介</label>
+              <div class="layui-input-block">
+                <textarea class="layui-textarea" v-model="user.headImg" name="about" lay-verify="required">酷瓜云课堂（腾讯云版），依托腾讯云基础服务架构，采用C扩展PHP框架Phalcon开发，致力开源网课系统，开源网校系统，开源在线教育系统。</textarea>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block">
+                <button type="button" class="layui-btn" @click="getUser()">提交</button>
+                <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="footer">
+    <div class="layui-main">
+      <div class="row nav">
+        <a href="/page/about" target="_blank">关于我们</a>
+        <a href="/page/contact" target="_blank">联系我们</a>
+        <a href="/page/jobs" target="_blank">人才招聘</a>
+        <a href="/help" target="_blank">帮助中心</a>
+        <a href="/page/links" target="_blank">友情链接</a>
+      </div>
+      <div class="row copyright">
+        <span>&copy; 深圳市酷瓜软件有限公司</span>
+        <a href="https://koogua.com" title="酷瓜云课堂" target="_blank">Powered by CTC 1.5.１</a>
+        <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备18124674号-1</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502005963" target="_blank">粤公网安备44030502005963号</a>
+      </div>
+      <div class="row contact">
+        <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=286211774&site=qq&menu=yes"
+           title="客服QQ：286211774"><span class="iconfont icon-qq"></span></a>
+        <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
+        <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
+        <a class="weibo" href="https://weibo.com/u/5602325902" title="微博主页"><span
+                class="iconfont icon-weibo"></span></a>
+        <a class="zhihu" href="https://www.zhihu.com/people/xiaochong0302" title="知乎主页"><span
+                class="iconfont icon-zhihu"></span></a>
+        <a class="mail" href="mailto:286211774@qq.com" title="联系邮箱：286211774@qq.com"><span
+                class="iconfont icon-mail"></span></a>
+        <a class="phone" href="javascript:" title="联系电话：13507083515"><span
+                class="iconfont icon-phone"></span></a>
+        <a class="location"
+           href="https://map.baidu.com/search/深圳市南山区科发路1号富利臻大厦3409?querytype=s&wd=深圳市南山区科发路1号富利臻大厦3409"
+           title="联系地址：深圳市南山区科发路1号富利臻大厦3409"><span class="iconfont icon-location"></span></a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  const vue = new Vue({
+    el: '#userpage',
+    data: {
+      user: []
+    },
+    methods: {
+      //获取用户信息
+      getUser: function () {
+        let url = "/api/user/getUser.do";
+        axios({
+          method: 'get',
+          url: url,
+        }).then(function (res) {
+          console.log(res)
+          if (res.data.code === 1) {
+            console.log( res.data.data)
+            console.log( res.data.data.headImg)
+            this.user = res.data.data;
+          } else {
+            alertMy(res.data.msg)
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    }, created() {
+      //自动加载
+      this.getUser();
+    }
+  });
+</script>
+<div class="layui-hide">
+
+
+</div>
+<script>
+
+  //加载模块
+  let layer;
+  layui.use(function () { //亦可加载特定模块：layui.use(['layer', 'laydate', function(){
+    //得到各种内置组件
+    layer = layui.layer //弹层
+            , laypage = layui.laypage //分页
+            , laydate = layui.laydate //日期
+            , table = layui.table //表格
+            , carousel = layui.carousel //轮播
+            , upload = layui.upload //上传
+            , element = layui.element //元素操作
+            , slider = layui.slider //滑块
+            , dropdown = layui.dropdown //下拉菜单
+
+    //向世界问个好
+    //layer.msg('Hello World');
+  });
+</script>
+</body>
+</html>

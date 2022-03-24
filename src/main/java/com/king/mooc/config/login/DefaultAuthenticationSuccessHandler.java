@@ -48,15 +48,8 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
 
         User user = (User) e.getPrincipal();
         UserLog log = UserLog.builder().uid(user.getId()).name(user.getName()).ip(getIpAddress(request)).build();
-
         logger.info("----login in succcess----");
         logger.info(userLogMapper.save(log).toString());
-        user = userMapper.findOneByName(user.getName());
-        UserVo userVo = new UserVo().setUser(user);
-        System.out.println(userVo);
-        redisObjUtil.setEntity(request.getSession().getId(),60,userVo);
-        UserVo userVo1 = new UserVo(user);
-        logger.info(userVo1.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResultObj.ok("登录成功！")));
 

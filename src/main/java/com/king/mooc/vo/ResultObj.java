@@ -2,6 +2,7 @@ package com.king.mooc.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -26,12 +27,27 @@ public class ResultObj {
 
     }
 
+    public ResultObj(Integer code, String msg, Integer count, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.count = count;
+        this.data = data;
+    }
+
     public static ResultObj error() {
         return error(0, "操作失败");
     }
 
     public static ResultObj error(String msg) {
         return error(0, msg);
+    }
+
+    public static ResultObj obj(Integer code, String msg, Integer count, Object data) {
+        return new ResultObj(code, msg, count, data);
+    }
+
+    public static ResultObj obj(Integer code,String msg) {
+        return obj(code, msg, null, null);
     }
 
     public static ResultObj error(int code, String msg) {
