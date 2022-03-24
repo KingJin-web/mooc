@@ -183,6 +183,50 @@ public class UserController {
         return result;
     }
 
+    @PostMapping(value = "/updatePhone.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updatePhone(HttpServletRequest req
+            , String password, Long phone) {
+        logger.info(JSON.toJSONString(req.getParameterMap()));
+        try {
+            User user = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+
+            StringUtils.isPhone(phone);
+            userService.updatePhone(user,password,phone);
+            return ResultObj.ok("修改成功！");
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误! ");
+
+        }
+    }
+
+    @PostMapping(value = "/updateEmail.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updateEmail(HttpServletRequest req
+            , String password, String email) {
+        logger.info(JSON.toJSONString(req.getParameterMap()));
+        try {
+            User user = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+
+            StringUtils.isPhone(email);
+            userService.updateEmail(user,password,email);
+            return ResultObj.ok("修改成功！");
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误! ");
+
+        }
+    }
+
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")

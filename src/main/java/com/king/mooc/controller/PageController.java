@@ -1,5 +1,6 @@
 package com.king.mooc.controller;
 
+import com.king.mooc.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,25 @@ public class PageController {
     public String index() {
         return "index.html"; // 视图重定向 - 跳转
     }
+
     @GetMapping("/user/")
     public String userIndex() {
         return "/user/index.html"; // 视图重定向 - 跳转
+    }
+
+    @GetMapping("/user/account")
+    public String account(String type) {
+        if (StringUtils.isEmpty(type)) {
+            return "/user/account.html";
+        }
+        if (type.equals("email")) {
+            return "/user/upadteEamil.html";
+        }
+        if (type.equals("phone")) {
+            return "/user/upadtePhone.html";
+        }
+
+        return "/";
+
     }
 }
