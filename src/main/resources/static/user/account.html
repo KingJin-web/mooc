@@ -126,14 +126,15 @@
                         <div class="security-item">
                             <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
                             <span class="title">手机绑定</span>
-                            <span class="summary"  >已绑定手机：135*****515</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-phone"
+                            <span class="summary" v-text="phoneMsg"></span>
+                            <span class="action">
+                                <a class="layui-btn layui-btn-sm btn-edit-phone"
                                                     href="/uc/account?type=phone">修改</a></span>
                         </div>
                         <div class="security-item">
                             <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
                             <span class="title">邮箱绑定</span>
-                            <span class="summary">已绑定邮箱：100****163.com</span>
+                            <span class="summary" v-text="emailMsg"></span>
                             <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email"
                                                     href="/uc/account?type=email">修改</a></span>
                         </div>
@@ -194,7 +195,7 @@
 
 </div>
 
-<script type="text/javascript" src="../lib/ .js"></script>
+<script type="text/javascript" src="../lib/user.js"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../lib/layuiInit.js"></script>
 <script type="text/javascript" src="../lib/Popup.js"></script>
