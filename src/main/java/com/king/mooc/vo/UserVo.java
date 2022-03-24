@@ -1,6 +1,7 @@
 package com.king.mooc.vo;
 
 import com.king.mooc.entity.User;
+import com.king.mooc.util.StringUtils;
 import com.king.mooc.util.TimeUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -52,10 +54,11 @@ public class UserVo {
     @ApiModelProperty("提示词")
     private String msg;
 
+    private String msgReg;
 
-    public UserVo() {
-        System.out.println("UserVo无参构造方法");
-    }
+    private String msgVip;
+
+    public UserVo() {}
 
     public UserVo(UserVo user) {
         this.id = user.getId();
@@ -78,13 +81,9 @@ public class UserVo {
     }
 
     public UserVo(User user) {
-        setUser(user);
-    }
-
-    public UserVo setUser(User user) {
         this.id = user.getId();
         this.name = user.getName();
-        this.email = user.getEmail();
+        this.email =user.getEmail();
         this.phone = user.getPhone();
         this.headImg = user.getHeadImg();
         this.balance = user.getBalance();
@@ -93,8 +92,16 @@ public class UserVo {
         this.vipEndTime = user.getVipTime();
         if (isVip) {
             this.vipTime = TimeUtils.formatDateTime(ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getVipTime()));
+            Duration duration = Duration.between(LocalDateTime.now(), user.getVipTime());
+            this.msgVip = "您的会员还有 " + duration.toDays() + " 天过期";
+        } else {
+            Duration duration = Duration.between(user.getVipTime(), LocalDateTime.now());
+            this.msgVip = "您的会员已经过期 " + duration.toDays() + " 天";
         }
-        return this;
+        this.msg = user.getMsg();
+        Duration duration = Duration.between(user.getCreateTime(), LocalDateTime.now());
+        this.msgReg = "您已经注册 " + duration.toDays() + " 天了";
+
     }
 
     public UserVo(String validateCode) {

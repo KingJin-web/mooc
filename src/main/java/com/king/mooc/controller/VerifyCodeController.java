@@ -1,6 +1,5 @@
 package com.king.mooc.controller;
 
-import com.king.mooc.entity.User;
 import com.king.mooc.service.MailService;
 import com.king.mooc.service.impl.TxSmsServiceImpl;
 import com.king.mooc.service.impl.UserServiceImpl;
@@ -48,7 +47,8 @@ public class VerifyCodeController {
         try {
             HttpSession session = req.getSession();
             String code = VerifyCodeGen.outputImage(resp);
-            redisObjUtil.setEntity(session.getId(), 30, UserVo.builder().validateCode(code).build());
+            session.setAttribute("login_code",code);
+            //redisObjUtil.setEntity(session.getId(), 30, UserVo.builder().validateCode(code).build());
         } catch (Exception e) {
             e.printStackTrace();
             logger.info(e.getMessage());

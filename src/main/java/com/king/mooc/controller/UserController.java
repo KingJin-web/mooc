@@ -1,5 +1,6 @@
 package com.king.mooc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.king.mooc.entity.User;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
@@ -56,13 +57,13 @@ public class UserController {
         try {
             StringUtils.nameIsOk(name);
             StringUtils.pwdCheckNull(pwd1, pwd2);
-            StringUtils.checkNull(emailOrPhone,"请输入邮箱或者电话号码");
+            StringUtils.checkNull(emailOrPhone, "请输入邮箱或者电话号码");
             HttpSession session = request.getSession();
             if (userService.isUse("name", name)) {
                 return ResultObj.error("用户名已经被使用！");
             }
             String code = (String) session.getAttribute("code");
-            if (StringUtils.checkNull(code)){
+            if (StringUtils.checkNull(code)) {
                 return ResultObj.error("请先获取验证码！");
             }
             if (code.equalsIgnoreCase(validate_code))
@@ -93,18 +94,25 @@ public class UserController {
 
     @PostMapping(value = "/nameIsUse.do")
     @ApiOperation(value = "用户名是否被使用", tags = "用户操作接口")
-    @ApiImplicitParam(name = "name", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
-    public ResultObj nameIsUse(String name) {
-        ResultObj result = new ResultObj();
-        if (userService.isUse("name", name)) {
-            result.setMsg("用户名已经被使用！");
-            return result;
-        } else {
-            result.setCode(0);
-            result.setMsg("用户名可以使用使用！");
+    @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
+    public ResultObj nameIsUse(String username) {
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            StringUtils.nameIsOk(username);
+            if (user.getName().equals(username)) {
+                return ResultObj.obj(3, "无变化！");
+            }
+            if (userService.isUse("name", username)) {
+                return ResultObj.error("用户名已经被使用！");
+            } else {
+                return ResultObj.ok("用户名可以使用使用！");
+            }
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误请联系管理员！");
         }
-
-        return result;
     }
 
     @PostMapping(value = "/emailIsUse.do")
@@ -132,25 +140,24 @@ public class UserController {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (StringUtils.checkNull(user) || StringUtils.checkNull(user.getId())) {
-                result.setCode(1);
+                result.setCode(0);
                 result.setMsg("请先登录！");
                 resp.sendRedirect("/login");
             } else {
                 UserVo userVo = new UserVo(user);
-                result.setCode(0);
-                result.setData(userVo);
+                return ResultObj.ok(userVo);
             }
         } catch (Exception e) {
-            result.setCode(1);
-            result.setMsg("系统错误！");
             e.printStackTrace();
+            return ResultObj.ok("系统错误!");
+
         }
         return result;
     }
 
     @GetMapping(value = "/getLoginUser.do")
     @ApiOperation(value = "获取登录用户信息2", tags = "用户操作接口")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResultObj getLoginUser(HttpServletRequest req, HttpServletResponse resp) {
         return ResultObj.ok(userService.getLoginUser());
     }
@@ -167,7 +174,7 @@ public class UserController {
             logger.info(user.toString());
 //            redisObjUtil.setEntity(userVo.getId().toString(), 30, userVo);
             result.setCode(0);
-            result.setData( new UserVo(user));
+            result.setData(new UserVo(user));
         } catch (Exception e) {
             result.setCode(1);
             result.setMsg("系统错误！");
@@ -176,8 +183,36 @@ public class UserController {
         return result;
     }
 
-
     @PostMapping(value = "/updateUser.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updateUser(HttpServletRequest req, @RequestParam("uploadFile") MultipartFile uploadFile
+            , String name, String msg) {
+        logger.info(JSON.toJSONString(req.getParameterMap()));
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!uploadFile.isEmpty()) {
+                user.setHeadImg(FileUtil.saveFile(uploadFile));
+            }
+            if (!user.getName().equals(name)) {
+                StringUtils.nameIsOk(name);
+                userService.nameIsUse(name);
+                user.setName(name);
+            }
+            user.setMsg(msg);
+            userService.updateById(user);
+
+            return ResultObj.ok("修改成功！");
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误! ");
+
+        }
+    }
+
+    @PostMapping(value = "/updateUser1.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email,

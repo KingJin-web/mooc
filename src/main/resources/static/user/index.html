@@ -15,12 +15,10 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
-
-    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
     <script type="text/javascript" src="../lib/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../lib/vue.js"></script>
     <script type="text/javascript" src="../lib/axios.js"></script>
+
 
 </head>
 <body class="main">
@@ -82,7 +80,7 @@
                         <div class="layui-card-header">个人设置</div>
                         <div class="layui-card-body">
                             <ul class="my-menu">
-                                <li><a href="/user/user.html">个人信息</a></li>
+                                <li><a href="/user/index.html">个人信息</a></li>
                                 <li><a href="/user/account.html">帐号安全</a></li>
                                 <li><a href="/user/like.html">收藏课程</a></li>
                             </ul>
@@ -113,40 +111,59 @@
             <div class="my-content">
                 <div class="wrap">
                     <div class="my-nav">
-                        <span class="title">账号安全</span>
+                        <span class="title">个人信息</span>
                     </div>
-                    <div class="security-item-list">
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-password"></i></span>
-                            <span class="title">登录密码</span>
-                            <span class="summary">经常更改密码有助于保护您的帐号安全</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-pwd"
-                                                    href="/uc/account?type=password">修改</a></span>
+                    <form class="layui-form profile-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">头像</label>
+                            <div class="layui-input-inline" style="width: 110px;">
+                                <!--                                <img id="img-avatar" class="my-avatar"-->
+                                <!--                                     :src="user.headImg">-->
+                                <label>
+                                    <input id="fileinput" style="display:none" @change="tirggerFile" class="none"
+                                           type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
+                                    <img id="img-avatar" class="my-avatar" :src="user.headImg" alt="选择头像">
+                                </label>
+                            </div>
+                            <div class="layui-input-inline" style="padding-top:35px;">
+                                <h2>点击图片更换头像</h2>
+                            </div>
                         </div>
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
-                            <span class="title">手机绑定</span>
-                            <span class="summary"  >已绑定手机：135*****515</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-phone"
-                                                    href="/uc/account?type=phone">修改</a></span>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" @change="usernameIsOk" type="text" v-model="user.name"
+                                       name="name" value="酷瓜云课堂"
+                                       lay-verify="required">
+                                <span v-text="msg"></span>
+                                <span v-html="msg"></span>
+                                <h2 v-html="msg"></h2>
+                                <h2 v-text="msg"></h2>
+                            </div>
                         </div>
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
-                            <span class="title">邮箱绑定</span>
-                            <span class="summary">已绑定邮箱：100****163.com</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email"
-                                                    href="/uc/account?type=email">修改</a></span>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">简介</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" v-model="user.msg" name="about" lay-verify="required">酷瓜云课堂（腾讯云版），依托腾讯云基础服务架构，采用C扩展PHP框架Phalcon开发，致力开源网课系统，开源网校系统，开源在线教育系统。</textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="my-nav">
-                        <span class="title">开放登录</span>
-                    </div>
-                    <div class="connect-tips">支持绑定的第三方帐号</div>
-                    <div class="oauth-list">
-                        <a class="layui-icon layui-icon-login-qq login-qq" href="/oauth/qq"></a>
-                        <a class="layui-icon layui-icon-login-wechat login-wechat" href="/oauth/weixin"></a>
-                        <a class="layui-icon layui-icon-login-weibo login-weibo" href="/oauth/weibo"></a>
-                    </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">其他信息</label>
+                            <div class="layui-input-block">
+                                <span v-text="user.msgReg"></span><br>
+                                <span v-text="user.msgVip"></span><br>
+
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <button type="button" class="layui-btn" @click="changeUser()">提交</button>
+                                <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -193,12 +210,9 @@
 <div class="layui-hide">
 
 </div>
-
-<script type="text/javascript" src="../lib/ .js"></script>
+<script type="text/javascript" src="../lib/user.js"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../lib/layuiInit.js"></script>
 <script type="text/javascript" src="../lib/Popup.js"></script>
-
 </body>
 </html>
-

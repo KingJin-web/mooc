@@ -38,6 +38,7 @@ public class User implements Serializable, UserDetails {
     private Integer isShare;
     //用户账户余额
     private BigDecimal balance;
+    private String msg;
     //版本号，乐观锁
     @Version
     private Integer version;
@@ -60,7 +61,7 @@ public class User implements Serializable, UserDetails {
 
     }
 
-    public User(Long id, String name, String password, String headImg, String email, Long phone, Integer isShare, BigDecimal balance, Integer version, LocalDateTime vipTime, Integer flag, LocalDateTime createTime, LocalDateTime updateTime, Role role) {
+    public User(Long id, String name, String password, String headImg, String email, Long phone, Integer isShare, BigDecimal balance, String msg, Integer version, LocalDateTime vipTime, Integer flag, LocalDateTime createTime, LocalDateTime updateTime, Role role) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -69,6 +70,7 @@ public class User implements Serializable, UserDetails {
         this.phone = phone;
         this.isShare = isShare;
         this.balance = balance;
+        this.msg = msg;
         this.version = version;
         this.vipTime = vipTime;
         this.flag = flag;
