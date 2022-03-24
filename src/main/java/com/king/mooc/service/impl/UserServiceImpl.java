@@ -147,14 +147,27 @@ public class UserServiceImpl implements UserService {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    /**
-     * 设置当前登录用户，保存 或 更新登录信息
-     *
-     * @param userDetails
-     */
+
+    @Override
     public void setLoginUser(UserDetails userDetails) {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities()));
+    }
+
+    @Override
+    public void updatePhone(User user, String password, Long phone) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (encoder.matches(password, user.getPassword())) {
+            userMapper.updatePhone(user.getId(), phone);
+        }
+    }
+
+    @Override
+    public void updateEmail(User user, String password, String email) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (encoder.matches(password, user.getPassword())) {
+            userMapper.updateEmail(user.getId(), email);
+        }
     }
 
 }

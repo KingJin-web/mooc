@@ -90,10 +90,14 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAll();
 
-    public User queryByName(String name);
+    User queryByName(String name);
 
     User getLoginUser();
 
     void setLoginUser(UserDetails userDetails);
+
+    void updatePhone(User user, String password, Long phone);
+
+    void updateEmail(User user, String password, String email);
 }
 

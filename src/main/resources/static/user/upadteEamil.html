@@ -15,12 +15,10 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
-
-    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
     <script type="text/javascript" src="../lib/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../lib/vue.js"></script>
     <script type="text/javascript" src="../lib/axios.js"></script>
+
 
 </head>
 <body class="main">
@@ -82,7 +80,7 @@
                         <div class="layui-card-header">个人设置</div>
                         <div class="layui-card-body">
                             <ul class="my-menu">
-                                <li><a href="/user/user.html">个人信息</a></li>
+                                <li><a href="/user/index.html">个人信息</a></li>
                                 <li><a href="/user/account.html">帐号安全</a></li>
                                 <li><a href="/user/like.html">收藏课程</a></li>
                             </ul>
@@ -113,93 +111,94 @@
             <div class="my-content">
                 <div class="wrap">
                     <div class="my-nav">
-                        <span class="title">账号安全</span>
+                        <span class="title">账号安全 - 修改邮箱</span>
                     </div>
-                    <div class="security-item-list">
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-password"></i></span>
-                            <span class="title">登录密码</span>
-                            <span class="summary">经常更改密码有助于保护您的帐号安全</span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-pwd"
-                                                    href="/user/account?type=password">修改</a></span>
+                    <form class="layui-form security-form" method="POST" action="/email/update">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">登录密码</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" type="password" name="login_password" autocomplete="off"
+                                       lay-verify="required">
+                            </div>
                         </div>
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-cellphone"></i></span>
-                            <span class="title">手机绑定</span>
-                            <span class="summary" v-text="phoneMsg"></span>
-                            <span class="action">
-                                <a class="layui-btn layui-btn-sm btn-edit-phone"
-                                                    href="/user/account?type=phone">修改</a></span>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱地址</label>
+                            <div class="layui-input-block">
+                                <input id="cv-account" class="layui-input" type="text" name="email" data-type="email"
+                                       lay-verify="required">
+                            </div>
                         </div>
-                        <div class="security-item">
-                            <span class="icon"><i class="layui-icon layui-icon-email"></i></span>
-                            <span class="title">邮箱绑定</span>
-                            <span class="summary" v-text="emailMsg"></span>
-                            <span class="action"><a class="layui-btn layui-btn-sm btn-edit-email"
-                                                    href="/user/account?type=email">修改</a></span>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">验证码</label>
+                            <div class="layui-input-inline verify-input-inline">
+                                <input class="layui-input" type="text" name="verify_code" lay-verify="required">
+                            </div>
+                            <div class="layui-input-inline verify-btn-inline">
+                                <button id="cv-emit-btn" class="layui-btn layui-btn-primary layui-btn-disabled"
+                                        type="button" disabled="disabled">获取验证码
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="my-nav">
-                        <span class="title">开放登录</span>
-                    </div>
-                    <div class="connect-tips">支持绑定的第三方帐号</div>
-                    <div class="oauth-list">
-                        <a class="layui-icon layui-icon-login-qq login-qq" href="/oauth/qq"></a>
-                        <a class="layui-icon layui-icon-login-wechat login-wechat" href="/oauth/weixin"></a>
-                        <a class="layui-icon layui-icon-login-weibo login-weibo" href="/oauth/weibo"></a>
-                    </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled"
+                                        disabled="disabled" lay-submit="true" lay-filter="go">提交修改
+                                </button>
+                                <input id="cv-enabled" type="hidden" value="1">
+                                <input id="cv-app-id" type="hidden" value="2051472851">
+                                <input id="cv-ticket" type="hidden" name="ticket">
+                                <input id="cv-rand" type="hidden" name="rand">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </div>
-
-    </div>
-    <div id="footer">
-        <div class="layui-main">
-            <div class="row nav">
-                <a href="/page/about" target="_blank">关于我们</a>
-                <a href="/page/contact" target="_blank">联系我们</a>
-                <a href="/page/jobs" target="_blank">人才招聘</a>
-                <a href="/help" target="_blank">帮助中心</a>
-                <a href="/page/links" target="_blank">友情链接</a>
-            </div>
-            <div class="row copyright">
-                <span v-html="msg"></span>
-                <span>&copy; 深圳市酷瓜软件有限公司</span>
-                <a href="https://koogua.com" title="酷瓜云课堂" target="_blank">Powered by CTC 1.5.１</a>
-                <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备18124674号-1</a>
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502005963" target="_blank">粤公网安备44030502005963号</a>
-            </div>
-            <div class="row contact">
-                <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=286211774&site=qq&menu=yes"
-                   title="客服QQ：286211774"><span class="iconfont icon-qq"></span></a>
-                <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
-                <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
-                <a class="weibo" href="https://weibo.com/u/5602325902" title="微博主页"><span
-                        class="iconfont icon-weibo"></span></a>
-                <a class="zhihu" href="https://www.zhihu.com/people/xiaochong0302" title="知乎主页"><span
-                        class="iconfont icon-zhihu"></span></a>
-                <a class="mail" href="mailto:286211774@qq.com" title="联系邮箱：286211774@qq.com"><span
-                        class="iconfont icon-mail"></span></a>
-                <a class="phone" href="javascript:" title="联系电话：13507083515"><span
-                        class="iconfont icon-phone"></span></a>
-                <a class="location"
-                   href="https://map.baidu.com/search/深圳市南山区科发路1号富利臻大厦3409?querytype=s&wd=深圳市南山区科发路1号富利臻大厦3409"
-                   title="联系地址：深圳市南山区科发路1号富利臻大厦3409"><span class="iconfont icon-location"></span></a>
             </div>
         </div>
     </div>
 
 </div>
+<div id="footer">
+    <div class="layui-main">
+        <div class="row nav">
+            <a href="/page/about" target="_blank">关于我们</a>
+            <a href="/page/contact" target="_blank">联系我们</a>
+            <a href="/page/jobs" target="_blank">人才招聘</a>
+            <a href="/help" target="_blank">帮助中心</a>
+            <a href="/page/links" target="_blank">友情链接</a>
+        </div>
+        <div class="row copyright">
+            <span>&copy; 深圳市酷瓜软件有限公司</span>
+            <a href="https://koogua.com" title="酷瓜云课堂" target="_blank">Powered by CTC 1.5.１</a>
+            <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备18124674号-1</a>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502005963" target="_blank">粤公网安备44030502005963号</a>
+        </div>
+        <div class="row contact">
+            <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=286211774&site=qq&menu=yes"
+               title="客服QQ：286211774"><span class="iconfont icon-qq"></span></a>
+            <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
+            <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
+            <a class="weibo" href="https://weibo.com/u/5602325902" title="微博主页"><span
+                    class="iconfont icon-weibo"></span></a>
+            <a class="zhihu" href="https://www.zhihu.com/people/xiaochong0302" title="知乎主页"><span
+                    class="iconfont icon-zhihu"></span></a>
+            <a class="mail" href="mailto:286211774@qq.com" title="联系邮箱：286211774@qq.com"><span
+                    class="iconfont icon-mail"></span></a>
+            <a class="phone" href="javascript:" title="联系电话：13507083515"><span
+                    class="iconfont icon-phone"></span></a>
+            <a class="location"
+               href="https://map.baidu.com/search/深圳市南山区科发路1号富利臻大厦3409?querytype=s&wd=深圳市南山区科发路1号富利臻大厦3409"
+               title="联系地址：深圳市南山区科发路1号富利臻大厦3409"><span class="iconfont icon-location"></span></a>
+        </div>
+    </div>
+</div>
+
 
 <div class="layui-hide">
 
 </div>
-
 <script type="text/javascript" src="../lib/user.js"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../lib/layuiInit.js"></script>
 <script type="text/javascript" src="../lib/Popup.js"></script>
-
 </body>
 </html>
-
