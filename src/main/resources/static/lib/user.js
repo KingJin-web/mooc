@@ -4,9 +4,14 @@ const king = new Vue({
             user: {},
             msg: "",
             password: "",
+            phoneMsg: "已绑定手机：135*****515",
+            emailMsg: "已绑定邮箱：100****163.com"
+        },
+        created: function () {
+            this.getUser();
         },
         mounted: function () {
-            this.getUser();
+
         },
         methods: {
             //获取用户信息
@@ -23,7 +28,7 @@ const king = new Vue({
                     console.log(res)
                     if (res.data.code === 1) {
                         this.user = res.data.data;
-                        console.log(this.user)
+                        this.init();
                     } else {
                         alertMy(res.data.msg)
                     }
@@ -31,6 +36,7 @@ const king = new Vue({
                     console.log(error);
                 });
             },
+            //修改用户信息
             changeUser: function () {
                 let url = "/api/user/updateUser.do";
                 var file = document.getElementById("fileinput").files[0];
@@ -46,33 +52,24 @@ const king = new Vue({
                     alertClear(res.data.msg)
                 })
             },
-            //修改用户信息
-            aaa: function () {
-                let url = "/api/user/login.do";
-                let param = new URLSearchParams()
-                param.append('username', this.name)
-                param.append('password', this.password)
-                param.append('login_code', this.validateCode);
-                console.log(this.validateCode)
-                axios({
-                    method: 'post',
-                    url: url,
-                    data: param
-                }).then(function (res) {
-                    console.log(res)
-                    if (res.data.code === 1) {
-                        alertLayer(res.data.msg, "index.html")
-                    } else {
-                        alertMy(res.data.msg)
-                    }
+            //渲染account.html
+            init: function () {
+                console.log(this.user.phone)
+                console.log(this.user.phone != null)
+                console.log(this.user.phone)
+                console.log(this.user.phone != null)
+                if (this.user.phone != null) {
+                    this.phoneMsg = '已绑定手机：' + this.user.phone
+                } else {
+                    this.phoneMsg = '还没有绑定手机 建议尽快绑定！'
+                }
 
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-
-            }
-            ,
+                if (this.user.email != null) {
+                    this.emailMsg = '已绑定邮箱：' + this.user.email
+                } else {
+                    this.emailMsg = '还没有绑定邮箱 建议尽快绑定！'
+                }
+            },
             usernameIsOk: function () {
                 let url = "/api/user/nameIsUse.do";
                 let param = new URLSearchParams()
