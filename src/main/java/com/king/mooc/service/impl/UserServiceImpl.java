@@ -155,19 +155,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePhone(User user, String password, Long phone) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (encoder.matches(password, user.getPassword())) {
-            userMapper.updatePhone(user.getId(), phone);
-        }
+    public void updatePhone(User user, Long phone) {
+        userMapper.updatePhone(user.getId(), phone);
     }
 
     @Override
-    public void updateEmail(User user, String password, String email) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (encoder.matches(password, user.getPassword())) {
-            userMapper.updateEmail(user.getId(), email);
-        }
+    public void updateEmail(User user, String email) {
+        userMapper.updateEmail(user.getId(), email);
     }
 
 }

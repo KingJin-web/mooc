@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -182,11 +183,10 @@ public class UserController {
         }
         return result;
     }
-
-    @PostMapping(value = "/updatePhone.do")
-    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PostMapping(value = "/updatePwd.do")
+    @ApiOperation(value = "修改用户账号密码", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updatePhone(HttpServletRequest req
+    public ResultObj updatePwd(HttpServletRequest req
             , String password, Long phone) {
         logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
@@ -194,7 +194,7 @@ public class UserController {
                     getAuthentication().getPrincipal();
 
             StringUtils.isPhone(phone);
-            userService.updatePhone(user,password,phone);
+            userService.updatePhone(user,phone);
             return ResultObj.ok("修改成功！");
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
@@ -205,8 +205,31 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/updatePhone.do")
+    @ApiOperation(value = "修改用户电话", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updatePhone(HttpServletRequest req
+            , String password, Long phone) {
+        logger.info(JSON.toJSONString(req.getParameterMap()));
+        try {
+            User user = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+
+            StringUtils.isPhone(phone);
+            userService.updatePhone(user,phone);
+            return ResultObj.ok("修改成功！");
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误! ");
+
+        }
+    }
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @PostMapping(value = "/updateEmail.do")
-    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @ApiOperation(value = "修改用户邮箱", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj updateEmail(HttpServletRequest req
             , String password, String email) {
@@ -214,9 +237,13 @@ public class UserController {
         try {
             User user = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-
             StringUtils.isPhone(email);
-            userService.updateEmail(user,password,email);
+            if (encoder.matches(password, user.getPassword())) {
+                userService.updateEmail(user,email);
+            }else {
+                return ResultObj.ok("账户密码输入错误！");
+            }
+
             return ResultObj.ok("修改成功！");
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
