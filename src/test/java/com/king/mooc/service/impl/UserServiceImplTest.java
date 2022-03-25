@@ -31,4 +31,12 @@ public class UserServiceImplTest {
         UserVo userVo = new UserVo(userService.queryByName(user.getName()));
         redisObjUtil.setEntity("6DC1207BAFC0B4C84D42CEE5B55003D0", 30, userVo);
     }
+
+    @Test
+    public void update(){
+        User user = User.builder().id(1446666198576553985L).
+                password("$2a$10$w.0.ZPe6b4HRLBH.tIrZveDhwwX4MEV8EljMgzSIJgDWAhCFenuX.").build();
+//        userService.updateEmail(user, "aaa","123@qq.com");
+//        userService.updatePhone(user, "aa8a",1234567890L);
+    }
 }

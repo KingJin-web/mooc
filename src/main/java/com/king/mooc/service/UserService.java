@@ -96,8 +96,8 @@ public interface UserService extends UserDetailsService {
 
     void setLoginUser(UserDetails userDetails);
 
-    void updatePhone(User user, String password, Long phone);
+    void updatePhone(User user, Long phone);
 
-    void updateEmail(User user, String password, String email);
+    void updateEmail(User user, String email);
 }
 
