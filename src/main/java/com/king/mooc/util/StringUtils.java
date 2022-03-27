@@ -18,6 +18,12 @@ import java.util.regex.Pattern;
  */
 public class StringUtils extends org.springframework.util.StringUtils {
 
+
+    //要获取一个[x,y)的double类型的随机数 | 左闭右开
+    public static double getDouble(int x, int y) {
+        return x + Math.random() * (y - x);
+    }
+
     private StringUtils() {
     }
 

@@ -183,18 +183,19 @@ public class UserController {
         }
         return result;
     }
+
     @PostMapping(value = "/updatePwd.do")
     @ApiOperation(value = "修改用户账号密码", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj updatePwd(HttpServletRequest req
             , String password, Long phone) {
-        logger.info(JSON.toJSONString(req.getParameterMap()));
+        //logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
             User user = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
 
             StringUtils.isPhone(phone);
-            userService.updatePhone(user,phone);
+            userService.updatePhone(user, phone);
             return ResultObj.ok("修改成功！");
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
@@ -216,7 +217,7 @@ public class UserController {
                     getAuthentication().getPrincipal();
 
             StringUtils.isPhone(phone);
-            userService.updatePhone(user,phone);
+            userService.updatePhone(user, phone);
             return ResultObj.ok("修改成功！");
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
@@ -226,21 +227,21 @@ public class UserController {
 
         }
     }
+
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PostMapping(value = "/updateEmail.do")
     @ApiOperation(value = "修改用户邮箱", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updateEmail(HttpServletRequest req
-            , String password, String email) {
+    public ResultObj updateEmail(HttpServletRequest req, String password, String email) {
         logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
             User user = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             StringUtils.isPhone(email);
             if (encoder.matches(password, user.getPassword())) {
-                userService.updateEmail(user,email);
-            }else {
+                userService.updateEmail(user, email);
+            } else {
                 return ResultObj.ok("账户密码输入错误！");
             }
 
@@ -257,7 +258,8 @@ public class UserController {
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updateUser(HttpServletRequest req, @RequestParam("uploadFile") MultipartFile uploadFile
+    public ResultObj updateUser(HttpServletRequest req,
+                                @RequestParam("uploadFile") MultipartFile uploadFile
             , String name, String msg) {
         logger.info(JSON.toJSONString(req.getParameterMap()));
         try {

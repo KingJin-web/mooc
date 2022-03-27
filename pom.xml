@@ -105,7 +105,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
@@ -117,12 +116,19 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.tencentcloudapi/tencentcloud-sdk-java-sms -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java-sms</artifactId>
+            <version>3.1.468</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-jooq</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv &ndash;&gt;-->
 
         <dependency>
             <groupId>net.sourceforge.javacsv</groupId>
@@ -130,19 +136,13 @@
             <version>2.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/ws.schild/jave-all-deps -->
-        <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-all-deps</artifactId>
-            <version>2.5.1</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/ws.schild/jave-all-deps &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>ws.schild</groupId>-->
+<!--            <artifactId>jave-all-deps</artifactId>-->
+<!--            <version>2.5.1</version>-->
+<!--        </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/com.tencentcloudapi/tencentcloud-sdk-java-sms -->
-        <dependency>
-            <groupId>com.tencentcloudapi</groupId>
-            <artifactId>tencentcloud-sdk-java-sms</artifactId>
-            <version>3.1.468</version>
-        </dependency>
     </dependencies>
 
     <build>

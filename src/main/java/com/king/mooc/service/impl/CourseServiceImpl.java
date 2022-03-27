@@ -1,6 +1,8 @@
 package com.king.mooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.king.mooc.entity.Course;
 import com.king.mooc.mapper.CourseMapper;
 import com.king.mooc.service.CourseService;
@@ -51,5 +53,22 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.selectById(id);
     }
 
+
+    public IPage<Course> queryByLikeName(String name, int current) {
+        Page<Course> page = new Page<>(current, 10);
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name", name);
+        IPage<Course> selectPage = courseMapper.selectPage(page, queryWrapper);
+        System.out.println(selectPage);
+        System.out.println("================= 相关的分页信息 ==================");
+        System.out.println("总条数:" + selectPage.getTotal());
+        System.out.println("当前页码:" + selectPage.getCurrent());
+        System.out.println("总页数:" + selectPage.getPages());
+        System.out.println("每页显示条数:" + selectPage.getSize());
+        System.out.println("是否有上一页:" + page.hasPrevious());
+        System.out.println("是否有下一页:" + page.hasNext());
+        System.out.println("查询结果:");
+        return selectPage;
+    }
 
 }
