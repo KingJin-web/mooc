@@ -1,8 +1,8 @@
 package com.king.mooc.util;
 
 import org.springframework.web.multipart.MultipartFile;
-import ws.schild.jave.MultimediaInfo;
-import ws.schild.jave.MultimediaObject;
+//import ws.schild.jave.MultimediaInfo;
+//import ws.schild.jave.MultimediaObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,26 +28,26 @@ public class FileUtil {
      */
     public static final String courseImgPath = "/king/springboot/mooc/courseVideo/";
 
-    /**
-     * 获取视频时长：单位ms
-     *
-     * @param file
-     * @return
-     */
-    public static Long getVideoTime(File file) {
-        try {
-            MultimediaObject instance = new MultimediaObject(file);
-            MultimediaInfo result = instance.getInfo();
-            return result.getDuration();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0L;
-    }
+//    /**
+//     * 获取视频时长：单位ms
+//     *
+//     * @param file
+//     * @return
+//     */
+//    public static Long getVideoTime(File file) {
+//        try {
+//            MultimediaObject instance = new MultimediaObject(file);
+//            MultimediaInfo result = instance.getInfo();
+//            return result.getDuration();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return 0L;
+//    }
 
-    public static String getVideoTime(String file) {
-        return TimeUtils.formatDateTime(getVideoTime(new File(file)) / 1000);
-    }
+//    public static String getVideoTime(String file) {
+//        return TimeUtils.formatDateTime(getVideoTime(new File(file)) / 1000);
+//    }
 
     public static String saveFile(MultipartFile uploadFile) throws MyException {
         StringBuilder sb = new StringBuilder();

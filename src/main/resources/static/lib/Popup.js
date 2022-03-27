@@ -95,10 +95,6 @@ function gotoLogin(text,path) {
 
 }
 /**
- * //https://layer.layui.com/
- * https://layer.layui.com/test/more.html
- * https://www.layui.com/alone.html
- * https://layer.layui.com/hello.html
  * @param text 提示内容
  * @param path 跳转页面路径
  * @param success 成功的提示

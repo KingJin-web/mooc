@@ -1,6 +1,7 @@
 package com.king.mooc.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.king.mooc.entity.enums.Category;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,14 +10,14 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "course")
 public class Course {
-    @TableId(value = "id", type = IdType.ASSIGN_ID)//指定自增策略
+    @TableId(type = IdType.AUTO)//指定自增策略
     private Long id;
     //用户id
     private Long uid;
     //课程名
     private String name;
     //课程简介
-    private String summary;
+    private String msg;
     //图片封面
     private String coverImage;
     //原价
@@ -26,6 +27,7 @@ public class Course {
     private BigDecimal activityPrice;
     //销量
     private Integer sales;
+    private Category category;
     //是否已经删除
     private Integer flag;
     //创建时间
@@ -36,7 +38,7 @@ public class Course {
     private LocalDateTime updateTime;
     //版本号，乐观锁
     @Version
-    private Integer version;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    private Integer version;
 
 
     public Course() {
@@ -54,7 +56,6 @@ public class Course {
 //        courseVo.setData(JSON.parseObject(this.data, CourseVo.class).getData());
 //        return courseVo;
 //    }
-
 
 
     public Course(Long id) {
