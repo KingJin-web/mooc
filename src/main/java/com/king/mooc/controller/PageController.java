@@ -1,5 +1,6 @@
 package com.king.mooc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.king.mooc.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,23 @@ public class PageController {
         return "/user/index.html"; // 视图重定向 - 跳转
     }
 
+    @GetMapping("/admin/")
+    public String adminIndex() {
+        return "/admin/index.html";
+    }
+
+    @GetMapping("/course/detail")
+    public String course(String id) {
+        System.out.println(id);
+        return "/course/detail.html";
+    }
+
+    @GetMapping("/user/course")
+    public String video(String id) {
+        System.out.println(id);
+        return "/user/course.html";
+    }
+
     @GetMapping("/user/account")
     public String account(String type) {
         if (StringUtils.isEmpty(type)) {
@@ -48,8 +66,16 @@ public class PageController {
         if (type.equals("phone")) {
             return "/user/upadtePhone.html";
         }
+        if (type.equals("password")) {
+            return "/user/upadtePwd.html";
+        }
 
         return "/";
 
+    }
+
+    @GetMapping("/vip")
+    public String vip() {
+        return "/vip.html";
     }
 }

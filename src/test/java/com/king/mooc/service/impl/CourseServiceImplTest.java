@@ -37,4 +37,9 @@ public class CourseServiceImplTest {
 
     }
 
+    @Test
+    public void queryRecommend() {
+        System.out.println(courseService.queryRecommend());
+    }
+
 }

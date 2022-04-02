@@ -82,7 +82,7 @@ public class MoocApplicationTests {
                 course.setCoverImage(csvReader.get(2));
                 course.setPrice(bigDecimal);
                 course.setVipPrice(bigDecimal.multiply( BigDecimal.valueOf(0.8)));
-                course.setCategory(Category.C);
+                course.setCategory(Category.COMPUTER);
                 course.setMsg(csvReader.get(7));
                 courseMapper.insert(course);
             }
@@ -127,7 +127,7 @@ public class MoocApplicationTests {
    @Test
     public void delete(){
         QueryWrapper<Course> qw = new QueryWrapper<>();
-        qw.eq("category", Category.C.getStatus());
+        qw.eq("category", Category.COMPUTER.getStatus());
         courseMapper.delete(qw);
    }
 

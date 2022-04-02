@@ -17,6 +17,7 @@ a[3] = '<li class="layui-nav-item">\n' +
     '            </li>';
 
 let loginHtml;
+let user;
 
 function init() {
     $.ajax({
@@ -26,15 +27,17 @@ function init() {
         url: "/api/user/getUser.do",//请求地址
         data: JSON.stringify(loginHtml), //数据，json字符串
         success: function (result) { //请求成功
-            console.log(result);
-            if (result.data != null) {
-                //重新加载li
-                $("#user_ul li").remove();
-                for (let i = 0; i<  a.length ; ++i){
-                    console.log(a[i])
-                    $("#user_ul").append(a[i]);
-                }
+            if(result.code == 1) {
             }
+            // console.log(result);
+            // if (result.data != null) {
+            //     //重新加载li
+            //     $("#user_ul li").remove();
+            //     for (let i = 0; i<  a.length ; ++i){
+            //         //console.log(a[i])
+            //         $("#user_ul").append(a[i]);
+            //     }
+            // }
 
         },
         error: function (e) {  //请求失败，包含具体的错误信息
@@ -44,3 +47,4 @@ function init() {
         }
     });
 }
+

@@ -1,8 +1,5 @@
-package com.king.mooc.service.impl;
+package com.king.mooc.mapper;
 
-import com.king.mooc.service.MailService;
-import com.king.mooc.util.MyException;
-import com.king.mooc.vo.MailVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MailServiceImplTest {
+public class CourseMapperTest {
 
     @Autowired
-    MailService mailService;
-
-
-
-
+    CourseMapper courseMapper;
     @Test
-    public void aa() throws MyException {
-        mailService.sendMail(new MailVo(),false);
+    public void queryByUid1() {
+        System.out.println(courseMapper.queryByUid1(2));
     }
 }

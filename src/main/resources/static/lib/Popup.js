@@ -94,6 +94,19 @@ function gotoLogin(text,path) {
 
 
 }
+
+function gotoPage(text,path) {
+    layer.confirm(text, {
+        icon: 1,
+        shade: 0,
+        btn: ['确认'], //按钮
+        // window.location.href = "login.html";
+    }, function () {
+        window.location.href = path;
+    })
+
+
+}
 /**
  * @param text 提示内容
  * @param path 跳转页面路径

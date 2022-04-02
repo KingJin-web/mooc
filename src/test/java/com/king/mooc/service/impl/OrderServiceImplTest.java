@@ -17,7 +17,6 @@ public class OrderServiceImplTest {
     OrderServiceImpl orderService;
     @Test
     public void creatOrder() {
-        orderService.creatOrder(1L,1L,new BigDecimal("1.2"));
     }
 
     @Test
