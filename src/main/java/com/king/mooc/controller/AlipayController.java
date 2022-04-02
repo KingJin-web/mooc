@@ -8,23 +8,34 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.king.mooc.config.AlipayConfig;
+import com.king.mooc.entity.Course;
+import com.king.mooc.entity.User;
+import com.king.mooc.service.CourseService;
+import com.king.mooc.service.UserService;
+import com.king.mooc.service.impl.OrderServiceImpl;
+import com.king.mooc.util.HttpUtil;
 import com.king.mooc.vo.AlipayVo;
+import com.king.mooc.vo.ResultObj;
+import com.king.mooc.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +54,15 @@ import java.util.Map;
 @Api(value = "支付宝沙箱支付接口", tags = "支付宝沙箱支付接口")
 public class AlipayController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private OrderServiceImpl orderService;
 
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")
@@ -90,41 +110,54 @@ public class AlipayController {
         response.getWriter().write(alipayResponse.getBody());
     }
 
-    @RequestMapping(value = "/play", method = RequestMethod.GET)
+    @RequestMapping(value = "/byCourse.do", method = RequestMethod.GET)
     @ApiOperation(value = "支付", tags = "支付宝沙箱支付接口")
-    @ApiImplicitParam(name = "id", value = "金额", dataType = "double", paramType = "query", example = "1", required = true)
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("开始处理会员充值服务的服务");
-        String title = "会员充值";
-        String total = request.getParameter("money");
-        String message = "会员充值";
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cid", value = "课程id", dataType = "int", paramType = "query", example = "1", required = true),
+            @ApiImplicitParam(name = "uid", value = "用户id", dataType = "int", paramType = "query", example = "1", required = true),
+            @ApiImplicitParam(name = "money", value = "金额", dataType = "double", paramType = "query", example = "1", required = true),
+    })
+
+    public void byCourse(HttpServletRequest request, HttpServletResponse response, Long cid, Long uid, BigDecimal money) throws ServletException, IOException {
+
+        logger.info("开始购买课程");
+        String title = "购买课程";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserVo userVo = new UserVo(user);
+        String total;
+        Course course = courseService.selectById(cid);
+        if (userVo.getIsVip()) {
+            //会员价
+            total = String.valueOf(course.getVipPrice());
+        } else {
+            //普通价
+            total = String.valueOf(course.getPrice());
+        }
+
+
+        String message = "购买课程" + course.getName();
         AlipayConfig ac = new AlipayConfig();
         //生成订单号
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String orderSn = simpleDateFormat.format(Calendar.getInstance().getTime());
+        //创建订单
+        orderService.creatOrder(Long.parseLong(orderSn), user.getId(), course.getId(), new BigDecimal(total));
         //向支付宝发送请求
-        //获得初始化的AlipayClient
+
         AlipayClient alipayClient = new DefaultAlipayClient(ac.getGatewayUrl(), ac.getApp_id(),
                 ac.getMerchant_private_key(), "json", ac.getCharset(), ac.getAlipay_public_key(),
                 ac.getSign_type());
         //设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
 
-        alipayRequest.setNotifyUrl(ac.getNotify_url());
-        alipayRequest.setReturnUrl(ac.getReturn_url());
-        //商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = orderSn;
-        //付款金额，必填
-        String total_amount = total;
-        //订单名称，必填
-        String subject = title;
-        //商品描述，可空
-        String body = message;
+        String url = HttpUtil.getUrlStart(request) + "/api/alipay/notify";
+        alipayRequest.setNotifyUrl(url);
+        alipayRequest.setReturnUrl(url);
 
-        alipayRequest.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\","
-                + "\"total_amount\":\"" + total_amount + "\","
-                + "\"subject\":\"" + subject + "\","
-                + "\"body\":\"" + body + "\","
+        alipayRequest.setBizContent("{\"out_trade_no\":\"" + orderSn + "\","
+                + "\"total_amount\":\"" + total + "\","
+                + "\"subject\":\"" + title + "\","
+                + "\"body\":\"" + message + "\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
 
         AlipayTradePagePayResponse alipayResponse = null;
@@ -136,7 +169,58 @@ public class AlipayController {
             e.printStackTrace();
         }
         response.setContentType("text/html;charset=UTF-8");
+        assert alipayResponse != null;
         response.getWriter().write(alipayResponse.getBody());
+    }
+
+    /**
+     * 支付宝支付回调
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     */
+    @GetMapping("/notify")
+    public ResultObj notify(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("支付宝回调");
+        //获取支付宝POST过来反馈信息
+        Map<String, String> params = new HashMap<>();
+        Map requestParams = request.getParameterMap();
+        for (Object o : requestParams.keySet()) {
+            String name = (String) o;
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+            //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
+            params.put(name, valueStr);
+        }
+        AlipayConfig alipayConfig = new AlipayConfig();
+        //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
+        //商户订单号
+        String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
+        //支付宝交易号
+        String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"), "UTF-8");  //支付宝交易号
+
+        //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
+        //计算得出通知验证结果
+        //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
+        boolean verify_result = false;
+        try {
+            verify_result = AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipay_public_key(), alipayConfig.getCharset(), "RSA2");
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        logger.info("支付宝回调验证结果：" + verify_result);
+        if (verify_result) {//验证成功
+            orderService.overOrder(Long.valueOf(out_trade_no));
+        }
+        logger.info("商户订单号{}支付宝交易号{}", out_trade_no, trade_no);
+
+        return ResultObj.ok(params);
     }
 
     /**

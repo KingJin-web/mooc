@@ -3,6 +3,8 @@ package com.king.mooc.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.king.mooc.entity.enums.State;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,22 +17,11 @@ import java.time.LocalDateTime;
  * @create: 2021-12-31 01:36
  */
 @Data
+@Builder
+@AllArgsConstructor
 @TableName(value = "orders")
 public class Orders {
-
-
-
-    public Orders() {
-    }
-
-    public Orders(Long uid, Long cid, BigDecimal price, State state) {
-        this.uid = uid;
-        this.cid = cid;
-        this.price = price;
-        this.state = state;
-    }
-
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)//指定自增策略
     private Long id;
 
     @ApiModelProperty(value = "购买的用户id")
@@ -49,11 +40,12 @@ public class Orders {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "上次修改时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+
 
     public void println() {
         System.out.println(this);
+    }
+
+    public Orders() {
     }
 }

@@ -49,10 +49,10 @@
                             id="notify-dot"></span></a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:">酷瓜云课堂</a>
+                    <a href="javascript:">kk在线网课</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/user/user.html">我的主页</a></dd>
-                        <dd><a href="/user/user.html">用户中心</a></dd>
+                        <dd><a href="/user/">我的主页</a></dd>
+                        <dd><a href="/user/">用户中心</a></dd>
                         <dd><a href="/logout">退出登录</a></dd>
                     </dl>
                 </li>
@@ -81,7 +81,7 @@
                         <div class="layui-card-body">
                             <ul class="my-menu">
                                 <li><a href="/user/index.html">个人信息</a></li>
-                                <li><a href="/user/account.html">帐号安全</a></li>
+                                <li><a href="/user/account">帐号安全</a></li>
                                 <li><a href="/user/like.html">收藏课程</a></li>
                             </ul>
                         </div>
@@ -90,8 +90,8 @@
                     <div class="layui-card-header">课程中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
-                            <li><a href="/uc/courses">我的课程</a></li>
-                            <li><a href="/uc/reviews">我的评价</a></li>
+                            <li><a href="/user/course">我的课程</a></li>
+                            <li><a href="/user/reviews">我的评价</a></li>
                         </ul>
                     </div>
                 </div>
@@ -100,8 +100,8 @@
                     <div class="layui-card-header">订单中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
-                            <li><a href="/uc/orders">我的订单</a></li>
-                            <li><a href="/uc/refunds">我的退款</a></li>
+                            <li><a href="/user/orders">我的订单</a></li>
+                            <li><a href="/user/refunds">我的退款</a></li>
                         </ul>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">简介</label>
                             <div class="layui-input-block">
-                                <textarea class="layui-textarea" v-model="user.msg" name="about" lay-verify="required">酷瓜云课堂（腾讯云版），依托腾讯云基础服务架构，采用C扩展PHP框架Phalcon开发，致力开源网课系统，开源网校系统，开源在线教育系统。</textarea>
+                                <textarea class="layui-textarea" v-model="user.msg" name="about" lay-verify="required">kk在线网课（腾讯云版），依托腾讯云基础服务架构，采用C扩展PHP框架Phalcon开发，致力开源网课系统，开源网校系统，开源在线教育系统。</textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -152,7 +152,6 @@
                             <div class="layui-input-block">
                                 <span v-text="user.msgReg"></span><br>
                                 <span v-text="user.msgVip"></span><br>
-
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -181,9 +180,9 @@
             <div class="row copyright">
                 <span v-html="msg"></span>
                 <span>&copy; 深圳市酷瓜软件有限公司</span>
-                <a href="https://koogua.com" title="酷瓜云课堂" target="_blank">Powered by CTC 1.5.１</a>
-                <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备18124674号-1</a>
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502005963" target="_blank">粤公网安备44030502005963号</a>
+                <a href="https://koogua.com" title="kk在线网课" target="_blank">Powered by CTC 1.5.１</a>
+                <a href="http://beian.miit.gov.cn" target="_blank">湘ICP备2020019542号-1</a>
+                
             </div>
             <div class="row contact">
                 <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=286211774&site=qq&menu=yes"

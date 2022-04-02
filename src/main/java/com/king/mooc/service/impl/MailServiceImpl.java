@@ -29,37 +29,17 @@ import java.util.concurrent.CompletableFuture;
  */
 @Service
 public class MailServiceImpl implements MailService {
-    @Autowired
-    private JavaMailSenderImpl javaMailSender;//注入邮件工具类
+    @Value("${mail.password}")
+    private String password;
+    @Value("${mail.username}")
+    private String username;
+    @Value("${mail.host}")
+    private String host;
+    @Value("${mail.protocol}")
+    private String protocol;
+    @Value("${mail.properties.mail.smtp.auth}")
+    private String auth;
 
-    @Async("myTaskExecutor")
-    @Override
-    public CompletableFuture<MailVo> sendAndSaveMail(MailVo mailVo) {
-        try {
-            checkMail(mailVo); //1.检测邮件
-            sendMimeMail(mailVo); //2.发送邮件
-            return CompletableFuture.completedFuture(saveMail(mailVo)); //3.保存邮件
-        } catch (Exception e) {
-            mailVo.setStatus("fail");
-            mailVo.setError(e.getMessage());
-            return CompletableFuture.completedFuture(mailVo);
-        }
-    }
-
-    @Async("myTaskExecutor")
-    @Override
-    public void sendMail(MailVo mailVo) throws MyException {
-        System.out.println(Thread.currentThread().getName());
-        try {
-            checkMail(mailVo); //1.检测邮件
-            sendMimeMail(mailVo); //2.发送邮件
-        } catch (Exception e) {
-            mailVo.setStatus("fail");
-            mailVo.setError(e.getMessage());
-            e.printStackTrace();
-            throw new MyException(e);//发送失败
-        }
-    }
 
     //检测邮件信息类
     private void checkMail(MailVo mailVo) throws MyException {
@@ -74,49 +54,21 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    //构建复杂邮件信息类
-    private void sendMimeMail(MailVo mailVo) throws MyException {
-        try {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(javaMailSender.createMimeMessage(), true);//true表示支持复杂类型
-            //mailVo.setFrom(getMailSendFrom());//邮件发信人从配置项读取
-            messageHelper.setFrom(mailVo.getFrom());//邮件发信人
-            messageHelper.setTo(mailVo.getTo().split(","));//邮件收信人
-            messageHelper.setSubject(mailVo.getSubject());//邮件主题
-            messageHelper.setText(mailVo.getText(), true);//邮件内容
-            if (!StringUtils.checkNull(mailVo.getCc())) {//抄送
-                messageHelper.setCc(mailVo.getCc().split(","));
-            }
-            if (!StringUtils.checkNull(mailVo.getBcc())) {//密送
-                messageHelper.setCc(mailVo.getBcc().split(","));
-            }
-            if (!StringUtils.checkNull(mailVo.getMultipartFiles())) {//添加邮件附件
-                for (MultipartFile multipartFile : mailVo.getMultipartFiles()) {
-                    messageHelper.addAttachment(multipartFile.getOriginalFilename(), multipartFile);
-                }
-            }
-            if (StringUtils.checkNull(mailVo.getSentDate())) {//发送时间
-                mailVo.setSentDate(new Date());
-                messageHelper.setSentDate(mailVo.getSentDate());
-            }
-            javaMailSender.send(messageHelper.getMimeMessage());//正式发送邮件
-            mailVo.setStatus("ok");
-        } catch (Exception e) {
-            throw new MyException(e);//发送失败
-        }
-    }
 
-    @Value("${spring.mail.password}")
-    private String password;
-    @Value("${spring.mail.username}")
-    private String username;
+
+
+
+    public void sendMali(){
+
+    }
 
     @Async("myTaskExecutor")
     public void sendMail(MailVo mailVo, boolean isDebug) throws MyException {
         checkMail(mailVo);
         try {
             Properties properties = new Properties();
-            properties.setProperty("mail.host", "smtp.qq.com");
-            properties.setProperty("mail.transport.protocol", "smtp");
+            properties.setProperty("mail.host", host);
+            properties.setProperty("mail.transport.protocol", protocol);
             properties.setProperty("mail.smtp.auth", "true");
             //QQ存在一个特性设置SSL加密
             MailSSLSocketFactory sf = new MailSSLSocketFactory();
@@ -136,7 +88,7 @@ public class MailServiceImpl implements MailService {
             Transport transport = session.getTransport();
             //连接服务器
             //transport.connect("smtp.qq.com", "发件人邮箱", "邮箱 SMTP 信息");
-            transport.connect("smtp.qq.com", username, password);
+            transport.connect(host, username, password);
             //创建邮件对象
             MimeMessage mimeMessage = new MimeMessage(session);
             //邮件发送人
@@ -158,30 +110,6 @@ public class MailServiceImpl implements MailService {
 
     }
 
-    /**
-     * email消息发送
-     *
-     * @param mailVo
-     * @return
-     */
-    @Override
-    public boolean adminSendEmail(MailVo mailVo) throws MyException {
-        try {
-            // 使用JavaMail的MimeMessage，支持更加复杂的邮件格式和内容
-            MimeMessage msg = javaMailSender.createMimeMessage();
-            // 创建MimeMessageHelper对象，处理MimeMessage的辅助类
-            MimeMessageHelper message = new MimeMessageHelper(msg, true);
-            message.setFrom(mailVo.getFrom()); // 邮件发送者
-            message.setTo(mailVo.getTo()); // 邮件接受者
-            message.setSubject(mailVo.getSubject()); // 主题
-            message.setText(mailVo.getText(), true); // 内容！
-            javaMailSender.send(msg);// 消息发送
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new MyException("email发送失败，错误原因：" + e.getMessage());
-        }
-        return true;
-    }
 
     //保存邮件
     private MailVo saveMail(MailVo mailVo) {
@@ -191,9 +119,5 @@ public class MailServiceImpl implements MailService {
         return mailVo;
     }
 
-    //获取邮件发信人
-    public String getMailSendFrom() {
-        return javaMailSender.getJavaMailProperties().getProperty("from");
-    }
 
 }

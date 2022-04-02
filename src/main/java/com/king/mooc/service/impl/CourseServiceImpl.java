@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.king.mooc.entity.Course;
+import com.king.mooc.entity.enums.Category;
 import com.king.mooc.mapper.CourseMapper;
 import com.king.mooc.service.CourseService;
+import com.king.mooc.vo.CourseVo;
+import com.king.mooc.vo.CourseVos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +24,21 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    CourseMapper courseMapper;
+    private CourseMapper courseMapper;
 
     @Override
     public int insert(Course course) {
         return courseMapper.insert(course);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return courseMapper.deleteById(id);
+    }
+
+    @Override
+    public Course selectById(Long id) {
+        return courseMapper.selectById(id);
     }
 
     @Override
@@ -51,6 +64,39 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course queryById(Long id) {
         return courseMapper.selectById(id);
+    }
+
+    @Override
+    public CourseVos queryRecommend() {
+        CourseVos courseVos = new CourseVos();
+        courseVos.setFrontend(courseMapper.queryRecommend(Category.FRONTEND));
+        courseVos.setBackend(courseMapper.queryRecommend(Category.BACKEND));
+        courseVos.setDatabase(courseMapper.queryRecommend(Category.DATABASE));
+        courseVos.setMobile(courseMapper.queryRecommend(Category.MOBILE));
+        courseVos.setComputer(courseMapper.queryRecommend(Category.COMPUTER));
+
+        return courseVos;
+    }
+
+    @Override
+    public CourseVos queryNew() {
+        CourseVos courseVos = new CourseVos();
+        courseVos.setFrontend(courseMapper.queryNew(Category.FRONTEND));
+        courseVos.setBackend(courseMapper.queryNew(Category.BACKEND));
+        courseVos.setDatabase(courseMapper.queryNew(Category.DATABASE));
+        courseVos.setMobile(courseMapper.queryNew(Category.MOBILE));
+        courseVos.setComputer(courseMapper.queryNew(Category.COMPUTER));
+        return courseVos;
+    }
+
+    @Override
+    public CourseVos queryHot() {
+        return null;
+    }
+
+    @Override
+    public List<Course> queryByUid(Long uid) {
+        return courseMapper.queryByUid1(uid);
     }
 
 

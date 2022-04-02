@@ -23,7 +23,7 @@
     <script type="text/javascript" src="lib/axios.js"></script>
 
 </head>
-<body class="main" onload="init()">
+<body class="main">
 <div id="pagemain">
     <div id="header">
         <div class="logo">
@@ -73,109 +73,70 @@
     </div>
 
     <div id="main" class="layui-main">
+        <div class="vip-header">账号详情</div>
+        <div class="vip-reason-list wrap">
+            <span id="vip1" v-text="user.msgReg"></span>
+            <span id="vip2" v-text="user.msgVip"></span>
 
-
-        <div class="index-wrap wrap">
-            <div class="header">推荐课程</div>
-            <div class="content">
-                <div class="layui-tab layui-tab-brief">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this">前端开发</li>
-                        <li class="none">后端开发</li>
-                        <li class="none">移动开发</li>
-                        <li class="none">数据库</li>
-                        <li class="none">计算机基础</li>
-                    </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="frontend">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="backend">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="mobile">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="database">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="computer">
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <div class="index-wrap wrap">
-            <div class="header">新课程</div>
-            <div class="content">
-                <div class="layui-tab layui-tab-brief">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this">前端开发</li>
-                        <li class="none">后端开发</li>
-                        <li class="none">移动开发</li>
-                        <li class="none">数据库</li>
-                        <li class="none">计算机基础</li>
-                    </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="newfrontend">
+        <div class="vip-header">会员权益</div>
 
-                                </div>
-                            </div>
+        <div class="vip-reason-list wrap">
+            <span class="layui-badge reason-badge">好课畅学</span>
+            <span class="layui-badge reason-badge">会员折扣</span>
+            <span class="layui-badge reason-badge">高清视频</span>
+            <span class="layui-badge reason-badge">广告免疫</span>
+            <span class="layui-badge reason-badge">会员标识</span>
+            <span class="layui-badge reason-badge">贴心服务</span>
+        </div>
+
+        <div class="vip-header">开通会员</div>
+
+        <div class="vip-option-list">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-md3">
+                    <div class="vip-option-card">
+                        <div class="title">1个月</div>
+                        <div class="price">￥0.01</div>
+                        <div class="order">
+                            <button class="layui-btn layui-btn-sm layui-bg-red btn-order"
+                                    data-url="/order/confirm?item_id=1&item_type=4">立即开通
+                            </button>
                         </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="newbackend">
-
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="vip-option-card">
+                        <div class="title">3个月</div>
+                        <div class="price">￥150</div>
+                        <div class="order">
+                            <button class="layui-btn layui-btn-sm layui-bg-red btn-order"
+                                    data-url="/order/confirm?item_id=2&item_type=4">立即开通
+                            </button>
                         </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="newmobile">
-
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="vip-option-card">
+                        <div class="title">6个月</div>
+                        <div class="price">￥240</div>
+                        <div class="order">
+                            <button class="layui-btn layui-btn-sm layui-bg-red btn-order"
+                                    data-url="/order/confirm?item_id=3&item_type=4">立即开通
+                            </button>
                         </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="newdatabase">
-
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="vip-option-card">
+                        <div class="title">12个月</div>
+                        <div class="price">￥360</div>
+                        <div class="order">
+                            <button class="layui-btn layui-btn-sm layui-bg-red btn-order"
+                                    data-url="/order/confirm?item_id=4&item_type=4">立即开通
+                            </button>
                         </div>
-                        <div class="layui-tab-item">
-                            <div class="index-course-list clearfix">
-                                <div class="layui-row layui-col-space20" id="newcomputer">
-
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -188,7 +149,6 @@
             <div class="row nav">
                 <a href="/page/about" target="_blank">关于我们</a>
                 <a href="/page/contact" target="_blank">联系我们</a>
-                <a href="/page/jobs" target="_blank">人才招聘</a>
                 <a href="/help" target="_blank">帮助中心</a>
                 <a href="/page/links" target="_blank">友情链接</a>
             </div>
@@ -224,7 +184,40 @@
 </div>
 
 <script src="lib/axios.js"></script>
-<script type="text/javascript" src="lib/js/index_init.js"></script>
+<script type="text/javascript">
+    const king = new Vue({
+        el: '#pagemain',
+        data: {
+            user: {},
+
+        },
+        created: function () {
+            this.getUser();
+        },
+        mounted: function () {
+            console.log('mounted');
+            console.log(this.user);
+        },
+        methods: {
+            getUser: function () {
+                axios.get('/api/user/getUser.do').then(function (response) {
+                    this.user = response.data.data;
+                    if (this.user.id !== undefined || this.user.id !== null) {
+                        $("#vip1").append(this.user.msgReg);
+                        $("#vip2").append(this.user.msgVip);
+                        $("#login").remove();
+                        $("#register").remove();
+                    } else {
+                        $("#loginAfter").remove();
+                    }
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        }
+    });
+</script>
 <script type="text/javascript" src="layui/layui.js"></script>
 <script type="text/javascript" src="lib/layuiInit.js"></script>
 </body>

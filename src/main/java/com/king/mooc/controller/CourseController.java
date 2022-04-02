@@ -1,5 +1,6 @@
 package com.king.mooc.controller;
 
+import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.CourseVideoService;
@@ -11,11 +12,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @program: mooc
@@ -29,13 +33,13 @@ import javax.servlet.http.HttpServletRequest;
 public class CourseController {
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
 
     @Autowired
-    RedisObjUtil redisObjUtil;
+    private RedisObjUtil redisObjUtil;
 
     @Autowired
-    CourseVideoService courseVideoService;
+    private CourseVideoService courseVideoService;
 
     @PostMapping(value = "/delete.do")
     @ApiOperation(value = "通过课程id删除课程", tags = "课程操作接口")
@@ -77,6 +81,42 @@ public class CourseController {
             resultObj.setMsg("系统错误！");
             resultObj.setCode(1);
             return resultObj;
+        }
+    }
+
+
+    @GetMapping(value = "/findById.do")
+    @ApiOperation(value = "通过课程id查询", tags = "课程操作接口")
+    public ResultObj findById(Long id) {
+        try {
+            return ResultObj.ok(courseService.queryById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误！");
+        }
+    }
+
+    //推荐课程
+    @GetMapping(value = "/recommend.do")
+    @ApiOperation(value = "推荐课程", tags = "课程操作接口")
+    public ResultObj recommend() {
+        try {
+            return ResultObj.ok(courseService.queryRecommend());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误！");
+        }
+    }
+
+    //新增的课程
+    @GetMapping(value = "/getNewCourse.do")
+    @ApiOperation(value = "新增课程", tags = "课程操作接口")
+    public ResultObj getNewCourse() {
+        try {
+            return ResultObj.ok(courseService.queryNew());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误！");
         }
     }
 
@@ -137,6 +177,36 @@ public class CourseController {
             resultObj.setCode(1);
         }
         return resultObj;
+    }
+
+    /**
+     * 通过用户id查询购买的课程
+     *
+     * @param
+     * @return ResultObj
+     */
+    @ApiOperation(value = "通过用户id查询购买的课程", tags = "课程操作接口")
+    @GetMapping(value = "/getBuyCourse.do")
+    public ResultObj getCourseByOrders(int page, int limit) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user == null || user.getId() == null) {
+            return ResultObj.error("用户未登录！");
+        }
+        try {
+            List<Course> courses = courseService.queryByUid(user.getId());
+            int size = courses.size();
+            int a = (page - 1) * limit; //开始行数
+            int b = page * limit; //结束行数
+            if (b > size) {
+                b = size;
+            }
+            courses = courses.subList(a, b);
+            return ResultObj.obj(0,"查询成功",size,courses);
+          //  return ResultObj.ok(courseService.queryByUid(user.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误！");
+        }
     }
 
 
