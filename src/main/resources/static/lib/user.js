@@ -49,7 +49,14 @@ const king = new Vue({
                 formData,
                 {headers: {'Content-Type': 'multipart/form-data'}}
             ).then(function (res) {
-                alertClear(res.data.msg)
+                if (res.data.code === 1) {
+                    //刷新数据
+                    axios.get("/api/user/refreshUser.do");
+                    alertClear(res.data.msg)
+                } else {
+                    alertMy(res.data.msg);
+                }
+
             })
         },
         //渲染account.html
@@ -100,6 +107,7 @@ const king = new Vue({
 
     }
 });
+
 
 // Language: ecmascript 6
 // Path: src/main/resources/static/lib/user.js

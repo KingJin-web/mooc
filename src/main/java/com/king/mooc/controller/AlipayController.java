@@ -12,7 +12,7 @@ import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.UserService;
-import com.king.mooc.service.impl.OrderServiceImpl;
+import com.king.mooc.service.impl.OrdersServiceImpl;
 import com.king.mooc.util.HttpUtil;
 import com.king.mooc.vo.AlipayVo;
 import com.king.mooc.vo.ResultObj;
@@ -24,10 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -40,7 +37,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -62,7 +58,7 @@ public class AlipayController {
     private CourseService courseService;
 
     @Autowired
-    private OrderServiceImpl orderService;
+    private OrdersServiceImpl orderService;
 
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")

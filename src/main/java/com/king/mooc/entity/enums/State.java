@@ -1,10 +1,14 @@
 package com.king.mooc.entity.enums;
 
+
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 //订单状态枚举
 //https://baomidou.com/pages/8390a4/
+//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum State implements IEnum<Integer> {
 
     START("开始", 1),
@@ -15,6 +19,7 @@ public enum State implements IEnum<Integer> {
 
     @EnumValue
     private final Integer status;
+    @JsonValue
     private final String text;
 
     State(String text, Integer status) {
@@ -35,12 +40,5 @@ public enum State implements IEnum<Integer> {
         return this.status;
     }
 
-    @Override
-    public String toString() {
-        return "State{" +
-                "status=" + status +
-                ", text='" + text + '\'' +
-                "} " + super.toString();
-    }
 }
 
