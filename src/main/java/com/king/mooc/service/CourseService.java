@@ -1,5 +1,6 @@
 package com.king.mooc.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.king.mooc.entity.Course;
 import com.king.mooc.vo.CourseVo;
 import com.king.mooc.vo.CourseVos;
@@ -20,10 +21,11 @@ public interface CourseService {
     /**
      * 通过课程名模糊查找课程
      *
-     * @param name 课程名
+     * @param query   搜索的内容
+     * @param current 当前页
      * @return
      */
-    List<Course> queryByLikeName(String name);
+    IPage<Course> queryByLikeNameAndMsg(String query, int current);
 
     /**
      * 修改价格
@@ -64,8 +66,11 @@ public interface CourseService {
 
     /**
      * 通过购买课程的用户id查询课程
+     *
      * @param uid
      * @return List<Course>
      */
     List<Course> queryByUid(Long uid);
+
+
 }

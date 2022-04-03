@@ -42,10 +42,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> queryByLikeName(String name) {
+    public IPage<Course> queryByLikeNameAndMsg(String name, int current) {
         QueryWrapper<Course> qw = new QueryWrapper<>();
-        qw.like("name", name);
-        return courseMapper.selectList(qw);
+        qw.like("name", name).or().like("msg", name);
+        Page<Course> page = new Page<>(current, 10);
+        return courseMapper.selectPage(page, qw);
     }
 
     @Override

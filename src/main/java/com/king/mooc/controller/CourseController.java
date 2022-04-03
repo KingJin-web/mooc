@@ -67,23 +67,6 @@ public class CourseController {
 
     }
 
-    @PostMapping(value = "/findLikeName.do")
-    @ApiOperation(value = "通过课程名查询", tags = "课程操作接口")
-    @ApiImplicitParam(name = "name", value = "课程名", dataType = "string", paramType = "query", example = "lihailin9073", required = true)
-    public ResultObj findLikeName(String name) {
-        ResultObj resultObj = new ResultObj();
-        try {
-            resultObj.setData(courseService.queryByLikeName(name));
-            resultObj.setCode(0);
-            return resultObj;
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultObj.setMsg("系统错误！");
-            resultObj.setCode(1);
-            return resultObj;
-        }
-    }
-
 
     @GetMapping(value = "/findById.do")
     @ApiOperation(value = "通过课程id查询", tags = "课程操作接口")
@@ -188,11 +171,8 @@ public class CourseController {
     @ApiOperation(value = "通过用户id查询购买的课程", tags = "课程操作接口")
     @GetMapping(value = "/getBuyCourse.do")
     public ResultObj getCourseByOrders(int page, int limit) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (user == null || user.getId() == null) {
-            return ResultObj.error("用户未登录！");
-        }
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Course> courses = courseService.queryByUid(user.getId());
             int size = courses.size();
             int a = (page - 1) * limit; //开始行数
@@ -201,13 +181,25 @@ public class CourseController {
                 b = size;
             }
             courses = courses.subList(a, b);
-            return ResultObj.obj(0,"查询成功",size,courses);
-          //  return ResultObj.ok(courseService.queryByUid(user.getId()));
+            return ResultObj.obj(0, "查询成功", size, courses);
+            //  return ResultObj.ok(courseService.queryByUid(user.getId()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.error("系统错误！");
         }
     }
 
+    @GetMapping("/search.do")
+    private ResultObj search(String query, Integer current) {
+        try {
+            if (current == null) {
+                current = 1;
+            }
+            return ResultObj.ok(courseService.queryByLikeNameAndMsg(query, current));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error("系统错误！");
+        }
+    }
 
 }

@@ -1,13 +1,15 @@
 package com.king.mooc.service;
 
 
-
 import com.king.mooc.entity.Orders;
+import com.king.mooc.vo.OrdersVo;
+import com.king.mooc.vo.ResultObj;
+import org.springframework.data.domain.Sort.Order;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface OrderService {
+public interface OrdersService {
 
     /**
      * 创建订单
@@ -37,4 +39,14 @@ public interface OrderService {
      */
     int overOrder(Long id);
 
+    /**
+     * 判断你有没有购买这个课程
+     *
+     * @param uid
+     * @param cid
+     * @return boolean
+     */
+    boolean isBuy(Long uid, Long cid);
+
+    List<OrdersVo> getOrders(Long uid);
 }

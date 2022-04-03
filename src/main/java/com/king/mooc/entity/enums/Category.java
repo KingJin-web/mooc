@@ -2,7 +2,9 @@ package com.king.mooc.entity.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Category implements IEnum<Integer> {
 
     //前端开发frontend

@@ -78,4 +78,14 @@ public class PageController {
     public String vip() {
         return "/vip.html";
     }
+
+    @GetMapping("/user/orders")
+    public String orders() {
+        return "/user/orders.html";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "/search.html";
+    }
 }
