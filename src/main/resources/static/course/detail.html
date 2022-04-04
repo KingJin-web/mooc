@@ -689,7 +689,7 @@
 
 
             <div class="layout-sidebar">
-                <div class="sidebar wrap">
+                <div class="sidebar wrap" id="gotoPay">
                     <button class="layui-btn layui-btn-fluid layui-bg-red btn-buy"
                             @click="gotoPay()">立即购买
                     </button>
@@ -783,7 +783,8 @@
     const king = new Vue({
         el: '#course_page',
         data: {
-            user: {}
+            user: {},
+            course_: course
         },
         created: function () {
             this.getUser();
@@ -808,6 +809,22 @@
                     console.log(error);
                 });
             },
+            isBuy: function () {
+                console.log(course.id)
+                axios.get('/api/orders/isBuy.do?cid=' + course.id).then(function (response) {
+                    if (response.data.code === 1) {
+                        if (response.data.data === true) {
+                            $("#gotoPay button").remove();
+                            $("#gotoPay").append('<button class="layui-btn layui-btn-fluid layui-bg-red btn-buy" onclick="window.location.href=\'/course/video?cid=' + course.id + '\'">前往观看</button>');
+                        }
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
             gotoPay: function () {
                 console.log(this.course);
                 console.log(this.c);
@@ -822,15 +839,19 @@
                     if (response.data.code === 1) {
                         course = response.data.data;
                         console.log(course);
+
                         $("#cname").append(course.name)
                         $("#cimg").attr("src", course.coverImage)
                         $("#price").append(course.price)
                         $("#vipPrice").append(course.vipPrice)
                         $("#msg").append(course.msg)
+
+                        king.isBuy();
                     }
                 }).catch(function (error) {
                     console.log(error);
                 });
+
             }
 
         }

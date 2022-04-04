@@ -101,7 +101,7 @@ public class MoocApplicationTests {
 
             // 读表头
             csvReader.readHeaders();
-            double i = 0;
+            int i = 0;
             while (csvReader.readRecord()) {
 //                // 读一整行
 //                System.out.println(csvReader.getRawRecord());

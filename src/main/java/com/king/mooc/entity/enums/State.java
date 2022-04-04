@@ -11,10 +11,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 //@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum State implements IEnum<Integer> {
 
-    START("开始", 1),
+    START("订单未完成", 1),
     ERROR("订单错误", -1),
-    SUCCESS("订单成功", 2),
-    CANCEL("订单取消", 3);
+    SUCCESS("订单已完成", 2),
+    CANCEL("订单已取消", 3);
 
 
     @EnumValue

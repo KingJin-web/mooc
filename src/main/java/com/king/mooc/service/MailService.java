@@ -4,7 +4,6 @@ import com.king.mooc.util.MyException;
 import com.king.mooc.vo.MailVo;
 import org.springframework.scheduling.annotation.Async;
 
-import java.util.concurrent.CompletableFuture;
 
 public interface MailService {
 

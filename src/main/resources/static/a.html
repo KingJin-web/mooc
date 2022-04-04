@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="">
-  <meta name="description" content="">
-  <meta name="csrf-token" content="xCLeB1gF4oxYhPs/I5dEHxfOBkC8SVOTxh/g8iru0I9BXekbMIJwlw==">
-  <title>搜索 - 微服务 - 酷瓜云课堂 - 开源版</title>
+  <meta name="description" content="演示章节（22577）- 章节介绍">
+  <meta name="csrf-token" content="w8JRkBC40KDP/E97uRyRfDGtZ1dpbhs94tevpkxO24T1ALfrybvdrg==">
+  <title>章节 - 1-1 课程导学 - Vue核心技术Vue+Vue-Router+Vuex+SSR实战精讲 - 酷瓜云课堂 - 开源版</title>
   <link rel="shortcut icon" href="https://course-1255691183.file.myqcloud.com/static/favicon.ico?v=1648000489">        <link rel="preload" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
   <link rel="stylesheet" type="text/css" href="https://course-1255691183.file.myqcloud.com/static/lib/layui/css/layui.css?v=1648000489">    <link rel="stylesheet" type="text/css" href="https://course-1255691183.file.myqcloud.com/static/home/css/common.css?v=1648000489">
@@ -59,7 +59,7 @@
   <div class="user">
     <ul class="layui-nav">
       <li class="layui-nav-item">
-        <a href="javascript:" class="nav-search" data-type="course" data-query="微服务" data-url="/search"><i class="layui-icon layui-icon-search"></i> 搜索</a>
+        <a href="javascript:" class="nav-search" data-type="course" data-query="" data-url="/search"><i class="layui-icon layui-icon-search"></i> 搜索</a>
       </li>
       <li class="layui-nav-item">
         <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
@@ -67,322 +67,324 @@
       <li class="layui-nav-item">
         <a href="/im" class="nav-im" target="im"><i class="layui-icon layui-icon-chat"></i> 微聊</a>
       </li>
-      <li class="layui-nav-item"><a href="/login">登录</a></li>
-      <li class="layui-nav-item"><a href="/register">注册</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:"><i class="layui-icon layui-icon-add-circle"></i> 发布</a>
+        <dl class="layui-nav-child">
+          <dd><a href="/question/add" target="_blank">提问题</a></dd>
+          <dd><a href="/article/add" target="_blank">写文章</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span id="notify-dot"></span></a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="javascript:">酷瓜云课堂</a>
+        <dl class="layui-nav-child">
+          <dd><a href="/user/100015">我的主页</a></dd>
+          <dd><a href="/tc">教学中心</a></dd>
+          <dd><a href="/uc">用户中心</a></dd>
+          <dd><a href="/logout">退出登录</a></dd>
+        </dl>
+      </li>
     </ul>
   </div></div>
 <div id="main" class="layui-main">
 
 
 
-
-  <div class="layui-breadcrumb breadcrumb">
-    <a href="/">首页</a>
-    <a href="#">搜索</a>
-    <a><cite>微服务</cite></a>
+  <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/course/1340"><i class="layui-icon layui-icon-return"></i> 返回课程</a>
+            <a><cite>1-1 课程导学</cite></a>
+        </span>
+    <span class="share">
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+        </span>
   </div>
 
   <div class="layout-main clearfix">
+    <div class="layout-sticky">
+
+      <div class="toolbar-sticky">
+        <div class="item" id="toolbar-like">
+          <div class="icon" title="点赞支持" data-url="/chapter/22577/like">
+            <i class="layui-icon layui-icon-praise icon-praise "></i>
+          </div>
+          <div class="text" data-count="450">450</div>
+        </div>
+        <div class="item">
+          <div class="icon" title="学习人次">
+            <i class="layui-icon layui-icon-user"></i>
+          </div>
+          <div class="text">277</div>
+        </div>
+        <div class="item" id="toolbar-comment">
+          <div class="icon" title="评论交流">
+            <i class="layui-icon layui-icon-reply-fill icon-reply"></i>
+          </div>
+          <div class="text" data-count="18">18</div>
+        </div>
+        <div class="item">
+          <div class="icon" title="课程咨询" data-url="/consult/add?chapter_id=22577">
+            <i class="layui-icon layui-icon-help icon-help"></i>
+          </div>
+          <div class="text">咨询</div>
+        </div>
+      </div>        </div>
     <div class="layout-content">
-      <div class="search-tab-wrap wrap">
-        <div class="layui-tab layui-tab-brief search-tab">
-          <ul class="layui-tab-title">
-            <li class="layui-this"><a href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">课程</a></li>
-            <li class="none"><a href="/search?type=article&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">专栏</a></li>
-            <li class="none"><a href="/search?type=question&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">问答</a></li>
-            <li class="none"><a href="/search?type=group&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">群组</a></li>
-            <li class="none"><a href="/search?type=user&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">用户</a></li>
-          </ul>
-          <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-              <div class="search-course-list">
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1353" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242304004326.jpg!cover_270" alt="Java从单体到<em>微</em><em>服务</em>打造房产销售平台">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1353" target="_blank">Java从单体到<em>微</em><em>服务</em>打造房产销售平台</a>
-                    </div>
-                    <div class="summary"><em>微</em><em>服务</em>是近年来非常流行的架构，是后端资深开发工程师必备技能。本课程将基于房产销售平台，首先带你进行单体开发，然后进行<em>微</em><em>服务</em>架构改造，并深入剖析<em>微</em><em>服务</em>架构原理。快速提升你的项目开发与<em>微</em><em>服务</em>架构能力，更好...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/6300745" target="_blank">格鲁</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：109</span>
-                      <span>学员：466</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1351" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242304005751.jpg!cover_270" alt="从天气项目入门Spring Cloud<em>微</em><em>服务</em>治理">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1351" target="_blank">从天气项目入门Spring Cloud<em>微</em><em>服务</em>治理</a>
-                    </div>
-                    <div class="summary">...的天气预报系统，而后剖析单块架构的利弊，从而引入<em>微</em><em>服务</em>架构的概念，并从1到0实现<em>微</em><em>服务</em>的拆分，最后引入Spring Cloud 技术来实现对这些<em>微</em><em>服务</em>的治理</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/4842271" target="_blank">老卫</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：62</span>
-                      <span>学员：481</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1338" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242303493939.jpg!cover_270" alt="Docker+Kubernetes(k8s)<em>微</em><em>服务</em>容器化实践">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1338" target="_blank">Docker+Kubernetes(k8s)<em>微</em><em>服务</em>容器化实践</a>
-                    </div>
-                    <div class="summary">从整体上把握<em>微</em><em>服务</em>，体会<em>服务</em>Docker化，理解<em>服务</em>编排，以及主流的<em>服务</em>编排框架——Kubernetes，了解它的架构，知道它的运作原理，知道如何安装、使用及如何部署<em>微</em><em>服务</em></div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/1212130" target="_blank">刘果国</a></span>
-                      <span>难度：            高级
-    </span>
-                      <span>课时：62</span>
-                      <span>学员：504</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1207" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242302397099.jpg!cover_270" alt="Spring Cloud Alibaba<em>微</em><em>服务</em>从入门到进阶">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1207" target="_blank">Spring Cloud Alibaba<em>微</em><em>服务</em>从入门到进阶</a>
-                    </div>
-                    <div class="summary">...d Alibaba是阿里巴巴出品的Spring Cloud第二代实现，是阿里<em>微</em><em>服务</em>的解决方案与精华沉淀，在业界广泛使用，使用<em>微</em><em>服务</em>更是大势所趋。学习本课程，能熟练掌握Spring Cloud Alibaba的使用和原理，并带领大家从0开始编写一个学习笔记<em>微</em>...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/1863086" target="_blank">大目</a></span>
-                      <span>难度：            高级
-    </span>
-                      <span>课时：196</span>
-                      <span>学员：280</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/676" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/201910302252059036.jpg!cover_270" alt="手机<em>服务</em>器<em>微</em>架构设计与实现">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/676" target="_blank">手机<em>服务</em>器<em>微</em>架构设计与实现</a>
-                    </div>
-                    <div class="summary">带你打造一个轻量级<em>服务</em>器<em>微</em>架构，积累项目经验，摆平面试官</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/3234480" target="_blank">大S酱</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：9</span>
-                      <span>学员：18207</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1173" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242302146879.jpg!cover_270" alt="深度解锁SpringCloud主流组件 一战解决<em>微</em><em>服务</em>诸多难题">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1173" target="_blank">深度解锁SpringCloud主流组件 一战解决<em>微</em><em>服务</em>诸多难题</a>
-                    </div>
-                    <div class="summary">...程是一门基于SpringCloud整合"猫眼"商城后台项目进行的<em>微</em><em>服务</em>课程，从零起步到深度讲解包括Gateway，Hystrix，Ribbon，Feign等几大主流组件及其高级特性。同时还会引入<em>微</em><em>服务</em>安全，自动化测试和Docker部署等工作中会遇到的<em>微</em><em>服务</em>难...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/3924694" target="_blank">Allen</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：205</span>
-                      <span>学员：950</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1186" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242302222692.jpg!cover_270" alt="Spring Cloud<em>微</em><em>服务</em>安全实战">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1186" target="_blank">Spring Cloud<em>微</em><em>服务</em>安全实战</a>
-                    </div>
-                    <div class="summary">采用流行的<em>微</em><em>服务</em>架构开发，应用程序访问安全将会面临更多更复杂的挑战，尤其是开发者最关心的三大问题：认证授权、可用性、可视化。本课程从简单的API安全入手，过渡到复杂的<em>微</em><em>服务</em>场景，解决上述三大问题痛点，并结...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/3554172" target="_blank">JoJo</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：64</span>
-                      <span>学员：891</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1247" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242303006867.jpg!cover_270" alt="应用Dubbo框架打造仿猫眼项目 理解<em>微</em><em>服务</em>核心思想">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1247" target="_blank">应用Dubbo框架打造仿猫眼项目 理解<em>微</em><em>服务</em>核心思想</a>
-                    </div>
-                    <div class="summary">Dubbo作为主流的<em>微</em><em>服务</em>框架之一，为开发人员带来非常多的便利。本门课程结合“仿猫眼”项目，分别针对Dubbo中的重要特性、<em>微</em><em>服务</em>中核心内容以及面试中的常见问题，进行归纳整理，强化讲解，为你提供从零到面试的一条龙...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/3924694" target="_blank">Allen</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：268</span>
-                      <span>学员：817</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/785" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/201910302252252956.jpg!cover_270" alt="<em>微</em><em>服务</em>架构在二手交易平台中的实践">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/785" target="_blank"><em>微</em><em>服务</em>架构在二手交易平台中的实践</a>
-                    </div>
-                    <div class="summary">本课程是大会分享内容，<em>微</em><em>服务</em>架构在转转(58集团)的落地实践</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/4691819" target="_blank">musicml</a></span>
-                      <span>难度：            高级
-    </span>
-                      <span>课时：5</span>
-                      <span>学员：21752</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1258" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242303047019.jpg!cover_270" alt="新版<em>微</em><em>服务</em>时代Spring Boot企业<em>微</em>信点餐系统 ">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1258" target="_blank">新版<em>微</em><em>服务</em>时代Spring Boot企业<em>微</em>信点餐系统 </a>
-                    </div>
-                    <div class="summary">迎接<em>微</em><em>服务</em>时代，SpringBoot是你不得不学之框架，<em>微</em>信点餐系统将带你体验敏捷式开发，最小成本迭代升级，以最小的代价完成旧系统的升级改造，还原企业真实系统重构场景。系统前后端分离的架构，让你更具备互联网工程师...</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/4559066" target="_blank">廖师兄</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：88</span>
-                      <span>学员：214</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1336" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/202001242303482479.jpg!cover_270" alt="ZooKeeper分布式专题与Dubbo<em>微</em><em>服务</em>入门">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1336" target="_blank">ZooKeeper分布式专题与Dubbo<em>微</em><em>服务</em>入门</a>
-                    </div>
-                    <div class="summary">ZooKeeper是一种分布式协调<em>服务</em>，他用简单的架构和API，解决了在分布式环境中协调和管理<em>服务</em>的难题。本课程从零开始，带你系统学习ZooKeeper，并结合Dubbo，实践<em>服务</em>治理和分布式锁，帮你入门ZooKeeper+Dubbo的<em>服务</em>治理</div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/3078817" target="_blank">风间影月</a></span>
-                      <span>难度：            中级
-    </span>
-                      <span>课时：75</span>
-                      <span>学员：661</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="search-course-card">
-                  <div class="cover">
-                    <a href="/course/1398" target="_blank">
-                      <img src="https://course-1255691183.file.myqcloud.com/img/cover/612a324b2428f.png!cover_270" alt="php架构师进阶-多任务处理中心实战高级<em>微</em><em>服务</em>">
-                    </a>
-                  </div>
-                  <div class="info">
-                    <div class="title layui-elip">
-                      <a href="/course/1398" target="_blank">php架构师进阶-多任务处理中心实战高级<em>微</em><em>服务</em></a>
-                    </div>
-                    <div class="summary"></div>
-                    <div class="meta">
-                      <span>讲师：<a href="/teacher/103904" target="_blank">Marvin</a></span>
-                      <span>难度：            初级
-    </span>
-                      <span>课时：10</span>
-                      <span>学员：6256</span>
-                    </div>
-                  </div>
-                </div>
+      <div class="player-wrap wrap">
+        <div id="player"></div>
+      </div>
+      <div id="comment-anchor"></div>
+      <div class="vod-comment wrap">
+
+        <div class="comment-form" id="comment-form">
+          <form class="layui-form" method="post" action="/comment/create">
+            <textarea class="layui-textarea" id="comment-content" name="content" placeholder="撰写评论..." lay-verify="required"></textarea>
+            <div class="footer" id="comment-footer" style="display:none;">
+              <div class="toolbar"></div>
+              <div class="action">
+                <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="add_comment">发布</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" id="comment-cancel" type="button">取消</button>
               </div>
             </div>
-          </div>
+            <input type="hidden" name="item_id" value="22577">
+            <input type="hidden" name="item_type" value="1">
+          </form>
         </div>
-      </div>
-      <div class="pager">
-        <div class="layui-box layui-laypage layui-laypage-default">
-          <a href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1&page=1">首页</a>
-          <a href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1&page=1">上页</a>
-          <a href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1&page=2">下页</a>
-          <a href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1&page=2">尾页</a>
-        </div>
-      </div>
+
+        <div class="comment-list" id="comment-list" data-url="/comment/list?item_id=22577&item_type=1"></div>            </div>
     </div>
     <div class="layout-sidebar">
-      <div class="layui-card">
-        <div class="layui-card-header">热门搜索</div>
+      <div class="layui-card sidebar-card sidebar-chapter">
+        <div class="layui-card-header">课程目录</div>
         <div class="layui-card-body">
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E5%BE%AE%E4%BF%A1">微信</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1">微服务</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E5%B0%8F%E7%A8%8B%E5%BA%8F">小程序</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%94%AF%E4%BB%98%E5%AE%9D">支付宝</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%B5%8B%E8%AF%95%E8%AF%BE%E7%A8%8B">测试课程</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F">微信小程序</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=444">444</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E7%8E%A9%E8%BD%AC">玩转</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%BC%94%E7%A4%BA%E8%AF%BE%E7%A8%8B">演示课程</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=c%E8%AF%AD%E8%A8%80">c语言</a>
+          <div class="sidebar-chapter-list">
+            <div class="chapter-title layui-elip">第1章 课程介绍</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <a class="active" href="/chapter/22577" title="1-1 课程导学">1-1 课程导学</a>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-2 项目介绍">1-2 项目介绍</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-3 Webpack4升级注意">1-3 Webpack4升级注意</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-4 项目运行报错最新问题总结">1-4 项目运行报错最新问题总结</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-5 补充Webpack4.29升级（1）">1-5 补充Webpack4.29升级（1）</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-6 补充Webpack4.29升级（2）">1-6 补充Webpack4.29升级（2）</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="1-7 补充vue-loader15.6.2升级">1-7 补充vue-loader15.6.2升级</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第2章 Vue+Webpack的前端工程工作流搭建</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="2-1 项目目录升级-一个正式项目的目录结构">2-1 项目目录升级-一个正式项目的目录结构</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="2-2 vue-loader配置">2-2 vue-loader配置</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="2-3 css module配置">2-3 css module配置</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="2-4 安装使用eslint和editorconfig以及precommit">2-4 安装使用eslint和editorconfig以及precommit</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="2-5 Webpack4升级">2-5 Webpack4升级</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第3章 Vue核心知识</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-1 一点小准备-单独讲解vue核心内容的配置">3-1 一点小准备-单独讲解vue核心内容的配置</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-2 Vue实例">3-2 Vue实例</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-3 Vue的生命周期方法">3-3 Vue的生命周期方法</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-4 Vue的数据绑定">3-4 Vue的数据绑定</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-5 computed和watch使用场景和方法">3-5 computed和watch使用场景和方法</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-6 Vue的原生指令">3-6 Vue的原生指令</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-7 Vue的组件之组件的定义">3-7 Vue的组件之组件的定义</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-8 Vue的组件之组件的继承.mp4">3-8 Vue的组件之组件的继承.mp4</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-9 Vue的组件之自定义双向绑定">3-9 Vue的组件之自定义双向绑定</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-10 Vue的组件之高级属性">3-10 Vue的组件之高级属性</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="3-11 Vue的组件之render function">3-11 Vue的组件之render function</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第4章 Vue-Router和Vuex</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-1 Vue-router之集成">4-1 Vue-router之集成</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-2 Vue-router之配置">4-2 Vue-router之配置</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-3 Vue-router之路由参数传递">4-3 Vue-router之路由参数传递</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-4 Vue-router之导航守卫">4-4 Vue-router之导航守卫</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-5 Vuex之集成">4-5 Vuex之集成</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-6 Vuex之state和getters">4-6 Vuex之state和getters</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-7 Vuex之mutation和action">4-7 Vuex之mutation和action</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-8 Vuex之模块">4-8 Vuex之模块</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="4-9 Vuex之其他一些API和配置">4-9 Vuex之其他一些API和配置</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第5章 服务器渲染</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <a class="normal" href="/chapter/22613" title="5-1 开发时服务端渲染的配置和原理">5-1 开发时服务端渲染的配置和原理</a>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="5-2 使用koa实现node server">5-2 使用koa实现node server</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="5-3 服务端渲染的entry配置">5-3 服务端渲染的entry配置</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="5-4 开发时服务端渲染静态资源路径处理">5-4 开发时服务端渲染静态资源路径处理</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="5-5 使用vue-meta处理元信息">5-5 使用vue-meta处理元信息</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="5-6 生产环境服务端渲染">5-6 生产环境服务端渲染</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第6章 高级组件开发</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-1 notification之基本组件实现">6-1 notification之基本组件实现</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-2 notification之通过方法调用">6-2 notification之通过方法调用</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-3 notification之优化">6-3 notification之优化</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-4 tabs组件之基本组件实现">6-4 tabs组件之基本组件实现</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-5 tabs组件之选中状态和切换">6-5 tabs组件之选中状态和切换</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="6-6 tabs组件之在父组件中渲染子组件的slot">6-6 tabs组件之在父组件中渲染子组件的slot</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第7章 项目开发</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <a class="normal" href="/chapter/22627" title="7-1 服务端api请求基础实现">7-1 服务端api请求基础实现</a>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-2 数据API实现">7-2 数据API实现</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-3 后端登录接口实现以及session的使用.mp4">7-3 后端登录接口实现以及session的使用.mp4</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-4 登录页面实现">7-4 登录页面实现</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-5 联调第一个API">7-5 联调第一个API</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-6 请求错误处理和登录接口联调">7-6 请求错误处理和登录接口联调</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-7 所有接口进行联调">7-7 所有接口进行联调</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-8 在数据请求的时候使用全局loading">7-8 在数据请求的时候使用全局loading</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-9 在服务端渲染时获取数据">7-9 在服务端渲染时获取数据</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-10 前后端数据复用以及服务端用户认证">7-10 前后端数据复用以及服务端用户认证</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-11 服务端渲染进行redirect操作">7-11 服务端渲染进行redirect操作</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-12 createRenderer的方式进行服务端渲染">7-12 createRenderer的方式进行服务端渲染</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="7-13 正式环境打包以及异步模块打包优化">7-13 正式环境打包以及异步模块打包优化</span>
+              </li>
+            </ul>
+            <div class="chapter-title layui-elip">第8章 部署和总结</div>
+            <ul class="sidebar-lesson-list">
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="8-1 pm2使用以及服务器端部署">8-1 pm2使用以及服务器端部署</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="8-2 静态资源上传cdn">8-2 静态资源上传cdn</span>
+              </li>
+              <li class="lesson-title layui-elip">
+                <span class="deny" title="8-3 总结">8-3 总结</span>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </div>        </div>
+  </div>
 
-      <div class="layui-card">
-        <div class="layui-card-header">相关搜索</div>
-        <div class="layui-card-body">
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=golang%E5%BE%AE%E6%9C%8D%E5%8A%A1+%E5%88%86%E5%B8%83%E5%BC%8F+%E5%8D%8F%E7%A8%8B">golang微服务 分布式 协程</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%B9%E5%99%A8">微服务容器</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=java%E6%B7%B1%E5%85%A5%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8E%9F%E7%90%86%E6%94%B9%E9%80%A0%E6%88%BF%E4%BA%A7%E9%94%80%E5%94%AE%E5%B9%B3%E5%8F%B0">java深入微服务原理改造房产销售平台</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=php%E6%9E%B6%E6%9E%84%E5%B8%88%E8%BF%9B%E9%98%B6+%E5%A4%9A%E4%BB%BB%E5%8A%A1%E5%A4%84%E7%90%86%E4%B8%AD%E5%BF%83%E5%AE%9E%E6%88%98%E9%AB%98%E7%BA%A7%E5%BE%AE%E6%9C%8D%E5%8A%A1">php架构师进阶 多任务处理中心实战高级微服务</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=java%E4%BB%8E%E5%8D%95%E4%BD%93%E5%88%B0%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%89%93%E9%80%A0%E6%88%BF%E4%BA%A7%E9%94%80%E5%94%AE%E5%B9%B3%E5%8F%B0">java从单体到微服务打造房产销售平台</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%9C%8D%E5%8A%A1">服务</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%9C%8D%E5%8A%A1%E5%8C%96">服务化</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F">服务系统</a>
-          <a class="layui-badge-rim query-badge" href="/search?type=course&query=%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A">新浪微博</a>
-        </div>
-      </div>
-    </div>
+  <div class="layui-hide">
+    <input type="hidden" name="chapter.id" value="22577">
+    <input type="hidden" name="chapter.position" value="0">
+    <input type="hidden" name="chapter.plan_id" value="0">
+    <input type="hidden" name="chapter.learning_url" value="/chapter/22577/learning">
+    <input type="hidden" name="chapter.play_urls" value='{"sd":{"url":"https:\/\/1255691183.vod2.myqcloud.com\/81258db0vodtransgzp1255691183\/f25a4b4a5285890807029384106\/v.f100230.m3u8?t=624a0ef4&exper=0&us=403811&sign=090280789d0f34543162830863881d9b","width":1280,"height":720,"definition":100230,"duration":61,"format":"m3u8","size":"14.69","rate":1806}}'>
+  </div>
+
+
+  <div class="layui-hide">
+    <input type="hidden" name="share.title" value="Vue核心技术Vue+Vue-Router+Vuex+SSR实战精讲">
+    <input type="hidden" name="share.pic" value="https://course-1255691183.file.myqcloud.com/img/cover/202001242303535808.jpg">
+    <input type="hidden" name="share.url" value="https://ctc.koogua.com/share?id=22577&type=chapter">
+    <input type="hidden" name="share.qrcode" value="/qrcode?text=https%3A%2F%2Fctc.koogua.com%2Fshare%3Fid%3D22577%26type%3Dchapter">
   </div>
 
 
@@ -417,11 +419,11 @@
 <script>
 
   window.user = {
-    id: '0',
-    name: 'guest',
-    avatar: '',
+    id: '100015',
+    name: '酷瓜云课堂',
+    avatar: 'https://course-1255691183.file.myqcloud.com/img/avatar/20210214084718217596.jpeg',
     locked: '0',
-    vip: '0'
+    vip: '1'
   };
 
   window.contact = {
@@ -453,6 +455,9 @@
 
 </script><script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/lib/layui/layui.js?v=1648000489"></script><script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/common.js?v=1648000489"></script>
 <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/fixbar.js?v=1648000489"></script>
+
+
+<script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/lib/dplayer/hls.min.js?v=1648000489"></script>    <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/lib/dplayer/DPlayer.min.js?v=1648000489"></script>    <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/course.share.js?v=1648000489"></script>    <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/chapter.show.js?v=1648000489"></script>    <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/chapter.vod.player.js?v=1648000489"></script>    <script type="text/javascript" src="https://course-1255691183.file.myqcloud.com/static/home/js/comment.js?v=1648000489"></script>
 
 
 

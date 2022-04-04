@@ -150,7 +150,6 @@
                         class="iconfont icon-phone"></span></a>
 
 
-
             </div>
         </div>
     </div>
@@ -160,8 +159,29 @@
 <div class="layui-hide">
 
 </div>
+<script type="text/javascript" id="typeImh">
+    //   var fileType = d.state
+    //   if(fileType === '订单未完成'){
+    // // <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">取消订单</button>
+    //  <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">取消订单</button>
+    //   }else if(fileType === '订单已完成'){
+    //  <button title="查看" class="layui-btn layui-btn-xs" lay-event="detail">查看课程</button>
+    //  <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">申请退款</button>
+    //   }else if(fileType === '订单已取消'){
+    //  <button title="查看" class="layui-btn layui-btn-xs" lay-event="detail">再次购买</button>
+    //    }
+</script>
 <script type="text/html" id="barDemo">
-    <button title="查看" class="layui-btn layui-btn-xs" lay-event="detail">查看</button>
+    {{# var fileType = d.state }}
+    {{# if(fileType === '订单未完成'){ }}
+    <button title="继续支付" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="topay">继续支付</button>
+    <button title="取消订单" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cancel">取消订单</button>
+    {{# }else if(fileType === '订单已完成'){ }}
+    <button title="查看" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="toCourse">查看课程</button>
+    <button title="取消订单" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">申请退款</button>
+    {{# }else if(fileType === '订单已取消'){ }}
+    <button title="查看" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="By">再次购买</button>
+    {{#  } }}
 </script>
 <script type="text/javascript" src="../lib/user.js"></script>
 <script type="text/javascript" src="../layui/layui.js"></script>
