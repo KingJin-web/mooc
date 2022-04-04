@@ -10,7 +10,9 @@ public interface CourseVideoService {
      * @param cid
      * @return
      */
-    public List<CourseVideo> queryByCid(Long cid);
+    List<CourseVideo> queryByCid(Long cid);
 
     int addPlayAmount(Long id);
+
+    int addlist(List<CourseVideo> courseVideos);
 }

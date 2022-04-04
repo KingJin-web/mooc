@@ -5,6 +5,7 @@ import com.king.mooc.entity.User;
 import com.king.mooc.service.OrdersService;
 import com.king.mooc.vo.OrdersVo;
 import com.king.mooc.vo.ResultObj;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/orders")
+@Api(value = "订单操作接口", tags = "订单操作接口")
 public class OrdersController {
     @Autowired
     private OrdersService ordersService;
@@ -30,9 +32,6 @@ public class OrdersController {
     public ResultObj isBuy(Long cid) {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (user == null || user.getId() == null) {
-                return ResultObj.error("用户未登录！");
-            }
             return ResultObj.ok(ordersService.isBuy(user.getId(), cid));
         } catch (Exception e) {
             e.printStackTrace();

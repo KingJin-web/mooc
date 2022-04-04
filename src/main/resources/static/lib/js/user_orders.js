@@ -34,8 +34,23 @@ layui.use(function () { //亦可加载特定模块：layui.use(['layer', 'laydat
         , even: true //开启隔行背景
         , size: 'lg' //小尺寸的表格
     });
-
-
+    //监听行工具事件
+    table.on('tool(test)', function (obj) {
+        var data = obj.data;
+        console.log(obj.event)
+        console.log(data)
+        var path = data.path
+        //console.log(obj)
+        if (obj.event === 'toCourse') {
+            window.location.href = "/course/detail#id=" + data.cid;
+        } else if (obj.event === 'detail') {
+            //申请退款
+        } else if (obj.event === 'topay') {
+            //去支付
+        } else if (obj.event === 'By') {
+            //去支付
+        }
+    });
 });
 
 

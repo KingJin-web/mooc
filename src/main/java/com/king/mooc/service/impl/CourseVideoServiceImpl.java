@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class CourseVideoServiceImpl implements CourseVideoService {
     @Autowired
-    CourseVideoMapper courseVideoMapper;
+    private CourseVideoMapper courseVideoMapper;
 
     @Override
     public List<CourseVideo> queryByCid(Long cid) {
@@ -30,7 +30,12 @@ public class CourseVideoServiceImpl implements CourseVideoService {
     }
 
     @Override
-    public int addPlayAmount( Long id) {
+    public int addPlayAmount(Long id) {
         return courseVideoMapper.addPlayAmount(id);
+    }
+
+    @Override
+    public int addlist(List<CourseVideo> courseVideos) {
+        return courseVideoMapper.insertBatch(courseVideos);
     }
 }

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN-Hans">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="csrf-token" content="1/tkjQ1Md800crK63Hp5mu5ZWcZ8Zc8/5GmQObN4JFIsgbT+kTIPew==">
+    <title>用户中心 - 云课堂</title>
+    <link rel="shortcut icon"
+          href="https://course-1255691183.file.myqcloud.com/static/favicon.ico?v=1647162472">
+    <link rel="preload" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.woff2" as="font" type="font/woff2"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/video-js.min.css">
+    <script type="text/javascript" src="../lib/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../lib/vue.js"></script>
+    <script type="text/javascript" src="../lib/axios.js"></script>
+    <script type="text/javascript" src="../lib/js/video.min.js"></script>
+    <style type="text/css">
+        .video-js .vjs-time-control{display:block;}
+        .video-js .vjs-remaining-time{display: none;}
+    </style>
+
+    <script type="text/javascript">
+        var url = window.location.href;
+        //获取#的参数
+        var $_ = location.hash.substring(1);
+        //获取?的参数
+        var $_2 = location.search.substring(1);
+        //获取&的参数
+        var $_3 = location.search.substring(1);
+        console.log($_);
+        console.log($_2);
+
+    </script>
+</head>
+<body class="main">
+<div id="course_page">
+    <div id="header">
+        <div class="logo">
+            <img src="https://static.wuzhaoqi.top/logo/logo.png"/></div>
+
+        <div class="top-nav">
+            <ul class="layui-nav">
+                <li class="layui-nav-item">
+                    <a href="/" class="nav-1" target="_self">首页</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/course/list" class="nav-2" target="_self">课程</a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="user" id="user">
+            <ul class="layui-nav" id="user_ul">
+                <li class="layui-nav-item">
+                    <a onclick="query()" class="nav-search" data-type="course" data-query="" data-url="/search"><i
+                            class="layui-icon layui-icon-search"></i> 搜索</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                </li>
+                <li id="login" class="layui-nav-item"><a href="/login">登录</a></li>
+                <li id="register" class="layui-nav-item"><a href="/register">注册</a></li>
+                <li id="loginAfter" class="layui-nav-item">
+                    <a href="javascript:">kk在线网课</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/user/">我的主页</a></dd>
+                        <dd><a href="/user/">用户中心</a></dd>
+                        <dd><a href="/logout">退出登录</a></dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div id="main" class="layui-main">
+
+
+        <div class="breadcrumb">
+        <span class="layui-breadcrumb">
+            <a href="/course/1340"><i class="layui-icon layui-icon-return"></i> 返回课程</a>
+            <a><cite>1-1 课程导学</cite></a>
+        </span>
+            <span class="share">
+            <a href="javascript:" title="分享到微信"><i class="layui-icon layui-icon-login-wechat share-wechat"></i></a>
+            <a href="javascript:" title="分享到QQ空间"><i class="layui-icon layui-icon-login-qq share-qq"></i></a>
+            <a href="javascript:" title="分享到微博"><i class="layui-icon layui-icon-login-weibo share-weibo"></i></a>
+        </span>
+        </div>
+
+        <div class="layout-main clearfix">
+            <div class="layout-sticky">
+
+                <div class="toolbar-sticky">
+                    <div class="item" id="toolbar-like">
+                        <div class="icon" title="点赞支持" data-url="/chapter/22577/like">
+                            <i class="layui-icon layui-icon-praise icon-praise "></i>
+                        </div>
+                        <div class="text" data-count="450">450</div>
+                    </div>
+                    <div class="item">
+                        <div class="icon" title="学习人次">
+                            <i class="layui-icon layui-icon-user"></i>
+                        </div>
+                        <div class="text">277</div>
+                    </div>
+                    <div class="item" id="toolbar-comment">
+                        <div class="icon" title="评论交流">
+                            <i class="layui-icon layui-icon-reply-fill icon-reply"></i>
+                        </div>
+                        <div class="text" data-count="18">18</div>
+                    </div>
+                    <div class="item">
+                        <div class="icon" title="课程咨询" data-url="/consult/add?chapter_id=22577">
+                            <i class="layui-icon layui-icon-help icon-help"></i>
+                        </div>
+                        <div class="text">咨询</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-content">
+                <div class="player-wrap wrap">
+                    <div id="player">
+                        <video id="player_video" class="video-js vjs-default-skin" controls preload="none" width="640"
+                               height="264"
+                               poster="http://vjs.zencdn.net/v/oceans.png">
+                            <source src="http://localhost/The Witcher 3 2020-04-04 02-21-46.mp4" type="video/mp4">
+                        </video>
+
+                    </div>
+                </div>
+                <div id="comment-anchor"></div>
+                <div class="vod-comment wrap">
+
+                    <div class="comment-form" id="comment-form">
+                        <form class="layui-form" method="post" action="/comment/create">
+                            <textarea class="layui-textarea" id="comment-content" name="content" placeholder="撰写评论..."
+                                      lay-verify="required"></textarea>
+                            <div class="footer" id="comment-footer" style="display:none;">
+                                <div class="toolbar"></div>
+                                <div class="action">
+                                    <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="add_comment">
+                                        发布
+                                    </button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="comment-cancel"
+                                            type="button">取消
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="item_id" value="22577">
+                            <input type="hidden" name="item_type" value="1">
+                        </form>
+                    </div>
+
+                    <div class="comment-list" id="comment-list"
+                         data-url="/comment/list?item_id=22577&item_type=1"></div>
+                </div>
+            </div>
+            <div class="layout-sidebar">
+                <div class="layui-card sidebar-card sidebar-chapter">
+                    <div class="layui-card-header">课程目录</div>
+                    <div class="layui-card-body">
+                        <div class="sidebar-chapter-list">
+                            <div class="chapter-title layui-elip">第1章 课程介绍</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <a class="active" href="/chapter/22577" title="1-1 课程导学">1-1 课程导学</a>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-2 项目介绍">1-2 项目介绍</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-3 Webpack4升级注意">1-3 Webpack4升级注意</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-4 项目运行报错最新问题总结">1-4 项目运行报错最新问题总结</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-5 补充Webpack4.29升级（1）">1-5 补充Webpack4.29升级（1）</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-6 补充Webpack4.29升级（2）">1-6 补充Webpack4.29升级（2）</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="1-7 补充vue-loader15.6.2升级">1-7 补充vue-loader15.6.2升级</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第2章 Vue+Webpack的前端工程工作流搭建</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="2-1 项目目录升级-一个正式项目的目录结构">2-1 项目目录升级-一个正式项目的目录结构</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="2-2 vue-loader配置">2-2 vue-loader配置</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="2-3 css module配置">2-3 css module配置</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="2-4 安装使用eslint和editorconfig以及precommit">2-4 安装使用eslint和editorconfig以及precommit</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="2-5 Webpack4升级">2-5 Webpack4升级</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第3章 Vue核心知识</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-1 一点小准备-单独讲解vue核心内容的配置">3-1 一点小准备-单独讲解vue核心内容的配置</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-2 Vue实例">3-2 Vue实例</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-3 Vue的生命周期方法">3-3 Vue的生命周期方法</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-4 Vue的数据绑定">3-4 Vue的数据绑定</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny"
+                                          title="3-5 computed和watch使用场景和方法">3-5 computed和watch使用场景和方法</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-6 Vue的原生指令">3-6 Vue的原生指令</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-7 Vue的组件之组件的定义">3-7 Vue的组件之组件的定义</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-8 Vue的组件之组件的继承.mp4">3-8 Vue的组件之组件的继承.mp4</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-9 Vue的组件之自定义双向绑定">3-9 Vue的组件之自定义双向绑定</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="3-10 Vue的组件之高级属性">3-10 Vue的组件之高级属性</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny"
+                                          title="3-11 Vue的组件之render function">3-11 Vue的组件之render function</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第4章 Vue-Router和Vuex</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-1 Vue-router之集成">4-1 Vue-router之集成</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-2 Vue-router之配置">4-2 Vue-router之配置</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-3 Vue-router之路由参数传递">4-3 Vue-router之路由参数传递</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-4 Vue-router之导航守卫">4-4 Vue-router之导航守卫</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-5 Vuex之集成">4-5 Vuex之集成</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-6 Vuex之state和getters">4-6 Vuex之state和getters</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-7 Vuex之mutation和action">4-7 Vuex之mutation和action</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-8 Vuex之模块">4-8 Vuex之模块</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="4-9 Vuex之其他一些API和配置">4-9 Vuex之其他一些API和配置</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第5章 服务器渲染</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <a class="normal" href="/chapter/22613" title="5-1 开发时服务端渲染的配置和原理">5-1
+                                        开发时服务端渲染的配置和原理</a>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="5-2 使用koa实现node server">5-2 使用koa实现node server</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="5-3 服务端渲染的entry配置">5-3 服务端渲染的entry配置</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="5-4 开发时服务端渲染静态资源路径处理">5-4 开发时服务端渲染静态资源路径处理</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="5-5 使用vue-meta处理元信息">5-5 使用vue-meta处理元信息</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="5-6 生产环境服务端渲染">5-6 生产环境服务端渲染</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第6章 高级组件开发</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="6-1 notification之基本组件实现">6-1 notification之基本组件实现</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="6-2 notification之通过方法调用">6-2 notification之通过方法调用</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="6-3 notification之优化">6-3 notification之优化</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="6-4 tabs组件之基本组件实现">6-4 tabs组件之基本组件实现</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="6-5 tabs组件之选中状态和切换">6-5 tabs组件之选中状态和切换</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny"
+                                          title="6-6 tabs组件之在父组件中渲染子组件的slot">6-6 tabs组件之在父组件中渲染子组件的slot</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第7章 项目开发</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <a class="normal" href="/chapter/22627" title="7-1 服务端api请求基础实现">7-1
+                                        服务端api请求基础实现</a>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-2 数据API实现">7-2 数据API实现</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny"
+                                          title="7-3 后端登录接口实现以及session的使用.mp4">7-3 后端登录接口实现以及session的使用.mp4</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-4 登录页面实现">7-4 登录页面实现</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-5 联调第一个API">7-5 联调第一个API</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-6 请求错误处理和登录接口联调">7-6 请求错误处理和登录接口联调</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-7 所有接口进行联调">7-7 所有接口进行联调</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-8 在数据请求的时候使用全局loading">7-8 在数据请求的时候使用全局loading</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-9 在服务端渲染时获取数据">7-9 在服务端渲染时获取数据</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-10 前后端数据复用以及服务端用户认证">7-10 前后端数据复用以及服务端用户认证</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-11 服务端渲染进行redirect操作">7-11 服务端渲染进行redirect操作</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-12 createRenderer的方式进行服务端渲染">7-12 createRenderer的方式进行服务端渲染</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="7-13 正式环境打包以及异步模块打包优化">7-13 正式环境打包以及异步模块打包优化</span>
+                                </li>
+                            </ul>
+                            <div class="chapter-title layui-elip">第8章 部署和总结</div>
+                            <ul class="sidebar-lesson-list">
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="8-1 pm2使用以及服务器端部署">8-1 pm2使用以及服务器端部署</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="8-2 静态资源上传cdn">8-2 静态资源上传cdn</span>
+                                </li>
+                                <li class="lesson-title layui-elip">
+                                    <span class="deny" title="8-3 总结">8-3 总结</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-hide">
+            <input type="hidden" name="chapter.id" value="22577">
+            <input type="hidden" name="chapter.position" value="0">
+            <input type="hidden" name="chapter.plan_id" value="0">
+            <input type="hidden" name="chapter.learning_url" value="/chapter/22577/learning">
+            <input type="hidden" name="chapter.play_urls"
+                   value='{"sd":{"url":"https:\/\/1255691183.vod2.myqcloud.com\/81258db0vodtransgzp1255691183\/f25a4b4a5285890807029384106\/v.f100230.m3u8?t=624a0ef4&exper=0&us=403811&sign=090280789d0f34543162830863881d9b","width":1280,"height":720,"definition":100230,"duration":61,"format":"m3u8","size":"14.69","rate":1806}}'>
+        </div>
+
+
+        <div class="layui-hide">
+            <input type="hidden" name="share.title" value="Vue核心技术Vue+Vue-Router+Vuex+SSR实战精讲">
+            <input type="hidden" name="share.pic"
+                   value="https://course-1255691183.file.myqcloud.com/img/cover/202001242303535808.jpg">
+            <input type="hidden" name="share.url" value="https://ctc.koogua.com/share?id=22577&type=chapter">
+            <input type="hidden" name="share.qrcode"
+                   value="/qrcode?text=https%3A%2F%2Fctc.koogua.com%2Fshare%3Fid%3D22577%26type%3Dchapter">
+        </div>
+
+
+    </div>
+
+</div>
+
+<div id="footer">
+    <div class="layui-main">
+        <div class="row nav">
+            <a href="/page/about" target="_blank">关于我们</a>
+            <a href="/page/contact" target="_blank">联系我们</a>
+            <a href="/page/jobs" target="_blank">人才招聘</a>
+            <a href="/help" target="_blank">帮助中心</a>
+            <a href="/page/links" target="_blank">友情链接</a>
+        </div>
+        <div class="row copyright">
+            <span v-html="msg"></span>
+            <span>Copyright © All Rights Reserved</span>
+
+            <a href="http://beian.miit.gov.cn" target="_blank">湘ICP备2020019542号-1</a>
+
+        </div>
+        <div class="row contact">
+            <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=3098629064&site=qq&menu=yes"
+               title="客服QQ：3098629064"><span class="iconfont icon-qq"></span></a>
+            <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
+            <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
+            <a class="weibo" href="https://weibo.com/u/5602325902" title="微博主页"><span
+                    class="iconfont icon-weibo"></span></a>
+            <a class="zhihu" href="https://www.zhihu.com/people/da-rao-liao-53-22" title="知乎主页"><span
+                    class="iconfont icon-zhihu"></span></a>
+            <a class="mail" href="mailto:3098629064@qq.com" title="联系邮箱：3098629064@qq.com"><span
+                    class="iconfont icon-mail"></span></a>
+            <a class="phone" href="javascript:" title="联系电话：13507083515"><span
+                    class="iconfont icon-phone"></span></a>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="layui-hide">
+
+</div>
+
+<script>
+
+
+    var course = {};
+    const king = new Vue({
+        el: '#course_page',
+        data: {
+            user: {},
+            course_: course
+        },
+        created: function () {
+            this.getUser();
+        },
+        mounted: function () {
+
+        },
+        methods: {
+            getUser: function () {
+                axios.get('/api/user/getUser.do').then(function (response) {
+                    this.user = response.data.data;
+                    console.log(this.user)
+                    if (this.user === undefined) {
+                        $("#loginAfter").remove();
+                    } else {
+                        $("#login").remove();
+                        $("#register").remove();
+                    }
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+
+        }
+    });
+
+    // var player = videojs('player_video',{
+    //     muted: true,
+    //     controls : true/false,
+    //     height:300,
+    //     width:300,
+    //     loop : true,
+    //     // 更多配置.....
+    // });
+
+    /**
+     * autoplay : true/false 播放器准备好之后，是否自动播放 【默认false】
+     * controls : true/false 是否拥有控制条 【默认true】,如果设为false ,那么只能通过api进行控制了。也就是说界面上不会出现任何控制按钮
+     * height: 视频容器的高度，字符串或数字 单位像素 比如： height:300 or height:‘300px‘
+     * width: 视频容器的宽度, 字符串或数字 单位像素
+     * loop : true/false 视频播放结束后，是否循环播放
+     * muted : true/false 是否静音
+     * poster: 播放前显示的视频画面，播放开始之后自动移除。通常传入一个URL
+     * preload:预加载
+     * ‘auto‘ 自动
+     * ’metadata‘ 元数据信息 ，比如视频长度，尺寸等
+     * ‘none‘ 不预加载任何数据，直到用户开始播放才开始下载
+     * children: Array | Object 可选子组件 从基础的Component组件继承而来的子组件，数组中的顺序将影响组件的创建顺序哦。
+     * @type {{playbackRates: number[], controls: boolean, loop: boolean, width: number, muted: boolean, autoplay: boolean, height: number}}
+     */
+    var options = {
+        autoplay: true, //播放器准备好之后，是否自动播放
+        muted: false,
+        controls: true, //是否拥有控制条
+        height: 400,
+        width: 750,
+        loop: true,
+        playbackRates: [0.5, 1, 1.5, 2], //倍速
+        preload : 'auto',
+
+    };
+
+    var player = videojs('player_video', options, function onPlayerReady() {
+
+        videojs.log('播放器已经准备好了!');
+
+        // In this context, `this` is the player that was created by Video.js.<br>  // 注意，这个地方的上下文， `this` 指向的是Video.js的实例对像player
+        this.play();
+
+        // How about an event listener?<br>  // 如何使用事件监听？
+        this.on('ended', function () {
+            videojs.log('播放结束了!');
+        });
+
+        const items = ['100%', '80%', '50%', 'auto']
+        const myMenu = new Menu(this.player)
+        const myMenuItemList = []
+        for (let i = 0; i < items.length; i++) {
+            myMenuItemList.push(new MenuItem(this.player, { label: items[i] }))
+            myMenuItemList[i].on('click', $event => {
+                this.setShowPercent($event)
+            })
+            myMenu.addItem(myMenuItemList[i])
+        }
+
+
+    });
+
+</script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../lib/layuiInit.js"></script>
+<script type="text/javascript" src="../lib/Popup.js"></script>
+</body>
+</html>
