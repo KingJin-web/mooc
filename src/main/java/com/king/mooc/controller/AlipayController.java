@@ -14,6 +14,7 @@ import com.king.mooc.service.CourseService;
 import com.king.mooc.service.UserService;
 import com.king.mooc.service.impl.OrdersServiceImpl;
 import com.king.mooc.util.HttpUtil;
+import com.king.mooc.util.IPSeeker;
 import com.king.mooc.vo.AlipayVo;
 import com.king.mooc.vo.ResultObj;
 import com.king.mooc.vo.UserVo;
@@ -49,7 +50,12 @@ import java.util.Map;
 @RequestMapping("/api/alipay")
 @Api(value = "支付宝沙箱支付接口", tags = "支付宝沙箱支付接口")
 public class AlipayController {
-
+    @GetMapping("queryAddress.do")
+    @ApiOperation(value = "ip地址查询", tags = "支付宝沙箱支付接口")
+    public String queryAddress(String ip){
+        IPSeeker ipSeeker =IPSeeker.getInstance();
+        return ipSeeker.getAddress(ip);
+    }
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserService userService;

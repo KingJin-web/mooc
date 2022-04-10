@@ -1,6 +1,7 @@
 package com.king.mooc.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.king.mooc.util.IPSeeker;
 import com.king.mooc.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,4 +89,6 @@ public class PageController {
     public String search() {
         return "/search.html";
     }
+
+
 }

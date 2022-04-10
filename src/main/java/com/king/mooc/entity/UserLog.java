@@ -3,6 +3,8 @@ package com.king.mooc.entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @program: springboot
  * @description:
@@ -16,6 +18,6 @@ public class UserLog {
     private String name;
     private String ip;
     private String address;
-
+    private Date loginTime;
 
 }
