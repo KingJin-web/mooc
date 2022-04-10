@@ -5,7 +5,9 @@ import com.king.mooc.entity.User;
 import com.king.mooc.entity.UserLog;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.mapper.mongodb.UserLogMapper;
+import com.king.mooc.util.IPSeeker;
 import com.king.mooc.util.RedisObjUtil;
+import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.ResultObj;
 import com.king.mooc.vo.UserVo;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,22 +36,22 @@ import java.util.Map;
 public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private UserLogMapper userLogMapper;
-    @Autowired
-    private RedisObjUtil redisObjUtil;
-    @Autowired
-    private UserMapper userMapper;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication e) throws IOException {
 
 
+        IPSeeker ipSeeker =IPSeeker.getInstance();
         User user = (User) e.getPrincipal();
-        UserLog log = UserLog.builder().uid(user.getId()).name(user.getName()).ip(getIpAddress(request)).build();
-        logger.info("----login in succcess----");
+        String ip = UserIPUtil.getIPAddress(request);
+
+        UserLog log = UserLog.builder().uid(user.getId()).name(user.getName()).
+                ip(ip).address(ipSeeker.getAddress(ip)).loginTime(new Date()).build();
+        logger.info("----login in success----");
         logger.info(userLogMapper.save(log).toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResultObj.ok("登录成功！")));
@@ -56,25 +59,5 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
 
     }
 
-
-    public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
 
 }

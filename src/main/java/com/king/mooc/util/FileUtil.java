@@ -18,7 +18,7 @@ public class FileUtil {
      * 用户头像图片存储位置
      */
     public static final String imgPath = "/king/springboot/mooc/userImg/";
-    public static final String linuxPath = "http://static.wuzhaoqi.top/userImg/";
+    public static final String linuxPath = "https://static.wuzhaoqi.top/userImg/";
     /**
      * 用户课程视频存储路径
      */

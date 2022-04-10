@@ -42,7 +42,8 @@ public class Orders {
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
+    //订单完成时间
+    private LocalDateTime completionTime;
 
 
     public void println() {

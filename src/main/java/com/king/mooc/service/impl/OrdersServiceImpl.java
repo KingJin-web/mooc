@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class OrdersServiceImpl implements OrdersService {
         UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id);
         updateWrapper.set("state", State.SUCCESS);
+        updateWrapper.eq("completion_time", LocalDateTime.now());
         return orderMapper.update(null, updateWrapper);
     }
 
