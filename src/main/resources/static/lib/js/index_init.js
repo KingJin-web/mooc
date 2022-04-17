@@ -70,28 +70,28 @@ var v = new Vue({
                 $("#backend div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.backend.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.backend[i].name, response.data.data.backend[i].coverImage, response.data.data.backend[i].price, response.data.data.backend[i].vipPrice);
+                    html += getTpl(response.data.data.backend[i].id, response.data.data.backend[i].name, response.data.data.backend[i].coverImage, response.data.data.backend[i].price, response.data.data.backend[i].vipPrice);
                 }
                 $("#backend").append(html);
 
                 $("#mobile div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.mobile.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.mobile[i].name, response.data.data.mobile[i].coverImage, response.data.data.mobile[i].price, response.data.data.mobile[i].vipPrice);
+                    html += getTpl(response.data.data.mobile[i].id, response.data.data.mobile[i].name, response.data.data.mobile[i].coverImage, response.data.data.mobile[i].price, response.data.data.mobile[i].vipPrice);
                 }
                 $("#mobile").append(html);
 
                 $("#database div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.database.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.database[i].name, response.data.data.database[i].coverImage, response.data.data.database[i].price, response.data.data.database[i].vipPrice);
+                    html += getTpl(response.data.data.database[i].id, response.data.data.database[i].name, response.data.data.database[i].coverImage, response.data.data.database[i].price, response.data.data.database[i].vipPrice);
                 }
                 $("#database").append(html);
 
                 $("#computer div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.computer.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.computer[i].name, response.data.data.computer[i].coverImage, response.data.data.computer[i].price, response.data.data.computer[i].vipPrice);
+                    html += getTpl(response.data.data.computer[i].id, response.data.data.computer[i].name, response.data.data.computer[i].coverImage, response.data.data.computer[i].price, response.data.data.computer[i].vipPrice);
                 }
                 $("#computer").append(html);
                 //开始渲染
@@ -113,28 +113,28 @@ var v = new Vue({
                 $("#newbackend div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.backend.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.backend[i].name, response.data.data.backend[i].coverImage, response.data.data.backend[i].price, response.data.data.backend[i].vipPrice);
+                    html += getTpl(response.data.data.backend[i].id, response.data.data.backend[i].name, response.data.data.backend[i].coverImage, response.data.data.backend[i].price, response.data.data.backend[i].vipPrice);
                 }
                 $("#newbackend").append(html);
 
                 $("#newmobile div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.mobile.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.mobile[i].name, response.data.data.mobile[i].coverImage, response.data.data.mobile[i].price, response.data.data.mobile[i].vipPrice);
+                    html += getTpl(response.data.data.mobile[i].id, response.data.data.mobile[i].name, response.data.data.mobile[i].coverImage, response.data.data.mobile[i].price, response.data.data.mobile[i].vipPrice);
                 }
                 $("#newmobile").append(html);
 
                 $("#newdatabase div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.database.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.database[i].name, response.data.data.database[i].coverImage, response.data.data.database[i].price, response.data.data.database[i].vipPrice);
+                    html += getTpl(response.data.data.database[i].id, response.data.data.database[i].name, response.data.data.database[i].coverImage, response.data.data.database[i].price, response.data.data.database[i].vipPrice);
                 }
                 $("#newdatabase").append(html);
 
                 $("#newcomputer div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.computer.length; i++) {
-                    html += getTpl(response.data.data.frontend[i].id, response.data.data.computer[i].name, response.data.data.computer[i].coverImage, response.data.data.computer[i].price, response.data.data.computer[i].vipPrice);
+                    html += getTpl(response.data.data.computer[i].id, response.data.data.computer[i].name, response.data.data.computer[i].coverImage, response.data.data.computer[i].price, response.data.data.computer[i].vipPrice);
                 }
                 $("#newcomputer").append(html);
 
