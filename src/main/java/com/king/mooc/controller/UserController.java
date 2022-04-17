@@ -64,7 +64,7 @@ public class UserController {
                 return ResultObj.error("用户名已经被使用！");
             }
             String code = (String) session.getAttribute("code");
-            if (StringUtils.checkNull(code)) {
+            if (StringUtils.isEmpty(code)) {
                 return ResultObj.error("请先获取验证码！");
             }
             if (code.equalsIgnoreCase(validate_code))
@@ -98,7 +98,7 @@ public class UserController {
     @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", paramType = "query", example = "king", required = true)
     public ResultObj nameIsUse(String username) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = UserIPUtil.getUser();
             StringUtils.nameIsOk(username);
             if (user.getName().equals(username)) {
                 return ResultObj.obj(3, "无变化！");
@@ -135,25 +135,19 @@ public class UserController {
 
     @GetMapping(value = "/getUser.do")
     @ApiOperation(value = "获取登录用户信息", tags = "用户操作接口")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj getUser(HttpServletRequest req, HttpServletResponse resp) {
-        ResultObj result = new ResultObj();
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (StringUtils.checkNull(user) || StringUtils.checkNull(user.getId())) {
-                result.setCode(0);
-                result.setMsg("请先登录！");
-                resp.sendRedirect("/login");
-            } else {
-                UserVo userVo = new UserVo(user);
-                return ResultObj.ok(userVo);
-            }
+            User user = UserIPUtil.getUser();
+            UserVo userVo = new UserVo(user);
+            return ResultObj.ok(userVo);
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultObj.ok("系统错误!");
+            return ResultObj.error("系统错误!");
 
         }
-        return result;
     }
 
     @GetMapping(value = "/getLoginUser.do")
@@ -167,9 +161,10 @@ public class UserController {
     @ApiOperation(value = "刷新当前登录的用户信息", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResultObj refreshUser(HttpServletRequest req, HttpServletResponse resp) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         ResultObj result = new ResultObj();
         try {
+            User user = UserIPUtil.getUser();
             user = userService.queryByName(user.getName());
             userService.setLoginUser(user);
             logger.info(user.toString());
@@ -263,7 +258,7 @@ public class UserController {
             , String name, String msg) {
         logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = UserIPUtil.getUser();
             if (!uploadFile.isEmpty()) {
                 user.setHeadImg(FileUtil.saveFile(uploadFile));
             }

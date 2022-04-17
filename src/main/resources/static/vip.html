@@ -194,13 +194,14 @@
             getUser: function () {
                 axios.get('/api/user/getUser.do').then(function (response) {
                     this.user = response.data.data;
-                    if (this.user.id !== undefined || this.user.id !== null) {
-                        $("#vip1").append(this.user.msgReg);
-                        $("#vip2").append(this.user.msgVip);
+                    //console.log(this.user)
+                    if (response.data.code == 0){
+                        $("#loginAfter").remove();
+                    }else {
                         $("#login").remove();
                         $("#register").remove();
-                    } else {
-                        $("#loginAfter").remove();
+                        $("#vip1").append(this.user.msgReg);
+                        $("#vip2").append(this.user.msgVip);
                     }
 
                 }).catch(function (error) {

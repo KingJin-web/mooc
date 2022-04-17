@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
     public IPage<Course> queryByLikeNameAndMsg(String name, int current) {
         QueryWrapper<Course> qw = new QueryWrapper<>();
         qw.like("name", name).or().like("msg", name);
-        Page<Course> page = new Page<>(current, 10);
+        Page<Course> page = new Page<>(current, 5);
         return courseMapper.selectPage(page, qw);
     }
 

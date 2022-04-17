@@ -798,10 +798,10 @@
             getUser: function () {
                 axios.get('/api/user/getUser.do').then(function (response) {
                     this.user = response.data.data;
-                    console.log(this.user)
-                    if (this.user === undefined) {
+                    //console.log(this.user)
+                    if (response.data.code == 0){
                         $("#loginAfter").remove();
-                    } else {
+                    }else {
                         $("#login").remove();
                         $("#register").remove();
                     }
@@ -861,5 +861,33 @@
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../lib/layuiInit.js"></script>
 <script type="text/javascript" src="../lib/Popup.js"></script>
+<script>
+    function query() {
+        var content = '<form action="/search">';
+        content += '<input type="text" name="query" autocomplete="off" placeholder="搜索内容，回车跳转">';
+        content += '<input type="hidden" name="current" value="1">';
+        content += '</form>';
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: false,
+            shadeClose: true,
+            offset: '120px',
+            maxWidth: 10000,
+            skin: 'layer-search',
+            content: content,
+            success: function (dom) {
+                var form = dom.find('form');
+                var query = dom.find('input[name=query]');
+                query.focus();
+                $(form).submit(function () {
+                    if (query.val().replace(/\s/g, '') === '') {
+                        return false;
+                    }
+                });
+            }
+        });
+    }
+</script>
 </body>
 </html>
