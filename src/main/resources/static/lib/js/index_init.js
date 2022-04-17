@@ -45,21 +45,20 @@ var v = new Vue({
         getUser: function () {
             axios.get('/api/user/getUser.do').then(function (response) {
                 this.user = response.data.data;
-                console.log(this.user)
-                if (this.user === undefined ) {
+                //console.log(this.user)
+                if (response.data.code == 0){
                     $("#loginAfter").remove();
-                } else {
-                       $("#login").remove();
+                }else {
+                    $("#login").remove();
                     $("#register").remove();
                 }
-
             }).catch(function (error) {
-                console.log(error);
+                //console.log(error);
             });
         },
         getRecommend: function () {
             axios.get('/api/course/recommend.do').then(function (response) {
-                console.log(response.data.data.frontend);
+                ////console.log(response.data.data.frontend);
                 $("#frontend div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.frontend.length; i++) {
@@ -96,13 +95,13 @@ var v = new Vue({
                 $("#computer").append(html);
                 //开始渲染
             }).catch(function (error) {
-                console.log(error);
+                ////console.log(error);
             });
         },
         //获得新课程
         getNewCourse: function (){
             axios.get('/api/course/getNewCourse.do').then(function (response) {
-                console.log(response.data.data.frontend);
+                ////console.log(response.data.data.frontend);
                 $("#newfrontend div").remove();
                 var html = "";
                 for (var i = 0; i < response.data.data.frontend.length; i++) {
@@ -140,7 +139,7 @@ var v = new Vue({
 
                 //开始渲染
             }).catch(function (error) {
-                console.log(error);
+                ////console.log(error);
             });
             }
         },

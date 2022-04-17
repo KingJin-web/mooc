@@ -3,6 +3,7 @@ package com.king.mooc.util;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
  * @author: King
  * @create: 2021-10-02 19:59
  */
-public class StringUtils extends org.springframework.util.StringUtils {
+public class StringUtils extends ObjectUtils {
 
 
     //要获取一个[x,y)的double类型的随机数 | 左闭右开

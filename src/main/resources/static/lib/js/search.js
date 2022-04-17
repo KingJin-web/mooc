@@ -26,6 +26,7 @@ function getTpl(id, name, coverImage, msg, text, price, vipPrice) {
 
     return html
 }
+
 var laypage
 layui.use('laypage', function () {
     laypage = layui.laypage;
@@ -47,8 +48,8 @@ var v = new Vue({
     created: function () {
         this.getUser();
         this.getSearch();
-
-        $("#query").append($_2.substring($_2.indexOf("query=") + 6, $_2.lastIndexOf("&")));
+        $("#query").append(decodeURI(getRequestParameter("query")));
+        // $("#query").append($_2.substring($_2.indexOf("query=") + 6, $_2.lastIndexOf("&")));
 
 
     },
@@ -60,8 +61,9 @@ var v = new Vue({
         getUser: function () {
             axios.get('/api/user/getUser.do').then(function (response) {
                 this.user = response.data.data;
-                console.log(this.user)
-                if (this.user === undefined) {
+                this.user = response.data.data;
+                //console.log(this.user)
+                if (response.data.code == 0) {
                     $("#loginAfter").remove();
                 } else {
                     $("#login").remove();
@@ -99,8 +101,8 @@ var v = new Vue({
                         , last: '尾页'
                         , prev: '<em>上一页</em>'
                         , next: '<em>下一页</em>'
-                        ,curr: location.hash.replace('#current=', '') //获取hash值为fenye的当前页
-                        ,hash: 'current' //自定义hash值
+                        , curr: location.hash.replace('#current=', '') //获取hash值为fenye的当前页
+                        , hash: 'current' //自定义hash值
                         , jump: function (obj, first) {
                             //obj包含了当前分页的所有参数，比如：
                             console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
@@ -119,9 +121,9 @@ var v = new Vue({
                 console.log(error);
             });
         },
-        changePage: function (current ) {
+        changePage: function (current) {
             var query = $_2.substring($_2.indexOf("query=") + 6, $_2.lastIndexOf("&"))
-            axios.get('/api/course/search.do?query=' +query + '&current=' + current ).then(function (response) {
+            axios.get('/api/course/search.do?query=' + query + '&current=' + current).then(function (response) {
                 if (response.data.code === 1) {
                     this.courseList = response.data.data.records;
                     this.total = response.data.data.total;
@@ -149,10 +151,10 @@ var v = new Vue({
 
 });
 
-window.addEventListener('hashchange',()=>{
+window.addEventListener('hashchange', () => {
     const value = location.hash
     console.log(value)
-    console.log(value.replace('#!current=',''))
-    v.changePage(value.replace('#!current=',''))
+    console.log(value.replace('#!current=', ''))
+    v.changePage(value.replace('#!current=', ''))
 
 })
