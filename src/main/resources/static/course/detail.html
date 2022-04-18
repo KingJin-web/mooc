@@ -2,8 +2,8 @@
 <html lang="zh-CN-Hans">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -780,8 +780,9 @@
 
 </div>
 <script>
+    var user_ = {};
     var course = {};
-    const king = new Vue({
+    var king = new Vue({
         el: '#course_page',
         data: {
             user: {},
@@ -797,11 +798,13 @@
         methods: {
             getUser: function () {
                 axios.get('/api/user/getUser.do').then(function (response) {
-                    this.user = response.data.data;
                     //console.log(this.user)
-                    if (response.data.code == 0){
+                    if (response.data.code == 0) {
                         $("#loginAfter").remove();
-                    }else {
+                    } else {
+                        this.user = response.data.data;
+                        user_ = response.data.data;
+                        console.log(this.user)
                         $("#login").remove();
                         $("#register").remove();
                     }
@@ -827,13 +830,15 @@
                 });
             },
             gotoPay: function () {
-                console.log(this.course);
-                console.log(this.c);
-                if (user === undefined) {
+                console.log(this.user);
+                console.log(king.user);
+                if (user_.id == undefined || user_.id == null) {
                     layer.msg('请先登录');
                     return;
+                } else {
+                    gotoPage("即将前往支付页面", '/api/alipay/byCourse.do' + '?cid=' + course.id);
                 }
-                gotoPage("即将前往支付页面", '/api/alipay/byCourse.do' + '?cid=' + course.id);
+
             },
             getCourse: function () {
                 axios.get('/api/course/findById.do?' + $_).then(function (response) {
