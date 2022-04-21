@@ -141,15 +141,18 @@
 
                     <div class="comment-form" id="comment-form">
                         <form class="layui-form" method="post" action="/comment/create">
-                            <textarea class="layui-textarea" id="comment-content" name="content" placeholder="撰写评论..."
-                                      lay-verify="required"></textarea>
+                            <label @click="inputComment()"  for="comment-content">
+                                <textarea class="layui-textarea" id="comment-content"
+                                          name="content" placeholder="撰写评论..."
+                                          lay-verify="required"></textarea>
+                            </label>
                             <div class="footer" id="comment-footer" style="display:none;">
                                 <div class="toolbar"></div>
                                 <div class="action">
                                     <button class="layui-btn layui-btn-sm" lay-submit="true" lay-filter="add_comment">
                                         发布
                                     </button>
-                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="comment-cancel"
+                                    <button @click="clearInput" class="layui-btn layui-btn-sm layui-btn-primary" id="comment-cancel"
                                             type="button">取消
                                     </button>
                                 </div>
@@ -456,7 +459,8 @@
         el: '#course_page',
         data: {
             user: {},
-            course_: course
+            course_: course,
+            input: false,
         },
         created: function () {
             this.getUser();
@@ -480,7 +484,21 @@
                     console.log(error);
                 });
             },
+            inputComment: function (e) {
+                this.input = true;
+                $("#comment-footer").css('display','block');
 
+                    // $("#comment-footer").style;
+
+            },
+            //取消输入
+            clearInput: function (e) {
+                this.input = true;
+                $("#comment-footer").css('display','none');
+
+                // $("#comment-footer").style;
+
+            },
 
         }
     });
