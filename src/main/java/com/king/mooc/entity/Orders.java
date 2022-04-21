@@ -3,6 +3,7 @@ package com.king.mooc.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.king.mooc.entity.enums.State;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Orders {
     @TableId(type = IdType.AUTO)//指定自增策略
     private Long id;
 
+    private String tradeNo;//交易流水号
     @ApiModelProperty(value = "购买的用户id")
     private Long uid;
 
@@ -43,6 +45,7 @@ public class Orders {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     //订单完成时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime completionTime;
 
 

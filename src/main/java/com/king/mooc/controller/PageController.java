@@ -90,5 +90,13 @@ public class PageController {
         return "/search.html";
     }
 
+    @GetMapping("/course/video")
+    public String message() {
+        return "/course/video.html";
+    }
+    @GetMapping("/success")
+    public String success() {
+        return "/success.html";
+    }
 
 }

@@ -47,11 +47,12 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public int overOrder(Long id) {
+    public int overOrder(Long id,String tradeNo) {
         UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id);
         updateWrapper.set("state", State.SUCCESS);
-        updateWrapper.eq("completion_time", LocalDateTime.now());
+        updateWrapper.set("trade_no", tradeNo);
+        updateWrapper.set("completion_time", LocalDateTime.now());
         return orderMapper.update(null, updateWrapper);
     }
 

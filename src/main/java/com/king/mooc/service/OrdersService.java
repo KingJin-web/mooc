@@ -37,7 +37,7 @@ public interface OrdersService {
      *
      * @return
      */
-    int overOrder(Long id);
+    int overOrder(Long id,String tradeNo);
 
     /**
      * 判断你有没有购买这个课程

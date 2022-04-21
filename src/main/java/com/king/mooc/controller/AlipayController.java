@@ -11,6 +11,7 @@ import com.king.mooc.config.AlipayConfig;
 import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
+import com.king.mooc.service.OrdersService;
 import com.king.mooc.service.UserService;
 import com.king.mooc.service.impl.OrdersServiceImpl;
 import com.king.mooc.util.HttpUtil;
@@ -22,6 +23,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.tomcat.jni.OS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,7 @@ public class AlipayController {
     private CourseService courseService;
 
     @Autowired
-    private OrdersServiceImpl orderService;
+    private OrdersService orderService;
 
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")
@@ -197,7 +199,7 @@ public class AlipayController {
                         : valueStr + values[i] + ",";
             }
             //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
+            valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
             params.put(name, valueStr);
         }
         AlipayConfig alipayConfig = new AlipayConfig();
@@ -217,8 +219,14 @@ public class AlipayController {
             e.printStackTrace();
         }
         logger.info("支付宝回调验证结果：" + verify_result);
-        if (verify_result) {//验证成功
-            orderService.overOrder(Long.valueOf(out_trade_no));
+        if (verify_result) {
+            //验证成功 支付成功
+            //////////////////////////////////////////////////////////////////////////////////////////
+            //请在这里加上商户的业务逻辑程序代码
+            //修改订单状态为已支付 传入支付宝交易号
+            orderService.overOrder(Long.valueOf(out_trade_no),trade_no);
+            //跳转支付成功提示页面
+            response.sendRedirect("/success");
         }
         logger.info("商户订单号{}支付宝交易号{}", out_trade_no, trade_no);
 
