@@ -18,7 +18,7 @@ function getTpl(id, name, coverImage, msg, text, price, vipPrice) {
         '            <span>分类：' + text + '</span>\n' +
         '            <span>原价：￥ ' + price + '</span>\n' +
         '           <span class="price">会员：￥' + vipPrice + '</span>\n' +
-        '            <span>学员：466</span>\n' +
+        // '            <span>学员：466</span>\n' +
         '        </div>\n' +
         '    </div>\n' +
         '</div>'

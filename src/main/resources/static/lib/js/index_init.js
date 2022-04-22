@@ -18,7 +18,7 @@ function getTpl(id, name, coverImage, price, vipprice) {
         '         <div class="meta">\n' +
         '<span>原价￥' + price + '</span>\n' +
         '<span class="price">会员￥' + vipprice + '</span>\n' +
-        '<span class="user">863人购买</span>\n' +
+        // '<span class="user">863人购买</span>\n' +
         '         </div>\n' +
         '     </div>\n' +
         ' </div>\n' +
