@@ -34,8 +34,8 @@ public interface CourseMapper extends BaseMapper<Course> {
     int updatePrice1(long id, long uid, double price, double vipPrice, double activityPrice);
 
 
-    @Select("SELECT * FROM course WHERE flag = 0 AND id = #{id}")
-    Course selectById(long id);
+//    @Select("SELECT * FROM course WHERE flag = 0 AND id = #{id}")
+//    Course selectById(long id);
 
     @Select("SELECT * FROM course where  category = #{category} and flag = 0 ORDER BY RAND() LIMIT 8")
     List<Course> queryRecommend(Category category);
