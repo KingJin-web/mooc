@@ -1,11 +1,16 @@
 package com.king.mooc.util;
 
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.king.mooc.entity.Course;
 import com.king.mooc.vo.UserVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 @SpringBootTest
@@ -32,5 +37,19 @@ public class RedisObjUtilTest {
 
         UserVo userVo1 = redisObjUtil.getEntity("63D040888A00FBDBB0ABDC519DD26B4101DEDFC0FCB350AFEE619712CBF49E75",userVo.getClass());
         System.out.println(userVo1);
+    }
+
+    @Test
+    public void t1() {
+        Course course = new Course();
+        System.out.println(course);
+        System.out.println(course == null);
+        System.out.println(StringUtils.isEmpty(course));
+        System.out.println(StringUtils.isNull(course));
+        course.setId(1L);
+        System.out.println(StringUtils.isNull(course));
+        System.out.println(ObjectUtils.isNull(course));
+        System.out.println(Objects.isNull(course));
+        System.out.println(ObjectUtils.isNull(course));
     }
 }

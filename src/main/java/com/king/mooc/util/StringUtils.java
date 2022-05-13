@@ -7,6 +7,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +27,27 @@ public class StringUtils extends ObjectUtils {
     }
 
     private StringUtils() {
+
     }
+
+    public static boolean isNull(Object object) {
+        if (isEmpty(object)) {
+            return true;
+        } else {
+            try {
+                for (Field f : object.getClass().getDeclaredFields()) {
+                    f.setAccessible(true);
+                    if (!StringUtils.isEmpty(f.get(object))) {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
 
     /**
      * 用户电话号码的打码隐藏加星号加*

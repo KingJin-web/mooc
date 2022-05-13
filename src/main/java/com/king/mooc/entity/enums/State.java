@@ -14,7 +14,7 @@ public enum State implements IEnum<Integer> {
     START("订单未完成", 1),
     ERROR("订单错误", -1),
     SUCCESS("订单已完成", 2),
-    CANCEL("订单已取消", 3);
+    CANCEL("订单已取消", 3), REFUND("订单已退款",4 );
 
 
     @EnumValue

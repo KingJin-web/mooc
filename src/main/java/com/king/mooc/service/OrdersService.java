@@ -1,6 +1,7 @@
 package com.king.mooc.service;
 
 
+import com.alipay.api.AlipayApiException;
 import com.king.mooc.entity.Orders;
 import com.king.mooc.vo.OrdersVo;
 import com.king.mooc.vo.ResultObj;
@@ -49,4 +50,16 @@ public interface OrdersService {
     boolean isBuy(Long uid, Long cid);
 
     List<OrdersVo> getOrders(Long uid);
+
+    //退款
+    ResultObj refund(Long id);
+
+    /**
+     * 退款
+     * @param outTradeNo    订单编号
+     * @param refundReason  退款原因
+     * @param refundAmount  退款金额
+     * @param outRequestNo  标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
+     */
+    void refund(String outTradeNo,String trade_no,String refundReason,BigDecimal refundAmount,String outRequestNo) throws AlipayApiException;
 }

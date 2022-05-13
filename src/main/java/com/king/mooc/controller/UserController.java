@@ -3,6 +3,7 @@ package com.king.mooc.controller;
 import com.alibaba.fastjson.JSON;
 import com.king.mooc.entity.User;
 import com.king.mooc.mapper.UserMapper;
+import com.king.mooc.service.QiniuService;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.*;
 import com.king.mooc.vo.ResultObj;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @program: mooc
@@ -41,7 +43,7 @@ public class UserController {
     private UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private RedisObjUtil redisObjUtil;
+    private QiniuService qiniuService;
 
     @PostMapping(value = "/register.do")
     @ApiOperation(value = "注册用户", tags = "用户操作接口")
@@ -223,7 +225,6 @@ public class UserController {
         }
     }
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PostMapping(value = "/updateEmail.do")
     @ApiOperation(value = "修改用户邮箱", tags = "用户操作接口")
@@ -231,8 +232,8 @@ public class UserController {
     public ResultObj updateEmail(HttpServletRequest req, String password, String email) {
         logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
-            User user = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            User user = UserIPUtil.getUser();
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             StringUtils.isPhone(email);
             if (encoder.matches(password, user.getPassword())) {
                 userService.updateEmail(user, email);
@@ -260,7 +261,10 @@ public class UserController {
         try {
             User user = UserIPUtil.getUser();
             if (!uploadFile.isEmpty()) {
-                user.setHeadImg(FileUtil.saveFile(uploadFile));
+                String fileName = uploadFile.getOriginalFilename();
+                String key = user.getId() +
+                        fileName.substring(fileName.lastIndexOf("."));
+                user.setHeadImg(qiniuService.uploadFile(uploadFile, key));
             }
             if (!user.getName().equals(name)) {
                 StringUtils.nameIsOk(name);
@@ -287,9 +291,7 @@ public class UserController {
                                 @RequestParam("file") MultipartFile file) {
         ResultObj result = new ResultObj();
         try {
-            HttpSession session = req.getSession();
-            User user = userService.queryById(redisObjUtil.getUserVo(session.getId()).getId());
-
+            User user = UserIPUtil.getUser();
             //修改电话
             StringUtils.isPhoneLegal(phone);
             user.setPhone(phone);
@@ -350,7 +352,6 @@ public class UserController {
     public ResultObj logout(HttpServletRequest req, HttpServletResponse resp) {
         ResultObj result = new ResultObj();
         try {
-            redisObjUtil.delete(req.getSession().getId());
             result.setCode(0);
             result.setMsg("成功退出登录！");
         } catch (Exception e) {
