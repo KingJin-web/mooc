@@ -128,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(new LogoutHandler() {
                     @Override
                     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-                        System.out.println("logout");
+                        // System.out.println("logout");
                     }
                 })
                 .invalidateHttpSession(true)

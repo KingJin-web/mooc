@@ -1,18 +1,33 @@
 package com.king.mooc.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.king.mooc.config.AlipayConfig;
 import com.king.mooc.entity.Orders;
 import com.king.mooc.entity.enums.State;
 import com.king.mooc.mapper.OrderMapper;
 import com.king.mooc.service.OrdersService;
+import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.OrdersVo;
+import com.king.mooc.vo.ResultObj;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @program: mooc
@@ -25,6 +40,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public int creatOrder(Long id, Long uid, Long cid, BigDecimal price) {
@@ -47,7 +65,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public int overOrder(Long id,String tradeNo) {
+    public int overOrder(Long id, String tradeNo) {
         UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id);
         updateWrapper.set("state", State.SUCCESS);
@@ -69,5 +87,71 @@ public class OrdersServiceImpl implements OrdersService {
     public List<OrdersVo> getOrders(Long uid) {
 
         return orderMapper.getOrdersVo(uid);
+    }
+
+    @Override
+    public ResultObj refund(Long id) {
+
+        Orders order = orderMapper.selectById(id);
+        if (StringUtils.isNull(order)) {
+            return ResultObj.error("订单不存在");
+        }
+        if (order.getState() != State.SUCCESS) {
+            return ResultObj.error("订单未支付");
+        }
+        //购买时间超过15天，不能退款
+        if (LocalDateTime.now().isAfter(order.getCompletionTime().plusDays(15))) {
+            return ResultObj.error("订单已超过15天，不能退款");
+        }
+        //退款
+        try {
+            refund(order.getId().toString(), order.getTradeNo(), "15天内可退款", order.getPrice(), UUID.randomUUID().toString());
+        } catch (AlipayApiException e) {
+            logger.error("退款失败", e);
+            return ResultObj.error("退款失败");
+        }
+
+        //更新订单状态
+        UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", id);
+        updateWrapper.set("state", State.REFUND);
+        orderMapper.update(null, updateWrapper);
+        return ResultObj.success();
+
+    }
+
+
+    /**
+     *
+     * @param outTradeNo    商户订单号
+     * @param trade_no 支付宝订单号
+     * @param refundReason  退款原因
+     * @param refundAmount  退款金额
+     * @param outRequestNo  标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
+     * @throws AlipayApiException
+     */
+    @Override
+    public void refund(String outTradeNo, String trade_no, String refundReason,
+                       @NotNull BigDecimal refundAmount, String outRequestNo
+    ) throws AlipayApiException {
+        AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
+
+        AlipayConfig alipayConfig = new AlipayConfig();
+        AlipayClient alipayClient = new DefaultAlipayClient(
+                alipayConfig.getGatewayUrl(), alipayConfig.getApp_id(), alipayConfig.getMerchant_private_key(), "json", alipayConfig.getCharset(), alipayConfig.getAlipay_public_key()
+                , alipayConfig.getSign_type());
+
+        JSONObject bizContent = new JSONObject();
+        bizContent.put("trade_no", trade_no);
+        bizContent.put("out_trade_no", outTradeNo);
+        bizContent.put("refund_amount", refundAmount.toString());
+        bizContent.put("refund_reason", refundReason);
+        bizContent.put("out_request_no", outRequestNo);
+        alipayRequest.setBizContent(bizContent.toString());
+        String result = alipayClient.execute(alipayRequest).getBody();
+        logger.info("退款结果：" + result);
+        logger.info("退款结果：" + alipayRequest.getBizContent());
+        logger.info("退款结果：" + alipayClient.execute(alipayRequest));
+
     }
 }

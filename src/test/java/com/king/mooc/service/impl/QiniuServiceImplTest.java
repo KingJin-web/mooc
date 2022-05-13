@@ -23,9 +23,5 @@ public class QiniuServiceImplTest {
     public void tearDown() throws Exception {
     }
 
-    @org.junit.Test
-    public void uploadFile() {
-        qiniuService.testUpload();
-    }
 
 }

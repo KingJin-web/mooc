@@ -1,6 +1,9 @@
 package com.king.mooc.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.king.mooc.service.QiniuService;
+import com.king.mooc.util.StringUtils;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -13,10 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,7 +32,7 @@ import java.util.UUID;
  * @description: ${}
  */
 @Service
-public class QiniuServiceImpl {
+public class QiniuServiceImpl implements QiniuService {
     @Value(value = "${Qiniu.AccessKey}")
     private String accessKey;
     @Value(value = "${Qiniu.SecretKey}")
@@ -35,50 +40,56 @@ public class QiniuServiceImpl {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //测试文件上传
-    public void testUpload() {
-        //构造一个带指定 Region 对象的配置类，指定存储区域，和存储空间选择的区域一致
-        Configuration cfg = new Configuration(Region.huanan());
-        //其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-        //生成上传凭证，然后准备上传
-        String bucket = "hnking";
-        //默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = UUID.randomUUID() + ".png";
-        FileInputStream fileInputStream = null;
-        try {
 
-            String filePath = "C:\\Users\\12613\\Pictures\\20201029195525.png";
-            fileInputStream = new FileInputStream(new File(filePath));
-            //得到本地文件的字节数组
-            byte[] bytes = IOUtils.toByteArray(fileInputStream);
-//            byte[] uploadBytes = "hello qiniu cloud".getBytes("utf-8");
-            //认证
-            Auth auth = Auth.create(accessKey, secretKey);
-            //认证通过后得到token（令牌）
-            String upToken = auth.uploadToken(bucket);
-            try {
-                //上传文件,参数：字节数组，key，token令牌
-                //key: 建议我们自已生成一个不重复的名称
-                Response response = uploadManager.put(bytes, key, upToken);
-                //解析上传成功的结果
-                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(),
-                        DefaultPutRet.class);
-                System.out.println(putRet.key);
-                System.out.println(putRet.hash);
-            } catch (QiniuException ex) {
-                Response r = ex.response;
-                System.err.println(r.toString());
-                try {
-                    System.err.println(r.bodyString());
-                } catch (QiniuException ex2) {
-                    //ignore
-                }
-            }
-        } catch (IOException ex) {
-            logger.error("上传文件失败", ex);
-            //ignore
+    @Override
+    public String uploadFile(byte[] file, String fileName) {
+        Configuration cfg = new Configuration(Region.huanan());
+        UploadManager uploadManager = new UploadManager(cfg);
+        String bucket = "hnking";
+        if (StringUtils.isEmpty(fileName)) {
+            fileName = UUID.randomUUID() + ".jpg";
         }
+        String key = fileName;
+        Auth auth = Auth.create(accessKey, secretKey);
+        String upToken = auth.uploadToken(bucket);
+        try {
+            Response response = uploadManager.put(file, key, upToken);
+            DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
+            return "https://oss.wuzhaoqi.top/" + putRet.key;
+        } catch (QiniuException e) {
+            logger.error("上传文件失败", e);
+            logger.error(JSON.toJSONString(e.response));
+            return null;
+        }
+    }
+
+    @Override
+    public String uploadFile(MultipartFile uploadFile, String fileName) {
+        try {
+            return uploadFile(uploadFile.getBytes(), fileName);
+        } catch (IOException e) {
+            logger.error("上传文件失败", e);
+            return null;
+        }
+    }
+
+    @Override
+    public String uploadFile(byte[] file) {
+        return null;
+    }
+
+    @Override
+    public List<String> uploadFiles(byte[] file) {
+        return null;
+    }
+
+    @Override
+    public byte[] downloadFile(String fileName) {
+        return new byte[0];
+    }
+
+    @Override
+    public void deleteFile(String key) {
 
     }
 }

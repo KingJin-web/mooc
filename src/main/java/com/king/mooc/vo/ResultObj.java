@@ -46,15 +46,12 @@ public class ResultObj {
         return new ResultObj(code, msg, count, data);
     }
 
-    public static ResultObj obj(Integer code,String msg) {
+    public static ResultObj obj(Integer code, String msg) {
         return obj(code, msg, null, null);
     }
 
     public static ResultObj error(int code, String msg) {
-        ResultObj r = new ResultObj();
-        r.code = code;
-        r.msg = msg;
-        return r;
+        return obj(code, msg, null, null);
     }
 
     public static ResultObj ok(ResultObj resultObj) {
@@ -62,10 +59,7 @@ public class ResultObj {
     }
 
     public static ResultObj ok(Object o) {
-        ResultObj r = new ResultObj();
-        r.code = 1;
-        r.data = o;
-        return r;
+        return obj(1, "成功！", null, o);
     }
 
     public static ResultObj ok() {
@@ -73,10 +67,18 @@ public class ResultObj {
     }
 
     public static ResultObj ok(String msg) {
-        ResultObj r = new ResultObj();
-        r.code = 1;
-        r.msg = msg;
-        return r;
+        return obj(1, msg);
     }
 
+    public static ResultObj success() {
+        return ok("成功！");
+    }
+
+    public static ResultObj success(String msg) {
+        return ok(msg);
+    }
+
+    public static ResultObj success(Object o) {
+        return ok(o);
+    }
 }
