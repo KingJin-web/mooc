@@ -1,6 +1,8 @@
 package com.king.mooc.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.king.mooc.entity.Course;
 import com.king.mooc.entity.enums.Category;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,6 +50,20 @@ public interface CourseMapper extends BaseMapper<Course> {
     List<Course> queryByUid(long uid);
 
     //通过订单中的uid 查询该用户购买了的课程
-    @Select("select ( @i := @i + 1 ) AS id,c.id as uid, c.name,o.create_time from course c , orders o , ( SELECT @i := 0 ) AS k  where  o.cid = c.id and o.uid = #{uid} and state = 2")
-    List<Course> queryByUid1(long uid);
+    @Select("SELECT\n" +
+            "	( @i := @i + 1 ) AS id,\n" +
+            "	c.id AS uid,\n" +
+            "	c.NAME,\n" +
+            "	o.create_time \n" +
+            "FROM\n" +
+            "	course c,\n" +
+            "	orders o,\n" +
+            "	( SELECT @i := 0 ) AS k \n" +
+            "WHERE\n" +
+            "	o.cid = c.id \n" +
+            "	AND o.uid = #{uid} \n" +
+            "	AND state = 2 \n" +
+            "	AND o.flag = 0 \n" +
+            "	AND c.flag = 0")
+    IPage<Course> queryByUid1(Page<Course> page,long uid);
 }

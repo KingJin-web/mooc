@@ -53,7 +53,7 @@
         <div class="user">
             <ul class="layui-nav">
                 <li class="layui-nav-item">
-                    <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                    <a @click="gotoVip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span
@@ -93,26 +93,26 @@
                             <ul class="my-menu">
                                 <li><a href="/user/">个人信息</a></li>
                                 <li><a href="/user/account">帐号安全</a></li>
-                                <li><a href="/user/like.html">收藏课程</a></li>
+                                
                             </ul>
                         </div>
                     </div>
-
+                </div>
+                <div class="layui-card">
                     <div class="layui-card-header">课程中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/course">我的课程</a></li>
-                            <li><a href="/user/reviews">我的评价</a></li>
+
                         </ul>
                     </div>
                 </div>
-
                 <div class="layui-card">
                     <div class="layui-card-header">订单中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/orders">我的订单</a></li>
-                            <li><a href="/user/refunds">我的退款</a></li>
+                          
                         </ul>
                     </div>
                 </div>
@@ -149,14 +149,14 @@
                         </div>
                     </div>
                     <div class="my-nav">
-                        <span class="title">开放登录</span>
+<!--                        <span class="title">开放登录</span>-->
                     </div>
-                    <div class="connect-tips">支持绑定的第三方帐号</div>
-                    <div class="oauth-list">
-                        <a class="layui-icon layui-icon-login-qq login-qq" href="/oauth/qq"></a>
-                        <a class="layui-icon layui-icon-login-wechat login-wechat" href="/oauth/weixin"></a>
-                        <a class="layui-icon layui-icon-login-weibo login-weibo" href="/oauth/weibo"></a>
-                    </div>
+<!--                    <div class="connect-tips">支持绑定的第三方帐号</div>-->
+<!--                    <div class="oauth-list">-->
+<!--                        <a class="layui-icon layui-icon-login-qq login-qq" href="/oauth/qq"></a>-->
+<!--                        <a class="layui-icon layui-icon-login-wechat login-wechat" href="/oauth/weixin"></a>-->
+<!--                        <a class="layui-icon layui-icon-login-weibo login-weibo" href="/oauth/weibo"></a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

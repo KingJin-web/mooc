@@ -158,6 +158,25 @@ function alertLayer(text, path) {
     }
 }
 
+function alertLayer2(text, path) {
+    console.log(text)
+    if (text.includes("成功")) {
+        layer.confirm(text, {
+            icon: 1,
+            btn: ['确认'] //按钮
+        }, function () {
+            window.location.href = path;
+        })
+
+    } else {
+        layer.alert(text, {
+            icon: 3,
+            skin: 'layer-ext-moon'
+        }, function () {
+            window.location.href = path;
+        })
+    }
+}
 /**
  * 保存用户信息 提示弹窗 以及延迟加载
  * @param data 后台回调的信息

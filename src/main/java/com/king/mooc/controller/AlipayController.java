@@ -10,12 +10,12 @@ import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.king.mooc.config.AlipayConfig;
 import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
+import com.king.mooc.service.AlipayService;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.OrdersService;
 import com.king.mooc.service.UserService;
 import com.king.mooc.service.impl.OrdersServiceImpl;
-import com.king.mooc.util.HttpUtil;
-import com.king.mooc.util.IPSeeker;
+import com.king.mooc.util.*;
 import com.king.mooc.vo.AlipayVo;
 import com.king.mooc.vo.ResultObj;
 import com.king.mooc.vo.UserVo;
@@ -52,21 +52,23 @@ import java.util.Map;
 @RequestMapping("/api/alipay")
 @Api(value = "支付宝沙箱支付接口", tags = "支付宝沙箱支付接口")
 public class AlipayController {
-    @GetMapping("queryAddress.do")
-    @ApiOperation(value = "ip地址查询", tags = "支付宝沙箱支付接口")
-    public String queryAddress(String ip){
-        IPSeeker ipSeeker =IPSeeker.getInstance();
-        return ipSeeker.getAddress(ip);
-    }
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    private UserService userService;
+
+
+    private final CourseService courseService;
+
+
+    private final OrdersService orderService;
+
+    private AlipayService alipayService;
 
     @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private OrdersService orderService;
+    public AlipayController(CourseService courseService, OrdersService orderService, AlipayService alipayService) {
+        this.courseService = courseService;
+        this.orderService = orderService;
+        this.alipayService = alipayService;
+    }
 
     @RequestMapping(value = "/playVip", method = RequestMethod.GET)
     @ApiOperation(value = "会员充值", tags = "支付宝沙箱支付接口")
@@ -122,11 +124,13 @@ public class AlipayController {
             @ApiImplicitParam(name = "money", value = "金额", dataType = "double", paramType = "query", example = "1", required = true),
     })
 
-    public void byCourse(HttpServletRequest request, HttpServletResponse response, Long cid, Long uid, BigDecimal money) throws ServletException, IOException {
+    public void byCourse(HttpServletRequest request,
+                         HttpServletResponse response,
+                         Long cid) throws IOException, MyException {
 
         logger.info("开始购买课程");
         String title = "购买课程";
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = UserIPUtil.getUser();
         UserVo userVo = new UserVo(user);
         String total;
         Course course = courseService.selectById(cid);
@@ -136,6 +140,14 @@ public class AlipayController {
         } else {
             //普通价
             total = String.valueOf(course.getPrice());
+        }
+        if (orderService.isBuy(user.getId(), cid)) {
+            //已购买
+
+            //跳转到课程详情页面
+            response.sendRedirect("/isBuy");
+            return;
+
         }
 
 
@@ -224,7 +236,7 @@ public class AlipayController {
             //////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
             //修改订单状态为已支付 传入支付宝交易号
-            orderService.overOrder(Long.valueOf(out_trade_no),trade_no);
+            orderService.overOrder(Long.valueOf(out_trade_no), trade_no);
             //跳转支付成功提示页面
             response.sendRedirect("/success");
         }
@@ -257,17 +269,6 @@ public class AlipayController {
             System.out.println("签名验证失败！");
             return "error";
         }
-    }
-
-    public AlipayVo getOrderPay(String orderSn) {
-        // 模拟一个订单
-        AlipayVo payVo = new AlipayVo();
-        // 订单号
-        payVo.setOut_trade_no(orderSn);
-        payVo.setSubject("测试商品");
-        payVo.setBody("这是测试支付宝沙箱环境专用的测试商品！");
-        payVo.setTotal_amount("99.99");
-        return payVo;
     }
 
     /**
@@ -357,5 +358,19 @@ public class AlipayController {
             return "no";//跳转付款失败页面
         }
     }
+
+
+    @ApiOperation("退款")
+    @PostMapping("/refund.do")
+    public ResultObj refund(Long id) {
+        try {
+            return alipayService.refund(id);
+        } catch (AlipayApiException e) {
+            logger.error("支付宝退款异常", e);
+            return ResultObj.error("支付宝退款异常");
+        }
+
+    }
+
 
 }

@@ -1,12 +1,14 @@
 package com.king.mooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.king.mooc.entity.User;
 import com.king.mooc.entity.enums.Role;
 import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.service.UserService;
 import com.king.mooc.util.MyException;
 import com.king.mooc.util.StringUtils;
+import com.king.mooc.vo.ResultObj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
     public boolean registerByEmail(String name, String password, String email) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         password = encoder.encode(password);
         User user = User.builder().name(name).password(password).email(email).balance(new BigDecimal(0)).build();
         userMapper.insert(user);
@@ -162,6 +166,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateEmail(User user, String email) {
         userMapper.updateEmail(user.getId(), email);
+    }
+
+    @Override
+    public ResultObj updatePwd(User user, String oldPwd, String newPwd1, String newPwd2) {
+        try {
+            if(StringUtils.checkNull(oldPwd) || StringUtils.checkNull(newPwd1) || StringUtils.checkNull(newPwd2)){
+                return ResultObj.error("密码不能为空");
+            }
+            if (!encoder.matches(oldPwd, user.getPassword())) {
+                return ResultObj.error("密码错误");
+            }
+            if (!newPwd1.equals(newPwd2)) {
+                return ResultObj.error("两次密码不一致");
+            }
+            UpdateWrapper<User> uw = new UpdateWrapper<>();
+            uw.eq("id", user.getId());
+            user.setPassword(encoder.encode(newPwd1));
+            userMapper.update(user, uw);
+            //更新缓存
+            setLoginUser(user);
+            return ResultObj.success("修改成功");
+        } catch (Exception e) {
+            logger.error("修改密码失败", e);
+            return ResultObj.error("修改失败");
+        }
     }
 
 }

@@ -4,11 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.king.mooc.entity.Course;
+import com.king.mooc.entity.User;
 import com.king.mooc.entity.enums.Category;
 import com.king.mooc.mapper.CourseMapper;
 import com.king.mooc.service.CourseService;
+import com.king.mooc.util.MyException;
+import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.CourseVo;
 import com.king.mooc.vo.CourseVos;
+import com.king.mooc.vo.ResultObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -95,9 +99,21 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
+
+    /**
+     * 获取已经购买的课程
+     * @param page
+     * @param limit
+     * @param id
+     * @return
+     */
     @Override
-    public List<Course> queryByUid(Long uid) {
-        return courseMapper.queryByUid1(uid);
+    public ResultObj queryByUid(int page, int limit, Long id) {
+        Page<Course> coursePage = new Page<>(page, limit);
+
+        IPage<Course> courseIPage = courseMapper.queryByUid1(coursePage, id);
+        return ResultObj.layui(courseIPage.getTotal(),courseIPage.getRecords());
+
     }
 
 

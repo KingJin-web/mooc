@@ -184,22 +184,12 @@ public class UserController {
     @PostMapping(value = "/updatePwd.do")
     @ApiOperation(value = "修改用户账号密码", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updatePwd(HttpServletRequest req
-            , String password, Long phone) {
-        //logger.info(JSON.toJSONString(req.getParameterMap()));
+    public ResultObj updatePwd(String oldPwd, String newPwd1, String newPwd2) {
         try {
-            User user = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-
-            StringUtils.isPhone(phone);
-            userService.updatePhone(user, phone);
-            return ResultObj.ok("修改成功！");
+            User user = UserIPUtil.getUser();
+            return userService.updatePwd(user, oldPwd, newPwd1, newPwd2);
         } catch (MyException e) {
             return ResultObj.error(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.error("系统错误! ");
-
         }
     }
 

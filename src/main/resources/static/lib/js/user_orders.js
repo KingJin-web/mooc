@@ -26,7 +26,7 @@ layui.use(function () { //亦可加载特定模块：layui.use(['layer', 'laydat
             {field: 'id', title: '编号', width: '10%', sort: true, fixed: 'left'},
             {field: 'cname', title: '课程名', width: '20%'},
             {field: 'createTime', title: '购买时间', width: '20%', sort: true},
-            {field: 'state', title: '状态', width: '20%'},
+            {title: '状态', width: '20%', toolbar: '#typeImh'},
             {field: 'price', title: '价格', width: '10%', sort: true},
             {fixed: 'right', title: '操作', width: '20%', align: 'center', toolbar: '#barDemo'}
         ]]
@@ -43,12 +43,54 @@ layui.use(function () { //亦可加载特定模块：layui.use(['layer', 'laydat
         //console.log(obj)
         if (obj.event === 'toCourse') {
             window.location.href = "/course/detail#id=" + data.cid;
-        } else if (obj.event === 'detail') {
+        } else if (obj.event === 'refund') {
+            let param = new URLSearchParams()
+            param.append('id', data.oid)
+            layer.confirm('确定要退款吗？', {icon: 3, title: '提示'}, function (index) {
+                axios.post('/api/alipay/refund.do', param).then(res => {
+                    if (res.data.code === 1) {
+                        layer.msg(res.data.msg, {icon: 1, time: 1000})
+                        //刷新表格
+                        table.reload('demo')
+                    } else {
+                        layer.msg(res.data.msg, {icon: 2, time: 1000})
+                    }
+                });
+            });
             //申请退款
         } else if (obj.event === 'topay') {
             //去支付
-        } else if (obj.event === 'By') {
-            //去支付
+            gotoPage("即将前往支付页面", '/api/alipay/byCourse.do' + '?cid=' + data.cid);
+        } else if (obj.event === 'cancel') {
+            //取消订单
+            let param = new URLSearchParams()
+            param.append('oid', data.oid)
+            layer.confirm('确定要取消订单吗？', {icon: 3, title: '提示'}, function (index) {
+                axios.post('/api/orders/cancel.do', param).then(res => {
+                    if (res.data.code === 1) {
+                        layer.msg(res.data.msg, {icon: 1, time: 1000})
+                        //刷新表格
+                        table.reload('demo')
+                    } else {
+                        layer.msg(res.data.msg, {icon: 2, time: 1000})
+                    }
+                });
+            });
+        } else if (obj.event === 'delete'){
+            //删除订单
+            let param = new URLSearchParams()
+            param.append('oid', data.oid)
+            layer.confirm('确定要删除订单吗？', {icon: 3, title: '提示'}, function (index) {
+                axios.post('/api/orders/delete.do', param).then(res => {
+                    if (res.data.code === 1) {
+                        layer.msg(res.data.msg, {icon: 1, time: 1000})
+                        //刷新表格
+                        table.reload('demo')
+                    } else {
+                        layer.msg(res.data.msg, {icon: 2, time: 1000})
+                    }
+                });
+            });
         }
     });
 });

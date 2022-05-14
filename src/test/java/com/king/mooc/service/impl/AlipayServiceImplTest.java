@@ -1,5 +1,6 @@
 package com.king.mooc.service.impl;
 
+import com.alipay.api.AlipayApiException;
 import com.king.mooc.service.AlipayService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,11 @@ public class AlipayServiceImplTest {
     private AlipayService alipayService;
     @Test
     public void refund() {
+        try {
+            System.out.println(alipayService.refund(20220513190145L));
+        } catch (AlipayApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

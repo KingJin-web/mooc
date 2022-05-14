@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付成功</title>
+    <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <!--    <script type="text/javascript" src="lib/layuiInit.js"></script>-->
+
+    <script type="text/javascript">
+        let layer;
+        layui.use(function () { //亦可加载特定模块：layui.use(['layer', 'laydate', function(){
+            //得到各种内置组件
+            layer = layui.layer //弹层
+        });
+        console.log(layer)
+    </script>
+    <script type="text/javascript" src="lib/Popup.js"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+
+<body>
+<script type="text/javascript">
+    setTimeout(function () {
+        alertLayer2("此课程您已经购买！点击返回订单页。", "/user/orders");
+        //window.location.href="/";
+    }, 1000);
+
+</script>
+</body>
+</html>

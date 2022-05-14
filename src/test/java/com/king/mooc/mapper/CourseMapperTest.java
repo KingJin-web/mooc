@@ -15,6 +15,6 @@ public class CourseMapperTest {
     CourseMapper courseMapper;
     @Test
     public void queryByUid1() {
-        System.out.println(courseMapper.queryByUid1(2));
+
     }
 }

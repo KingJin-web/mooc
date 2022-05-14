@@ -29,4 +29,11 @@ public class OrdersServiceImplTest {
     public void refund() {
         orderService.refund(20220419025952L);
     }
+
+    @Test
+    public void getOrderByUserId() {
+
+        System.out.println(orderService.getOrders(2L, 1, 10));
+        //orderService.getOrders(2L);
+    }
 }

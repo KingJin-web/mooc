@@ -47,8 +47,13 @@ public class Orders {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     //订单完成时间
+    @ApiModelProperty(value = "完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime completionTime;
+
+    @ApiModelProperty(value = "逻辑删除")
+    @TableLogic
+    private Integer flag;
 
 
     public void println() {

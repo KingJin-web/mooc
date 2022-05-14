@@ -8,12 +8,17 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.king.mooc.config.AlipayConfig;
 import com.king.mooc.entity.Orders;
+import com.king.mooc.entity.User;
 import com.king.mooc.entity.enums.State;
 import com.king.mooc.mapper.OrderMapper;
 import com.king.mooc.service.OrdersService;
+import com.king.mooc.util.MyException;
 import com.king.mooc.util.StringUtils;
+import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.OrdersVo;
 import com.king.mooc.vo.ResultObj;
 import org.jetbrains.annotations.NotNull;
@@ -85,8 +90,19 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrdersVo> getOrders(Long uid) {
+        return null;
+    }
 
-        return orderMapper.getOrdersVo(uid);
+    @Override
+    public ResultObj getOrders(Long uid, Integer page, Integer size) {
+
+        Page<OrdersVo> pages = new Page<>(page, size);
+        IPage<OrdersVo> iPage = orderMapper.getOrders(pages, uid);
+        logger.info("iPage:{}", iPage);
+
+        return ResultObj.layui(iPage.getTotal(), iPage.getRecords());
+
+
     }
 
     @Override
@@ -122,12 +138,11 @@ public class OrdersServiceImpl implements OrdersService {
 
 
     /**
-     *
-     * @param outTradeNo    商户订单号
-     * @param trade_no 支付宝订单号
-     * @param refundReason  退款原因
-     * @param refundAmount  退款金额
-     * @param outRequestNo  标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
+     * @param outTradeNo   商户订单号
+     * @param trade_no     支付宝订单号
+     * @param refundReason 退款原因
+     * @param refundAmount 退款金额
+     * @param outRequestNo 标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
      * @throws AlipayApiException
      */
     @Override
@@ -153,5 +168,67 @@ public class OrdersServiceImpl implements OrdersService {
         logger.info("退款结果：" + alipayRequest.getBizContent());
         logger.info("退款结果：" + alipayClient.execute(alipayRequest));
 
+    }
+
+    @Override
+    public ResultObj cancel(Long oid) {
+        try {
+            User user = UserIPUtil.getUser();
+            QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("id", oid);
+            queryWrapper.eq("uid", user.getId());
+            Orders orders = orderMapper.selectOne(queryWrapper);
+            logger.info("订单信息：" + orders.toString());
+            if (StringUtils.isNull(orders)) {
+                return ResultObj.error("查无此订单！");
+            }
+            if (!orders.getState().getValue().equals(1)) {
+                return ResultObj.error("此订单无法取消！");
+            }
+            UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id", oid);
+            updateWrapper.set("state", State.CANCEL);
+            orderMapper.update(null, updateWrapper);
+            return ResultObj.success("取消成功！");
+
+        } catch (MyException e) {
+            logger.info("取消订单失败！", e);
+            return ResultObj.error(e.getMessage());
+        } catch (Exception e) {
+            logger.info("取消订单失败！", e);
+            return ResultObj.error("取消订单失败！");
+        }
+    }
+
+    @Override
+    public ResultObj delete(Long oid) {
+        try {
+            User user = UserIPUtil.getUser();
+            QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("id", oid);
+            queryWrapper.eq("uid", user.getId());
+            Orders orders = orderMapper.selectOne(queryWrapper);
+            logger.info("订单信息：" + orders.toString());
+            if (StringUtils.isNull(orders)) {
+                return ResultObj.error("查无此订单！");
+            }
+            logger.info("订单状态：" + orders.getState().getValue());
+            if (orders.getState().getValue().equals(4) || orders.getState().getValue().equals(3)) {
+                UpdateWrapper<Orders> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.eq("id", oid);
+
+                orderMapper.delete(updateWrapper);
+                return ResultObj.success("删除成功！");
+            }else {
+                return ResultObj.error("此订单无法删除！");
+            }
+
+        }catch (MyException e){
+            logger.info("删除订单失败！",e);
+            return ResultObj.error(e.getMessage());
+        }catch (Exception e){
+            logger.info("删除订单失败！",e);
+            return ResultObj.error("删除订单失败！");
+        }
     }
 }

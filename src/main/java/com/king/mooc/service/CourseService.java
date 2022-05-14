@@ -70,7 +70,8 @@ public interface CourseService {
      * @param uid
      * @return List<Course>
      */
-    List<Course> queryByUid(Long uid);
 
 
+
+    ResultObj queryByUid(int page, int limit, Long id);
 }

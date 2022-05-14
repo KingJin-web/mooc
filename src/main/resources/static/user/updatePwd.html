@@ -1,19 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN-Hans">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="csrf-token" content="1/tkjQ1Md800crK63Hp5mu5ZWcZ8Zc8/5GmQObN4JFIsgbT+kTIPew==">
+    <title>用户中心 - 云课堂</title>
+    <link rel="shortcut icon"
+          href="https://static.wuzhaoqi.top/favicon.ico">
+    <link rel="preload" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.woff2" as="font" type="font/woff2"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2760791_mj6x0o9n15s.css">
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/home.css">
+    <script type="text/javascript" src="../lib/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../lib/vue.js"></script>
+    <script type="text/javascript" src="../lib/axios.js"></script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-</head>
-<body>
 
+</head>
+<body class="main">
+<div id="userpage">
+    <div id="header">
+        <div class="logo">
+            <img src="https://static.wuzhaoqi.top/logo/logo.png"/></div>
+
+        <div class="top-nav">
+            <ul class="layui-nav">
+                <li class="layui-nav-item">
+                    <a href="/" class="nav-1" target="_self">首页</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/course/list" class="nav-2" target="_self">课程</a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="user">
+            <ul class="layui-nav">
+                <li class="layui-nav-item">
+                    <a @click="gotoVip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span
+                            id="notify-dot"></span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:">kk在线网课</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/user/">我的主页</a></dd>
+                        <dd><a href="/user/">用户中心</a></dd>
+                        <dd><a href="/logout">退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main" class="layui-main">
+
+
+        <div class="layout-main clearfix">
+            <div class="my-sidebar">
+
+                <div class="my-profile-card wrap">
+                    <div class="avatar">
+                        <img class="my-avatar" :src="user.headImg">
+                    </div>
+                    <div class="name" v-text="user.name">
+
+                    </div>
+                </div>
+
+                <div class="layui-card">
+
+                    <div class="layui-card">
+                        <div class="layui-card-header">个人设置</div>
+                        <div class="layui-card-body">
+                            <ul class="my-menu">
+                                <li><a href="/user/index.html">个人信息</a></li>
+                                <li><a href="/user/account">帐号安全</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card">
+                    <div class="layui-card-header">课程中心</div>
+                    <div class="layui-card-body">
+                        <ul class="my-menu">
+                            <li><a href="/user/course">我的课程</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="layui-card">
+                    <div class="layui-card-header">订单中心</div>
+                    <div class="layui-card-body">
+                        <ul class="my-menu">
+                            <li><a href="/user/orders">我的订单</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="my-content">
+                <div class="wrap">
+                    <div class="my-nav">
+                        <span class="title">账号安全 - 修改密码</span>
+                    </div>
+                    <form class="security-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">旧密码</label>
+                            <div class="layui-input-block">
+                                <input v-model="oldPwd" class="layui-input" type="password" name="login_password"
+                                       autocomplete="off"
+                                       lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-block">
+                                <input v-model="newPwd1" class="layui-input" type="password"
+                                       name="login_password" autocomplete="off"
+                                       lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">确认密码</label>
+                            <div class="layui-input-block">
+                                <input v-model="newPwd2" class="layui-input" type="password"
+                                       name="login_password" autocomplete="off"
+                                       lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button @click="updatePwd"
+                                        type="button" class="layui-btn layui-btn-fluid ">提交修改
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="footer">
+    <div class="layui-main">
+        <div class="row nav">
+            <a href="/page/about" target="_blank">关于我们</a>
+            <a href="/page/contact" target="_blank">联系我们</a>
+            <a href="/page/jobs" target="_blank">人才招聘</a>
+            <a href="/help" target="_blank">帮助中心</a>
+            <a href="/page/links" target="_blank">友情链接</a>
+        </div>
+        <div class="row copyright">
+            <span>Copyright © All Rights Reserved</span>
+
+            <a href="http://beian.miit.gov.cn" target="_blank">湘ICP备2020019542号-1</a>
+
+        </div>
+        <div class="row contact">
+            <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=3098629064&site=qq&menu=yes"
+               title="客服QQ：3098629064"><span class="iconfont icon-qq"></span></a>
+            <a class="wechat" href="javascript:" title="微信公众号"><span class="iconfont icon-wechat"></span></a>
+            <a class="toutiao" href="javascript:" title="头条号"><span class="iconfont icon-toutiao"></span></a>
+            <a class="weibo" href="https://weibo.com/u/5602325902" title="微博主页"><span
+                    class="iconfont icon-weibo"></span></a>
+            <a class="zhihu" href="https://www.zhihu.com/people/da-rao-liao-53-22" title="知乎主页"><span
+                    class="iconfont icon-zhihu"></span></a>
+            <a class="mail" href="mailto:3098629064@qq.com" title="联系邮箱：3098629064@qq.com"><span
+                    class="iconfont icon-mail"></span></a>
+            <a class="phone" href="javascript:" title="联系电话：13507083515"><span
+                    class="iconfont icon-phone"></span></a>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="layui-hide">
+
+</div>
+<script type="text/javascript" src="../lib/user.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../lib/layuiInit.js"></script>
+<script type="text/javascript" src="../lib/Popup.js"></script>
 </body>
 </html>

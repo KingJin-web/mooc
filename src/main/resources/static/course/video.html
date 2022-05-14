@@ -73,7 +73,7 @@
                             class="layui-icon layui-icon-search"></i> 搜索</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                    <a @click="gotoVip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
                 </li>
                 <li id="login" class="layui-nav-item"><a href="/login">登录</a></li>
                 <li id="register" class="layui-nav-item"><a href="/register">注册</a></li>
@@ -463,6 +463,7 @@
 <script>
 
 
+    var user;
     var course = {};
     const king = new Vue({
         el: '#course_page',
@@ -478,9 +479,19 @@
 
         },
         methods: {
+            gotoVip: function () {
+                console.log("gotoVip");
+                console.log(user)
+                if (user == null || user.id === null || user.id === undefined){
+                    layer.msg("请先登录");
+                    return;
+                }
+                window.location.href = "/vip";
+            },
             getUser: function () {
                 axios.get('/api/user/getUser.do').then(function (response) {
                     this.user = response.data.data;
+                    user = response.data.data;
                     console.log(this.user)
                     if (this.user === undefined) {
                         $("#loginAfter").remove();

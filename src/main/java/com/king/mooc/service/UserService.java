@@ -4,6 +4,7 @@ package com.king.mooc.service;
 import com.king.mooc.entity.User;
 import com.king.mooc.entity.enums.Role;
 import com.king.mooc.util.MyException;
+import com.king.mooc.vo.ResultObj;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -99,5 +100,7 @@ public interface UserService extends UserDetailsService {
     void updatePhone(User user, Long phone);
 
     void updateEmail(User user, String email);
+
+    ResultObj updatePwd(User user, String oldPwd, String newPwd1, String newPwd2);
 }
 
