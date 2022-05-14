@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @program: mooc
  * @description:
@@ -80,5 +82,9 @@ public class ResultObj {
 
     public static ResultObj success(Object o) {
         return ok(o);
+    }
+
+    public static ResultObj layui(Long total, Object data) {
+        return obj(0, "成功！", Math.toIntExact(total), data);
     }
 }

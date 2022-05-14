@@ -68,7 +68,7 @@ public class PageController {
             return "/user/upadtePhone.html";
         }
         if (type.equals("password")) {
-            return "/user/upadtePwd.html";
+            return "/user/updatePwd.html";
         }
 
         return "/";
@@ -97,6 +97,11 @@ public class PageController {
     @GetMapping("/success")
     public String success() {
         return "/success.html";
+    }
+
+    @GetMapping("isBuy")
+    public String isBuy(){
+        return "isBuy.html";
     }
 
 }

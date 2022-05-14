@@ -4,8 +4,10 @@ import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.CourseVideoService;
+import com.king.mooc.util.MyException;
 import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
+import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.ResultObj;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -172,17 +174,17 @@ public class CourseController {
     @GetMapping(value = "/getBuyCourse.do")
     public ResultObj getCourseByOrders(int page, int limit) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            List<Course> courses = courseService.queryByUid(user.getId());
-            int size = courses.size();
-            int a = (page - 1) * limit; //开始行数
-            int b = page * limit; //结束行数
-            if (b > size) {
-                b = size;
+            if (page < 1) {
+                page = 1;
             }
-            courses = courses.subList(a, b);
-            return ResultObj.obj(0, "查询成功", size, courses);
-            //  return ResultObj.ok(courseService.queryByUid(user.getId()));
+            if (limit < 1) {
+                limit = 10;
+            }
+            User user = UserIPUtil.getUser();
+           return courseService.queryByUid(page, limit, user.getId());
+        } catch (MyException e) {
+            e.printStackTrace();
+            return ResultObj.error(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.error("系统错误！");

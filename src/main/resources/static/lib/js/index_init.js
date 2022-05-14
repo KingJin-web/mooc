@@ -27,10 +27,10 @@ function getTpl(id, name, coverImage, price, vipprice) {
     return html
 }
 
+var user;
 var v = new Vue({
     el: '#pagemain',
     data: {
-        //前端课程
 
     },
 
@@ -44,7 +44,7 @@ var v = new Vue({
     methods: {
         getUser: function () {
             axios.get('/api/user/getUser.do').then(function (response) {
-                this.user = response.data.data;
+                user = response.data.data;
                 //console.log(this.user)
                 if (response.data.code == 0){
                     $("#loginAfter").remove();
@@ -55,6 +55,16 @@ var v = new Vue({
             }).catch(function (error) {
                 //console.log(error);
             });
+        },
+        //会员
+        gotoVip: function () {
+            console.log("gotoVip");
+            console.log(user)
+            if (user == null || user.id === null || user.id === undefined){
+                layer.msg("请先登录");
+                return;
+            }
+            window.location.href = "/vip";
         },
         getRecommend: function () {
             axios.get('/api/course/recommend.do').then(function (response) {

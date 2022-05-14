@@ -2,11 +2,11 @@
 <html lang="zh-CN-Hans">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    
+
     <meta name="csrf-token" content="1/tkjQ1Md800crK63Hp5mu5ZWcZ8Zc8/5GmQObN4JFIsgbT+kTIPew==">
     <title>用户中心 - 我的课程</title>
     <link rel="shortcut icon"
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="../lib/axios.js"></script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
             var s = document.getElementsByTagName("script")[0];
@@ -51,7 +51,7 @@
         <div class="user">
             <ul class="layui-nav">
                 <li class="layui-nav-item">
-                    <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                    <a @click="gotoVip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span
@@ -91,7 +91,7 @@
                             <ul class="my-menu">
                                 <li><a href="/user/index.html">个人信息</a></li>
                                 <li><a href="/user/account">帐号安全</a></li>
-                                <li><a href="/user/like.html">收藏课程</a></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/course">我的课程</a></li>
-                            <li><a href="/user/reviews">我的评价</a></li>
+                           
                         </ul>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/orders">我的订单</a></li>
-                            <li><a href="/user/refunds">我的退款</a></li>
+                          
                         </ul>
                     </div>
                 </div>
@@ -168,28 +168,26 @@
 <div class="layui-hide">
 
 </div>
-<script type="text/javascript" id="typeImh">
-    //   var fileType = d.state
-    //   if(fileType === '订单未完成'){
-    // // <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">取消订单</button>
-    //  <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">取消订单</button>
-    //   }else if(fileType === '订单已完成'){
-    //  <button title="查看" class="layui-btn layui-btn-xs" lay-event="detail">查看课程</button>
-    //  <button title="取消订单" class="layui-btn layui-btn-xs" lay-event="detail">申请退款</button>
-    //   }else if(fileType === '订单已取消'){
-    //  <button title="查看" class="layui-btn layui-btn-xs" lay-event="detail">再次购买</button>
-    //    }
+<script type="text/html" id="typeImh">
+
+    {{# var state = d.state }}
+    <div class="layui-table-cell laytable-cell-1-0-5">
+        {{state.text}}
+    </div>
+
+    {{#}}
 </script>
 <script type="text/html" id="barDemo">
-    {{# var fileType = d.state }}
-    {{# if(fileType === '订单未完成'){ }}
+    {{# var value = d.state.value }}
+    {{# if(value === 1){ }}
     <button title="继续支付" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="topay">继续支付</button>
     <button title="取消订单" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cancel">取消订单</button>
-    {{# }else if(fileType === '订单已完成'){ }}
+    {{# }else if(value === 2){ }}
     <button title="查看" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="toCourse">查看课程</button>
-    <button title="取消订单" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">申请退款</button>
-    {{# }else if(fileType === '订单已取消'){ }}
-    <button title="查看" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="By">再次购买</button>
+    <button title="申请退款" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="refund">申请退款</button>
+    {{# }else if(value === 3 || value === 4){ }}
+    <button title="再次购买" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="topay">再次购买</button>
+    <button title="删除订单" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除订单</button>
     {{#  } }}
 </script>
 <script type="text/javascript" src="../lib/user.js"></script>

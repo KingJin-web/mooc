@@ -2,8 +2,8 @@
 <html lang="zh-CN-Hans">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="../lib/axios.js"></script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
             var s = document.getElementsByTagName("script")[0];
@@ -51,7 +51,7 @@
         <div class="user">
             <ul class="layui-nav">
                 <li class="layui-nav-item">
-                    <a href="/vip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
+                    <a @click="gotoVip" class="nav-vip"><i class="layui-icon layui-icon-diamond"></i> 会员</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="/uc/notifications" target="notify"><i class="layui-icon layui-icon-notice"></i> 消息<span
@@ -91,26 +91,26 @@
                             <ul class="my-menu">
                                 <li><a href="/user/index.html">个人信息</a></li>
                                 <li><a href="/user/account">帐号安全</a></li>
-                                <li><a href="/user/like.html">收藏课程</a></li>
+                                
                             </ul>
                         </div>
                     </div>
-
+                </div>
+                <div class="layui-card">
                     <div class="layui-card-header">课程中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/course">我的课程</a></li>
-                            <li><a href="/user/reviews">我的评价</a></li>
+
                         </ul>
                     </div>
                 </div>
-
                 <div class="layui-card">
                     <div class="layui-card-header">订单中心</div>
                     <div class="layui-card-body">
                         <ul class="my-menu">
                             <li><a href="/user/orders">我的订单</a></li>
-                            <li><a href="/user/refunds">我的退款</a></li>
+
                         </ul>
                     </div>
                 </div>
@@ -126,13 +126,15 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">登录密码</label>
                             <div class="layui-input-block">
-                                <input class="layui-input" type="password" name="login_password" autocomplete="off" lay-verify="required">
+                                <input class="layui-input" type="password" name="login_password" autocomplete="off"
+                                       lay-verify="required">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机号码</label>
                             <div class="layui-input-block">
-                                <input id="cv-account" class="layui-input" type="text" name="phone" data-type="phone" lay-verify="required">
+                                <input id="cv-account" class="layui-input" type="text" name="phone" data-type="phone"
+                                       lay-verify="required">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -141,12 +143,16 @@
                                 <input class="layui-input" type="text" name="verify_code" lay-verify="required">
                             </div>
                             <div class="layui-input-inline verify-btn-inline">
-                                <button id="cv-emit-btn" class="layui-btn layui-btn-primary layui-btn-disabled" type="button" disabled="disabled">获取验证码</button>
+                                <button id="cv-emit-btn" class="layui-btn layui-btn-primary layui-btn-disabled"
+                                        type="button" disabled="disabled">获取验证码
+                                </button>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled" disabled="disabled" lay-submit="true" lay-filter="go">提交修改</button>
+                                <button id="cv-submit-btn" class="layui-btn layui-btn-fluid layui-btn-disabled"
+                                        disabled="disabled" lay-submit="true" lay-filter="go">提交修改
+                                </button>
                                 <input id="cv-enabled" type="hidden" value="1">
                                 <input id="cv-app-id" type="hidden" value="2051472851">
                                 <input id="cv-ticket" type="hidden" name="ticket">
@@ -157,8 +163,8 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
+</div>
 
 </div>
 <div id="footer">
@@ -172,9 +178,9 @@
         </div>
         <div class="row copyright">
             <span>Copyright © All Rights Reserved</span>
-            
+
             <a href="http://beian.miit.gov.cn" target="_blank">湘ICP备2020019542号-1</a>
-            
+
         </div>
         <div class="row contact">
             <a class="qq" href="https://wpa.qq.com/msgrd?v=3&uin=3098629064&site=qq&menu=yes"
@@ -189,9 +195,8 @@
                     class="iconfont icon-mail"></span></a>
             <a class="phone" href="javascript:" title="联系电话：13507083515"><span
                     class="iconfont icon-phone"></span></a>
-            
-               
-               
+
+
         </div>
     </div>
 </div>
