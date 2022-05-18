@@ -107,4 +107,6 @@ public class UserVo {
     public UserVo(String validateCode) {
         this.validateCode = validateCode;
     }
+
+
 }

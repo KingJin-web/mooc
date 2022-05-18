@@ -19,7 +19,7 @@
     <link href="lib/css/index.css" rel="stylesheet">
     <script>
         var _hmt = _hmt || [];
-        (function() {
+        (function () {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?db0f893e75ebc0e6401cc6331f01c360";
             var s = document.getElementsByTagName("script")[0];
@@ -31,21 +31,21 @@
 
 
 <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;padding: 1px 0;">
-<!--    <ul class="slideshow">-->
-<!--        <li>-->
-<!--            <span>Summer</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <span>Fall</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <span>Winter</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <span>Spring</span>-->
-<!--        </li>-->
+    <!--    <ul class="slideshow">-->
+    <!--        <li>-->
+    <!--            <span>Summer</span>-->
+    <!--        </li>-->
+    <!--        <li>-->
+    <!--            <span>Fall</span>-->
+    <!--        </li>-->
+    <!--        <li>-->
+    <!--            <span>Winter</span>-->
+    <!--        </li>-->
+    <!--        <li>-->
+    <!--            <span>Spring</span>-->
+    <!--        </li>-->
 
-<!--    </ul>-->
+    <!--    </ul>-->
     <div class="layadmin-user-login-main" id="main" style="margin-top : 4%">
 
         <div class="layadmin-user-login-box layadmin-user-login-header">
@@ -54,7 +54,7 @@
             </div>
             <div class="alert alert-light" role="alert">
                 <div style="text-align:center ; margin: 0 auto;">
-                    一款网络课程在线学习平台
+                    网络课程在线学习平台
                 </div>
             </div>
 
@@ -70,7 +70,8 @@
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone-fine"
                        for="LAY-user-login-cellemail"></label>
-                <input id="cv-account" id="LAY-user-login-cellemail"  v-model="email" class="layui-input" type="text" name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
+                <input id="cv-account" id="LAY-user-login-cellemail" v-model="email" class="layui-input" type="text"
+                       name="account" autocomplete="off" placeholder="手机 / 邮箱" lay-verify="required">
 
             </div>
             <div class="layui-form-item">
@@ -189,7 +190,7 @@
                     data: param
                 }).then(function (res) {
                     if (res.data.code === 1) {
-                        alertLayer(res.data.msg,"/api/user/getUser.do")
+                        alertLayer(res.data.msg, "/api/user/getUser.do")
                     } else {
                         alertMy(res.data.msg)
                     }
