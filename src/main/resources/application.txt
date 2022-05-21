@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 8080
   servlet:
     session:
       timeout: 60000
@@ -10,8 +10,6 @@ logging:
     root: warn
     com.king: info
     org.springframework: error
-
-
 #  file:
 #    name: ../log/mybatis-plus.log
 
@@ -25,11 +23,18 @@ mybatis-plus:
       logic-delete-field: flag  # 全局逻辑删除的实体字段名
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
-
+  # 支持统配符 * 或者 ; 分割
+  typeEnumsPackage: com.king.mooc.entity.enums
 
 
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  session:
+    store-type: redis
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mooc?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
@@ -37,22 +42,56 @@ spring:
     #    url: jdbc:p6spy:mysql://localhost:3306/mybits?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: aaaa
-  mail:
-    #smtp服务主机 smtp.163.com
-    host: smtp.qq.com
-    #服务协议
-    protocol: smtp
-    # 编码集
-    default-encoding: UTF-8
-    #发送邮件的账户
-    username: xxxxxxx@163.com
-    #授权码
-    password: xxxxxx
-    test-connection: true
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
+  redis:
+    password: kingRedis
+    host: localhost
+    port: 6379
+    timeout: 5000
+    database: 2
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+
+
+  task:
+    # Spring 执行器配置，对应 TaskExecutionProperties 配置类。对于 Spring 异步任务，会使用该执行器。
+    execution:
+      thread-name-prefix: task- # 线程池的线程名的前缀。默认为 task- ，建议根据自己应用来设置
+      pool: # 线程池相关
+        core-size: 8 # 核心线程数，线程池创建时候初始化的线程数。默认为 8 。
+        max-size: 20 # 最大线程数，线程池最大的线程数，只有在缓冲队列满了之后，才会申请超过核心线程数的线程。默认为 Integer.MAX_VALUE
+        keep-alive: 60s # 允许线程的空闲时间，当超过了核心线程之外的线程，在空闲时间到达之后会被销毁。默认为 60 秒
+        queue-capacity: 200 # 缓冲队列大小，用来缓冲执行任务的队列的大小。默认为 Integer.MAX_VALUE 。
+        allow-core-thread-timeout: true # 是否允许核心线程超时，即开启线程池的动态增长和缩小。默认为 true 。
+      shutdown:
+        await-termination: true # 应用关闭时，是否等待定时任务执行完成。默认为 false ，建议设置为 true
+        await-termination-period: 60 # 等待任务完成的最大时长，单位为秒。默认为 0 ，根据自己应用来设置
+
+mail:
+  host: smtp.qq.com
+  protocol: smtp
+  default-encoding: UTF-8
+  username: 123457@qq.com
+  password: xxxxxxxxxxxxxxxxx
+  test-connection: true
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+
+sendSms:
+  SecretId: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  SecretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  SmsSdkAppId: 12345
+  TemplateId: 123456
+
+Qiniu:
+  AccessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  SecretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
