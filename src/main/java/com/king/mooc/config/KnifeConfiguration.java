@@ -1,6 +1,7 @@
 package com.king.mooc.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,11 +26,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
 public class KnifeConfiguration {
-
+    @Value(value = "${swagger.enable}")  //通过 @Value  获取配置信息
+    // 复习@Environement  @Value    @ConfigurationProperties
+    private Boolean swaggerEnable;
     @Bean
     public Docket buildDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(buildApiInfo())
+                // 是否开启
+                .enable(swaggerEnable)
                 .select()
                 // 要扫描的API(Controller)基础包
                 .apis(RequestHandlerSelectors.basePackage("com.king.mooc"))
