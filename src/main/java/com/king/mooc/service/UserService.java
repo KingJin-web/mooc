@@ -102,5 +102,7 @@ public interface UserService extends UserDetailsService {
     void updateEmail(User user, String email);
 
     ResultObj updatePwd(User user, String oldPwd, String newPwd1, String newPwd2);
+
+    void updateUser(User user, String name, String msg);
 }
 

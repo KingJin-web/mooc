@@ -143,7 +143,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("此用户不存在");
         }
-        logger.info("{}登录了", user);
         return user;
     }
 
@@ -171,7 +170,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultObj updatePwd(User user, String oldPwd, String newPwd1, String newPwd2) {
         try {
-            if(StringUtils.checkNull(oldPwd) || StringUtils.checkNull(newPwd1) || StringUtils.checkNull(newPwd2)){
+            if (StringUtils.checkNull(oldPwd) || StringUtils.checkNull(newPwd1) || StringUtils.checkNull(newPwd2)) {
                 return ResultObj.error("密码不能为空");
             }
             if (!encoder.matches(oldPwd, user.getPassword())) {
@@ -191,6 +190,11 @@ public class UserServiceImpl implements UserService {
             logger.error("修改密码失败", e);
             return ResultObj.error("修改失败");
         }
+    }
+
+    @Override
+    public void updateUser(User user, String name, String msg) {
+
     }
 
 }

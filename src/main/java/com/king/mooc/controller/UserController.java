@@ -247,9 +247,9 @@ public class UserController {
     public ResultObj updateUser(HttpServletRequest req,
                                 @RequestParam("uploadFile") MultipartFile uploadFile
             , String name, String msg) {
-        logger.info(JSON.toJSONString(req.getParameterMap()));
         try {
             User user = UserIPUtil.getUser();
+            userService.updateUser(user,name,msg);
             if (!uploadFile.isEmpty()) {
                 String fileName = uploadFile.getOriginalFilename();
                 String key = user.getId() +
