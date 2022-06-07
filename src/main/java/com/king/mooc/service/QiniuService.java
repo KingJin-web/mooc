@@ -20,7 +20,7 @@ public interface QiniuService {
 
     String uploadFile(byte[] file);
 
-    List<String> uploadFiles(byte[] file);
+    List<String> uploadFiles(MultipartFile[] uploadFile);
 
     //下载文件
     byte[] downloadFile(String fileName);

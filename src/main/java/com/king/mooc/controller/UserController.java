@@ -244,9 +244,9 @@ public class UserController {
     @PostMapping(value = "/updateUser.do")
     @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updateUser(HttpServletRequest req,
-                                @RequestParam("uploadFile") MultipartFile uploadFile
-            , String name, String msg) {
+    public ResultObj updateUser(
+            @RequestParam("uploadFile") MultipartFile uploadFile,
+            String name, String msg) {
         try {
             User user = UserIPUtil.getUser();
             userService.updateUser(user,name,msg);

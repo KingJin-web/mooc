@@ -33,10 +33,12 @@ import java.util.UUID;
  */
 @Service
 public class QiniuServiceImpl implements QiniuService {
-    @Value(value = "${Qiniu.AccessKey}")
+    @Value(value = "${qiniu.accessKey}")
     private String accessKey;
-    @Value(value = "${Qiniu.SecretKey}")
+    @Value(value = "${qiniu.secretKey}")
     private String secretKey;
+    @Value(value = "${qiniu.bucket}")
+    private String bucket;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -45,7 +47,6 @@ public class QiniuServiceImpl implements QiniuService {
     public String uploadFile(byte[] file, String fileName) {
         Configuration cfg = new Configuration(Region.huanan());
         UploadManager uploadManager = new UploadManager(cfg);
-        String bucket = "hnking";
         if (StringUtils.isEmpty(fileName)) {
             fileName = UUID.randomUUID() + ".jpg";
         }
@@ -55,7 +56,7 @@ public class QiniuServiceImpl implements QiniuService {
         try {
             Response response = uploadManager.put(file, key, upToken);
             DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
-            return "https://oss.wuzhaoqi.top/" + putRet.key;
+            return "http://oss1.wuzhaoqi.top/" + putRet.key;
         } catch (QiniuException e) {
             logger.error("上传文件失败", e);
             logger.error(JSON.toJSONString(e.response));
@@ -79,7 +80,7 @@ public class QiniuServiceImpl implements QiniuService {
     }
 
     @Override
-    public List<String> uploadFiles(byte[] file) {
+    public List<String> uploadFiles(MultipartFile uploadFile[]) {
         return null;
     }
 

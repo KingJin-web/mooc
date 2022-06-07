@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+
     @Override
     public boolean registerByPhone(String name, String password, String phone) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
