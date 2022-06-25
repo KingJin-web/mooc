@@ -21,13 +21,13 @@ import com.king.mooc.util.StringUtils;
 import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.OrdersVo;
 import com.king.mooc.vo.ResultObj;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -95,14 +95,10 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public ResultObj getOrders(Long uid, Integer page, Integer size) {
-
         Page<OrdersVo> pages = new Page<>(page, size);
         IPage<OrdersVo> iPage = orderMapper.getOrders(pages, uid);
         logger.info("iPage:{}", iPage);
-
         return ResultObj.layui(iPage.getTotal(), iPage.getRecords());
-
-
     }
 
     @Override

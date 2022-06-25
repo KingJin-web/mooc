@@ -43,20 +43,14 @@ public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthen
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication e) throws IOException {
-
-
         IPSeeker ipSeeker =IPSeeker.getInstance();
         User user = (User) e.getPrincipal();
         String ip = UserIPUtil.getIPAddress(request);
-
         UserLog log = UserLog.builder().uid(user.getId()).name(user.getName()).
                 ip(ip).address(ipSeeker.getAddress(ip)).loginTime(new Date()).build();
-        logger.info("----login in success----");
         logger.info(userLogMapper.save(log).toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(ResultObj.ok("登录成功！")));
-
-
     }
 
 
