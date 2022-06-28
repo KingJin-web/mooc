@@ -116,6 +116,16 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    @Override
+    public List<Course> getFileList() {
+        return courseMapper.getFileList();
+    }
+
+    @Override
+    public void updateCourse(Course course) {
+        courseMapper.updateById(course);
+    }
+
 
     public IPage<Course> queryByLikeName(String name, int current) {
         Page<Course> page = new Page<>(current, 10);

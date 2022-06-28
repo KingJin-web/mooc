@@ -67,11 +67,20 @@ public interface CourseService {
     /**
      * 通过购买课程的用户id查询课程
      *
-     * @param uid
-     * @return List<Course>
+     * @param id
+     * @param page
+     * @param limit
+     * @return ResultObj
      */
-
-
-
     ResultObj queryByUid(int page, int limit, Long id);
+
+    /**
+     * 从数据库中获取文件链接
+     *
+     * @return
+     */
+    List<Course> getFileList();
+
+
+    void updateCourse(Course course);
 }

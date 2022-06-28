@@ -2,6 +2,7 @@ package com.king.mooc.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -28,6 +29,11 @@ public interface QiniuService {
 
     //删除七牛云文件
     void deleteFile(String key);
+
+    String upLoad(InputStream inputStream, String path);
+
+    //上传用户头像
+    String uploadUserAvatar(InputStream inputStream, String path);
 }
 
 

@@ -3,18 +3,17 @@ package com.king.mooc.util;
 
 
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class FileUtil {
+public class ChangeFile {
     //存储要修改的内容
     private final Map<String, String> map;
 
-    public FileUtil(Map<String, String> map) {
+    public ChangeFile(Map<String, String> map) {
         this.map = map;
     }
 
@@ -51,7 +50,7 @@ public class FileUtil {
 //        map.put("http://beian.miit.gov.cn/","https://beian.miit.gov.cn/");
 //        map.put("<a href=\"https://koogua.com\" title=\"kk在线网课\" target=\"_blank\">Powered by CTC 1.5.１</a>", "");
 //
-        new FileUtil(map).refreshFileList(file);
+        new ChangeFile(map).refreshFileList(file);
 
     }
 

@@ -3,9 +3,12 @@ package com.king.mooc.controller;
 import com.alibaba.fastjson.JSON;
 import com.king.mooc.util.IPSeeker;
 import com.king.mooc.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
@@ -19,6 +22,8 @@ import java.util.UUID;
 @Controller
 
 public class PageController {
+    //日志
+    Logger logger = LoggerFactory.getLogger(PageController.class);
     @GetMapping("login")
     public String openLogin() {
         return "login.html";
@@ -102,6 +107,27 @@ public class PageController {
     @GetMapping("isBuy")
     public String isBuy(){
         return "isBuy.html";
+    }
+
+    /**
+     *<p><b>自定义错误处理的Controller类</b></p>
+     */
+    @RequestMapping(value = "/error/{code}")
+    public String error(@PathVariable int code) {
+        logger.info("code:{}", code);
+        switch (code) {
+            case 403:
+                //model.addAttribute("code", 403);
+                return  "/common/4xx.html";
+            case 404:
+                //model.addAttribute("code", 404);
+                return "/common/404.html";
+            case 500:
+               // model.addAttribute("code", 500);
+                return "/common/5xx.html";
+
+        }
+        return "/common/5xx.html";
     }
 
 }

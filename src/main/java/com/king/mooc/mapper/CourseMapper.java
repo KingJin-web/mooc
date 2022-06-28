@@ -66,4 +66,7 @@ public interface CourseMapper extends BaseMapper<Course> {
             "	AND o.flag = 0 \n" +
             "	AND c.flag = 0")
     IPage<Course> queryByUid1(Page<Course> page,long uid);
+
+    @Select("SELECT * FROM course where cover_image is not null ")
+    List<Course> getFileList();
 }
