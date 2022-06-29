@@ -194,8 +194,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user, String name, String msg) {
-
+    public ResultObj updateUser(User user, String name, String msg, String headImg) {
+        try {
+            //更新用户信息
+            //如果用户名为空，则不更新用户名
+            if (StringUtils.isEmpty(name)) {
+                return ResultObj.error("用户名不能为空");
+            }
+            //用户名不能重复
+            if (!user.getName().equals(name) && isUserName(name)) {
+                return ResultObj.error("用户名已经被使用");
+            }
+            if (!StringUtils.isEmpty(headImg)) {
+                user.setHeadImg(headImg);
+            }
+//            if (!StringUtils.checkNull(user.getName()) && !user.getName().equals(name) && !nameIsUse(name)) {
+//
+//            }
+            user.setName(name);
+            user.setMsg(msg);
+            userMapper.updateById(user);
+            //更新缓存
+            setLoginUser(user);
+            return ResultObj.success("修改成功！");
+        } catch (Exception e) {
+            logger.error("修改用户信息失败", e);
+        }
+        return ResultObj.success("修改失败！");
     }
 
 }

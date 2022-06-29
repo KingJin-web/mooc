@@ -53,26 +53,45 @@ const king = new Vue({
         },
         //修改用户信息
         changeUser: function () {
-            let url = "/api/user/updateUser.do";
+            let url = "/api/user/updateUser2.do";
             var file = document.getElementById("fileinput").files[0];
             var formData = new FormData();
-            formData.append("uploadFile", file)
             formData.append("name", this.user.name)
             formData.append("msg", this.user.msg)
+            if (file !== undefined) {
+                formData.append("file", file);
+                url = "/api/user/updateUser1.do";
+            }
             axios.post(
                 url,
                 formData,
                 {headers: {'Content-Type': 'multipart/form-data'}}
             ).then(function (res) {
-                if (res.data.code === 1) {
-                    //刷新数据
-                    axios.get("/api/user/refreshUser.do");
-                    alertClear(res.data.msg)
-                } else {
-                    alertMy(res.data.msg);
-                }
+                alertClear(res.data.msg)
+            }).catch(function (error) {
+                console.log(error);
+            });
 
-            })
+            // let url = "/api/user/updateUser.do";
+            // var file = document.getElementById("fileinput").files[0];
+            // var formData = new FormData();
+            // formData.append("uploadFile", file)
+            // formData.append("name", this.user.name)
+            // formData.append("msg", this.user.msg)
+            // axios.post(
+            //     url,
+            //     formData,
+            //     {headers: {'Content-Type': 'multipart/form-data'}}
+            // ).then(function (res) {
+            //     if (res.data.code === 1) {
+            //         //刷新数据
+            //         axios.get("/api/user/refreshUser.do");
+            //         alertClear(res.data.msg)
+            //     } else {
+            //         alertMy(res.data.msg);
+            //     }
+            //
+            // })
         },
         //渲染account.html
         init: function () {

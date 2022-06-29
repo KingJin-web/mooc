@@ -103,6 +103,6 @@ public interface UserService extends UserDetailsService {
 
     ResultObj updatePwd(User user, String oldPwd, String newPwd1, String newPwd2);
 
-    void updateUser(User user, String name, String msg);
+    public ResultObj updateUser(User user, String name, String msg, String headImg);
 }
 

@@ -124,6 +124,23 @@ public class QiniuServiceImpl implements QiniuService {
 
     @Override
     public String uploadUserAvatar(InputStream inputStream, String path) {
+        //根据存储地区创建上传对象
+        UploadManager uploadManager = new UploadManager(new Configuration(Region.huanan()));
+        String uploadToken = Auth.create(accessKey, secretKey).uploadToken(bucket);
+
+        path = path.startsWith("/") ? path.substring(1) : path;
+        path = "user/" + LocalDate.now().toString() + "/" + path;
+        try {
+            Response response = uploadManager.put(inputStream, path, uploadToken,
+                    null, MimeUtil.getMimeType(path));
+            if (!response.isOK()) {
+                logger.error("上传七牛云存储空间失败");
+            }
+            return domainName
+                    + path;
+        } catch (QiniuException ex) {
+            logger.error(ex.response.toString());
+        }
         return null;
     }
 

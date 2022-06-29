@@ -169,10 +169,10 @@
                 });
             },
             register: function () {
-                // if (!$("input[type='checkbox']").is(':checked')) {
-                //     alertMy("请阅读并同意用户协议");
-                //     return;
-                // }
+                if (!$("input[type='checkbox']").is(':checked')) {
+                    alertMy("请阅读并同意用户协议");
+                    return;
+                }
                 if (this.pwd1 !== this.pwd2) {
                     alertMy("密码不一致");
                     return;
@@ -190,7 +190,7 @@
                     data: param
                 }).then(function (res) {
                     if (res.data.code === 1) {
-                        alertLayer(res.data.msg, "/api/user/getUser.do")
+                        alertLayer(res.data.msg, "/login")
                     } else {
                         alertMy(res.data.msg)
                     }

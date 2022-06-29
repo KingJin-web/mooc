@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
@@ -174,9 +175,8 @@ public class UserController {
             result.setCode(0);
             result.setData(new UserVo(user));
         } catch (Exception e) {
-            result.setCode(1);
-            result.setMsg("系统错误！");
             e.printStackTrace();
+            return ResultObj.error("系统错误！");
         }
         return result;
     }
@@ -241,81 +241,6 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/updateUser.do")
-    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updateUser(
-            @RequestParam("uploadFile") MultipartFile uploadFile,
-            String name, String msg) {
-        try {
-            User user = UserIPUtil.getUser();
-            userService.updateUser(user,name,msg);
-            if (!uploadFile.isEmpty()) {
-                String fileName = uploadFile.getOriginalFilename();
-                String key = user.getId() +
-                        fileName.substring(fileName.lastIndexOf("."));
-                user.setHeadImg(qiniuService.uploadFile(uploadFile, key));
-            }
-            if (!user.getName().equals(name)) {
-                StringUtils.nameIsOk(name);
-                userService.nameIsUse(name);
-                user.setName(name);
-            }
-            user.setMsg(msg);
-            userService.updateById(user);
-
-            return ResultObj.ok("修改成功！");
-        } catch (MyException e) {
-            return ResultObj.error(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.error("系统错误! ");
-
-        }
-    }
-
-    @PostMapping(value = "/updateUser1.do")
-    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResultObj updateUser(HttpServletRequest req, Long phone, String name, String email,
-                                @RequestParam("file") MultipartFile file) {
-        ResultObj result = new ResultObj();
-        try {
-            User user = UserIPUtil.getUser();
-            //修改电话
-            StringUtils.isPhoneLegal(phone);
-            user.setPhone(phone);
-
-            // 修改邮件
-            if (!StringUtils.checkNull(email)) {
-                StringUtils.isEmail(email, "邮箱不合法！");
-                if (!user.getEmail().equals(email)) {
-                    if (!userService.isUse("email", email)) {
-                        user.setEmail(email);
-                    } else {
-                        throw new MyException("邮箱已经被使用");
-                    }
-                }
-            }
-            //不为空 新旧名字不相等 新名字没有被使用
-            if (!StringUtils.checkNull(user.getName()) && !user.getName().equals(name) && !userService.nameIsUse(name)) {
-                user.setName(name);
-            }
-
-            System.out.println(file.getOriginalFilename());
-            file.transferTo(Paths.get(FileUtil.imgPath + file.getOriginalFilename()));
-            userService.updateById(user);
-
-        } catch (MyException e) {
-            result.setMsg(e.getMessage());
-            result.setCode(1);
-        } catch (Exception e) {
-            result.setCode(1);
-            result.setMsg("系统错误！");
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     @GetMapping(value = "/getAllUser.do")
     @ApiOperation(value = "获取全部用户信息", tags = "用户操作接口")
@@ -351,4 +276,46 @@ public class UserController {
         }
         return result;
     }
+
+    //修改用户信息--有图片上传
+    @PostMapping(value = "/updateUser1.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updateUser(String name, String msg,
+                                @RequestParam("file") MultipartFile file) {
+
+        try {
+            User user = UserIPUtil.getUser();
+            //如果文件不为空，则上传图片
+            if (!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                assert fileName != null;
+                String key = user.getId() +
+                        fileName.substring(fileName.lastIndexOf("."));
+                String url = qiniuService.uploadUserAvatar(file.getInputStream(), key);
+                return userService.updateUser(user, name, msg, url);
+            }
+            return userService.updateUser(user, name, msg, user.getHeadImg());
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        } catch (IOException e) {
+            logger.error("上传头像失败！", e);
+            return ResultObj.error("系统错误！");
+        }
+    }
+
+    //修改用户信息--没有图片上传
+    @PostMapping(value = "/updateUser2.do")
+    @ApiOperation(value = "修改用户信息", tags = "用户操作接口")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResultObj updateUser(String name, String msg) {
+        try {
+            User user = UserIPUtil.getUser();
+            return userService.updateUser(user, name, msg, null);
+        } catch (MyException e) {
+            return ResultObj.error(e.getMessage());
+        }
+    }
+
+
 }
