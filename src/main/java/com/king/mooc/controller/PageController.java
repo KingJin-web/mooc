@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import java.util.UUID;
 
 /**
@@ -114,7 +115,7 @@ public class PageController {
      */
     @RequestMapping(value = "/error/{code}")
     public String error(@PathVariable int code) {
-        logger.info("code:{}", code);
+
         switch (code) {
             case 403:
                 //model.addAttribute("code", 403);

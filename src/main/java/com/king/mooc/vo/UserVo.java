@@ -42,6 +42,7 @@ public class UserVo {
     @ApiModelProperty(value = "用户账户余额")
     private BigDecimal balance;
     @ApiModelProperty(value = "是否为会员")
+    @Builder.Default
     private Boolean isVip = false;
     @ApiModelProperty(value = "验证码")
     private String validateCode;

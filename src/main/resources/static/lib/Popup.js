@@ -2,6 +2,9 @@
 // document.write('<link type="text/css" href="dist/dialog.css" rel="stylesheet">')
 // document.write('<link rel="stylesheet" href="../layui/css/layui.css"  media="all">');
 //
+document.write('<link rel="icon" href="/favicon.ico">');
+
+
 
 
 function changeShare_() {

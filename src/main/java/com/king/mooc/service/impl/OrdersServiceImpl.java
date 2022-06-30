@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -143,7 +143,7 @@ public class OrdersServiceImpl implements OrdersService {
      */
     @Override
     public void refund(String outTradeNo, String trade_no, String refundReason,
-                       @NotNull BigDecimal refundAmount, String outRequestNo
+                       BigDecimal refundAmount, String outRequestNo
     ) throws AlipayApiException {
         AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
 
