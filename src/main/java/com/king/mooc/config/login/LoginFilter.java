@@ -46,8 +46,7 @@ public class LoginFilter extends OncePerRequestFilter {
     }
 
     public void validate(HttpServletRequest request, HttpServletResponse response) throws ValidateCodeException {
-        logger.info(request.toString());
-        logger.info(JSON.toJSONString(request.getParameterMap()));
+//        logger.info(JSON.toJSONString(request.getParameterMap()));
         //请求中传来的验证码
         String code = request.getParameter("login_code");
         //session 存储的验证码

@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 public class Comment {
     @TableId(type = IdType.AUTO)
     private Long id;
+
     private Long uid;
     private Long cid;
     private String msg;

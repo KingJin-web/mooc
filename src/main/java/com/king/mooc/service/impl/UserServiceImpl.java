@@ -24,8 +24,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private UserMapper userMapper;
+
     @Autowired
-    UserMapper userMapper;
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
