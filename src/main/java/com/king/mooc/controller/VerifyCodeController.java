@@ -4,12 +4,10 @@ import com.king.mooc.service.MailService;
 import com.king.mooc.service.impl.TxSmsServiceImpl;
 import com.king.mooc.service.impl.UserServiceImpl;
 import com.king.mooc.util.MyException;
-import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.util.VerifyCodeGen;
 import com.king.mooc.vo.MailVo;
 import com.king.mooc.vo.ResultObj;
-import com.king.mooc.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -38,8 +35,7 @@ import java.util.Date;
 @Api(value = "图形验证码接口", tags = "图形验证码接口")
 public class VerifyCodeController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    private RedisObjUtil redisObjUtil;
+
 
     @ApiOperation(value = "获取登录图形验证码", tags = "图形验证码接口")
     @GetMapping(value = "/login.png")

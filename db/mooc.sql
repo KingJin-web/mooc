@@ -1703,12 +1703,5 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '老九学堂', 'aaaa', 'https://oss.wuzhaoqi.top/2022-05-16/WLSqcjtEDALH.png', NULL, '1465922561@qq.com', NULL, 0, 0.00, NULL, '2030-11-17 01:51:06', 0, NULL, NULL, 2);
-INSERT INTO `user` VALUES (2, 'admin', '$2a$10$44Vv2ywx5CLovoD2bFPjV.Arb8DTfFocvpgkHoxnhCg/5x9za.QMy', 'http://oss1.wuzhaoqi.top/user/2022-06-29/2.png', '测试12334', '1261337209@qq.com', NULL, 0, 0.00, NULL, '2022-08-19 20:51:07', 0, '2021-12-14 20:51:07', '2022-06-29 13:54:35', 1);
-INSERT INTO `user` VALUES (1507416612423602177, 'king', '$2a$10$44Vv2ywx5CLovoD2bFPjV.Arb8DTfFocvpgkHoxnhCg/5x9za.QMy', NULL, NULL, 'a@qq.com', NULL, 0, 0.00, NULL, '2022-03-28 23:28:22', 0, '2022-03-25 23:28:22', '2022-03-25 23:28:22', 2);
-INSERT INTO `user` VALUES (1510520942462275586, 'Hello_World', '$2a$10$3U/0Z/.Dpzi55.StdokvbuWyYk1nLRrHLpGnNqGTelaoFUsAWbO4u', 'http://static.wuzhaoqi.top/userImg/psc.jpg', 'null', 'a1261337209@vip.qq.com', NULL, 0, 0.00, NULL, '2022-04-06 13:03:51', 0, '2022-04-03 13:03:51', '2022-04-03 14:02:54', 2);
-INSERT INTO `user` VALUES (1515213228135690241, 'kkkk', '$2a$10$Jmh/JX51Hoa9CNz5SKEt8uNhT20CaWSYhaT5VB3xdLIHHgzTpP4AO', NULL, NULL, NULL, 19973653797, 0, 0.00, NULL, '2022-04-19 11:49:20', 0, '2022-04-16 11:49:20', '2022-04-16 11:49:20', 2);
-INSERT INTO `user` VALUES (1515213962721898497, 'uuu', '$2a$10$yB/q/v/px3hEVmXv36Ixh.7oaLUDCMSZ88oylhJrlsRmsYtGy6yEW', 'https://static.wuzhaoqi.top/userImg/下载.jpg', 'null', NULL, 17308436834, 0, 0.00, NULL, '2022-04-19 11:52:15', 0, '2022-04-16 11:52:15', '2022-04-16 11:57:34', 2);
-INSERT INTO `user` VALUES (1541984859658952705, 'aaaa', '$2a$10$44Vv2ywx5CLovoD2bFPjV.Arb8DTfFocvpgkHoxnhCg/5x9za.QMy', NULL, NULL, 'a1261337209@163.com', NULL, 0, 0.00, NULL, '2022-07-02 11:20:14', 0, '2022-06-29 11:20:14', '2022-06-29 11:20:14', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

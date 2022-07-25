@@ -1,15 +1,14 @@
 package com.king.mooc.util;
 
+
+
+import java.io.UnsupportedEncodingException;
 /**
  * @program: hdfs
  * @description:
  * @author: King
  * @create: 2021-06-26 20:21
  */
-
-
-import java.io.UnsupportedEncodingException;
-
 public class Utils {
     /** */
     /**
@@ -89,15 +88,13 @@ public class Utils {
      * @return 字符串形式的ip
      */
     public static String getIpStringFromBytes(byte[] ip) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(ip[0] & 0xFF);
-        sb.append('.');
-        sb.append(ip[1] & 0xFF);
-        sb.append('.');
-        sb.append(ip[2] & 0xFF);
-        sb.append('.');
-        sb.append(ip[3] & 0xFF);
-        return sb.toString();
+        return String.valueOf(ip[0] & 0xFF) +
+                '.' +
+                (ip[1] & 0xFF) +
+                '.' +
+                (ip[2] & 0xFF) +
+                '.' +
+                (ip[3] & 0xFF);
     }
 
 

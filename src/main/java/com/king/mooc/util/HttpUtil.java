@@ -43,4 +43,21 @@ public class HttpUtil {
 //        System.out.println(url);
         return url.toString();
     }
+
+    //获取session 并且判断是否存在
+    @SuppressWarnings("unchecked")
+    public static <T> T getSession(HttpServletRequest request, String key, Class<T> clazz) {
+        try {
+            Object obj = request.getSession().getAttribute(key);
+            if (obj == null) {
+                return null;
+            }
+            if (clazz.isInstance(obj)) {
+                return (T) obj;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("session中的数据类型不匹配");
+        }
+        throw new RuntimeException("session中的数据类型不匹配");
+    }
 }

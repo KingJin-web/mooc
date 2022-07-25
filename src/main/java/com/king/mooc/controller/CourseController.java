@@ -1,11 +1,9 @@
 package com.king.mooc.controller;
 
-import com.king.mooc.entity.Course;
 import com.king.mooc.entity.User;
 import com.king.mooc.service.CourseService;
 import com.king.mooc.service.CourseVideoService;
 import com.king.mooc.util.MyException;
-import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.ResultObj;
@@ -14,14 +12,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @program: mooc
@@ -38,9 +34,6 @@ public class CourseController {
     private CourseService courseService;
 
     @Autowired
-    private RedisObjUtil redisObjUtil;
-
-    @Autowired
     private CourseVideoService courseVideoService;
 
     @PostMapping(value = "/delete.do")
@@ -50,7 +43,7 @@ public class CourseController {
         ResultObj resultObj = new ResultObj();
 
         try {
-            User user = redisObjUtil.getEntity(req.getSession().getId(), User.class);
+            User user = UserIPUtil.getUser();
             if (StringUtils.checkNull(id) && StringUtils.checkNull(user.getId())) {
                 courseService.deleteCourse(id, user.getId());
                 resultObj.setMsg("删除成功！");

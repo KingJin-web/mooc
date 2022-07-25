@@ -1,6 +1,7 @@
 package com.king.mooc.config.login;
 
 import com.alibaba.fastjson.JSON;
+import com.king.mooc.util.HttpUtil;
 import com.king.mooc.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +47,11 @@ public class LoginFilter extends OncePerRequestFilter {
     }
 
     public void validate(HttpServletRequest request, HttpServletResponse response) throws ValidateCodeException {
-//        logger.info(JSON.toJSONString(request.getParameterMap()));
         //请求中传来的验证码
         String code = request.getParameter("login_code");
         //session 存储的验证码
-        String login_code = (String) request.getSession().getAttribute("login_code");
+        String login_code = HttpUtil.getSession(request, "login_code", String.class);
+        // (String) request.getSession().getAttribute("login_code");
         logger.info("用户输入验证码：{}========session中存的验证码：{}", code, login_code);
         if (StringUtils.isEmpty(code)) {
             throw new ValidateCodeException("验证码不能为空！");

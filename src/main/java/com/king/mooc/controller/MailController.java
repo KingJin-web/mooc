@@ -2,7 +2,6 @@ package com.king.mooc.controller;
 
 import com.king.mooc.service.MailService;
 import com.king.mooc.util.MyException;
-import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.StringUtils;
 import com.king.mooc.vo.MailVo;
 import com.king.mooc.vo.ResultObj;
@@ -31,8 +30,6 @@ import javax.servlet.http.HttpSession;
 public class MailController {
     @Autowired
     MailService mailService;
-    @Autowired
-    RedisObjUtil redisObjUtil;
 
     @PostMapping(value = "/register.do")
     @ApiOperation(value = "发送注册验证码", tags = "邮件操作接口")
@@ -46,7 +43,8 @@ public class MailController {
         ResultObj resultObj = new ResultObj();
         HttpSession session = req.getSession();
         String validate_code = StringUtils.getInt(6);
-        redisObjUtil.setEntity(session.getId(), 30, new UserVo(validate_code));
+        session.setAttribute("validate_code", validate_code);
+
         try {
             StringUtils.isEmail(email, "请输入合法格式邮件地址！");
             StringUtils.nameCheckNull(name);

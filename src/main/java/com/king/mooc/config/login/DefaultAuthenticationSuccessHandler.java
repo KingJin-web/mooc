@@ -3,17 +3,13 @@ package com.king.mooc.config.login;
 import com.alibaba.fastjson.JSON;
 import com.king.mooc.entity.User;
 import com.king.mooc.entity.UserLog;
-import com.king.mooc.mapper.UserMapper;
 import com.king.mooc.mapper.mongodb.UserLogMapper;
 import com.king.mooc.util.IPSeeker;
-import com.king.mooc.util.RedisObjUtil;
 import com.king.mooc.util.UserIPUtil;
 import com.king.mooc.vo.ResultObj;
-import com.king.mooc.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -21,10 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @program: springboot
@@ -36,14 +29,20 @@ import java.util.Map;
 public class DefaultAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
+
     private UserLogMapper userLogMapper;
+
+    @Autowired
+    public void setUserLogMapper(UserLogMapper userLogMapper) {
+        this.userLogMapper = userLogMapper;
+    }
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication e) throws IOException {
-        IPSeeker ipSeeker =IPSeeker.getInstance();
+        IPSeeker ipSeeker = IPSeeker.getInstance();
         User user = (User) e.getPrincipal();
         String ip = UserIPUtil.getIPAddress(request);
         UserLog log = UserLog.builder().uid(user.getId()).name(user.getName()).
