@@ -1,6 +1,6 @@
 # 在线网课
 ## 演示地址
-[http://mooc.wuzhaoqi.top/](http://mooc.wuzhaoqi.top/)
+[https://mooc.wuzhaoqi.top/](https://mooc.wuzhaoqi.top/)
 ## 使用技术
 前端
 ```vue、layui、jQuery、axios```
